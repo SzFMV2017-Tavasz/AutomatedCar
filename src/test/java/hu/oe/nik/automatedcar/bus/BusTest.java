@@ -7,6 +7,7 @@ public class BusTest {
 
 	@org.junit.Before
 	public void setUp() throws Exception {
+		/* stuff written here runs before the tests */
 	}
 
 	@org.junit.Test
@@ -34,17 +35,7 @@ public class BusTest {
 	}
 
 	@org.junit.Test
-	public void ACCMainSwitchGetterReturnsSetValue(){
-		// bus.ACCMainSwitchState = false;
-		bus.setACCMainSwitchState(false);
-		assertEquals(bus.getACCMainSwitchState(), false);
-		bus.setACCMainSwitchState(true);
-		//bus.ACCMainSwitchState = true;
-		assertEquals(bus.getACCMainSwitchState(), true);
-	}
-
-	@org.junit.Test
-	public void ACCMainSwitchGetterReturnsSetterGivenValue(){
+	public void testACCMainSwitchGetterSetter(){
 		bus.setACCMainSwitchState(false);
 		assertEquals(bus.getACCMainSwitchState(), false);
 		bus.setACCMainSwitchState(true);
@@ -52,7 +43,7 @@ public class BusTest {
 	}
 
 	@org.junit.Test
-	public void GasPedalTest(){
+	public void testGasPedalGetterSetter(){
 		bus.setGasPedal(42);
 		assertEquals(bus.getGasPedal(), 42);
 		bus.setGasPedal(-42);
@@ -62,7 +53,7 @@ public class BusTest {
 	}
 
 	@org.junit.Test
-	public void BrakePedalTest(){
+	public void testBrakePedalGetterSetter(){
 		bus.setBrakePedal(42);
 		assertEquals(bus.getBrakePedal(), 42);
 		bus.setBrakePedal(-42);
@@ -72,7 +63,7 @@ public class BusTest {
 	}
 
 	@org.junit.Test
-	public void SteeringWheelAngleTest(){
+	public void testSteeringWheelAngleGetterSetter(){
 		bus.setSteeringWheelAngle(42);
 		assertEquals(bus.getSteeringWheelAngle(), 42);
 		bus.setSteeringWheelAngle(-42);
@@ -82,19 +73,19 @@ public class BusTest {
 	}
 
 	@org.junit.Test
-	public void AccelerationTest(){
+	public void testAccelerationGetterSetter(){
 		bus.setAcceleration(42);
 		assertEquals(bus.getAcceleration(), 42);
 	}
 
 	@org.junit.Test
-	public void VelocityTest(){
+	public void testVelocityGetterSetter(){
 		bus.setVelocity(42);
 		assertEquals(bus.getVelocity(), 42);
 	}
 
 	@org.junit.After
 	public void tearDown() throws Exception {
-        /*GCC will remove bus*/
+        /* stuff written here runs after the tests */
 	}
 }
