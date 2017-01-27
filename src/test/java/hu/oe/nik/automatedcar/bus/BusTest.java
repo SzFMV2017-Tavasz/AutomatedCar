@@ -3,7 +3,7 @@ package hu.oe.nik.automatedcar.bus;
 import static org.junit.Assert.assertEquals;
 
 public class BusTest {
-	Bus bus = Bus.getInstance();
+	private Bus bus = Bus.getInstance();
 
 	@org.junit.Before
 	public void setUp() throws Exception {
@@ -16,11 +16,11 @@ public class BusTest {
 		Bus first = Bus.getInstance();
 		Bus second = Bus.getInstance();
 
-		assertEquals(first == second, true);
+		assertEquals(first.equals(second), true);
 
 		first.setACCMainSwitchState(true);
 
-		assertEquals(first == second, true);
+		assertEquals(first.equals(second), true);
 	}
 
 	@org.junit.Test
