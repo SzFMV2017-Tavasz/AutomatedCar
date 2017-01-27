@@ -1,4 +1,4 @@
-package hu.oe.nik.AutomatedCar.Bus;
+package hu.oe.nik.automatedcar.bus;
 
 import static org.junit.Assert.assertEquals;
 

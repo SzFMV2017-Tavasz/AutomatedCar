@@ -1,4 +1,4 @@
-package hu.oe.nik.Visualisation;
+package hu.oe.nik.visualisation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class GUI extends JFrame {
 
 		createLayout(quitButton);
 
-		setTitle("AutomatedCar");
+		setTitle("automatedcar");
 		setSize(1024, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

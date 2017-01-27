@@ -1,6 +1,6 @@
 package hu.oe.nik;
 
-import hu.oe.nik.Visualisation.GUI;
+import hu.oe.nik.visualisation.GUI;
 
 import java.awt.*;
 
