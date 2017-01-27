@@ -5,4 +5,4 @@ after_success:
   - mvn clean test jacoco:report coveralls:report
 notifications:
   webhooks:
-    - https://webhooks.gitter.im/e/d9eec355ca006628b3fc
+    - https://webhooks.gitter.im/e/71f51f650b60b9b89d06
