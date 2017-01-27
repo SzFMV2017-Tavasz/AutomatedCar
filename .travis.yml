@@ -5,4 +5,8 @@ after_success:
   - mvn clean test jacoco:report coveralls:report
 notifications:
   webhooks:
-    - https://webhooks.gitter.im/e/bff90ed99e87a0c2d7d4
+    urls:
+      - https://webhooks.gitter.im/e/bff90ed99e87a0c2d7d4
+    on_success: always  # always|never|change
+    on_failure: always
+    on_start: never
