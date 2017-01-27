@@ -10,6 +10,21 @@ public class Bus {
 	private int steeringWheelAngle;
 	private int brakePedal;
 
+	/* singleton parts */
+	private static Bus instance = null;
+
+	private Bus() {
+		ACCMainSwitchState = false; //default main switch state value: off
+	}
+
+	public static Bus getInstance() {
+		if (instance == null) {
+			instance = new Bus();
+		}
+
+		return instance;
+	}
+
 	/* getters, setters */
 
 	public int getAcceleration() {
@@ -78,18 +93,4 @@ public class Bus {
 		this.ACCMainSwitchState = ACCMainSwitchState;
 	}
 
-	/* singleton parts */
-	private static Bus instance = null;
-
-	private Bus() {
-		ACCMainSwitchState = false; //default main switch state value: off
-	}
-
-	public static Bus getInstance() {
-		if (instance == null) {
-			instance = new Bus();
-		}
-
-		return instance;
-	}
 }
