@@ -3,3 +3,6 @@ jdk:
   - oraclejdk8
 after_success:
   - mvn clean test jacoco:report coveralls:report
+notifications:
+  webhooks:
+    - https://webhooks.gitter.im/e/d9eec355ca006628b3fc
