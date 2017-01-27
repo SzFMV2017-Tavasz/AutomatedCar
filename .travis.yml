@@ -6,7 +6,7 @@ after_success:
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/bff90ed99e87a0c2d7d4
+      - "https://webhooks.gitter.im/e/bff90ed99e87a0c2d7d4"
     on_success: always  # always|never|change
     on_failure: always
     on_start: never
