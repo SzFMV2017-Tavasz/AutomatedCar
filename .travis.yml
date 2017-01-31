@@ -4,6 +4,7 @@ jdk:
 after_success:
   - mvn clean test jacoco:report coveralls:report
 notifications:
+  slack: szfmv2017-tavasz:qeEcp0yCS46Tw4CGX98Y3lsZ
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/c8aa0ca8d653130b2ac8
