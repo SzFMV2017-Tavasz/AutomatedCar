@@ -17,10 +17,12 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <!-- plugin for coveralls code coverage tracking tool -->
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
             </plugin>
+            <!-- plugin for code coverage calculation -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -37,12 +39,14 @@
         </plugins>
     </build>
     <dependencies>
+        <!-- junit unit test framework -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
 
+        <!-- log4j logger-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
