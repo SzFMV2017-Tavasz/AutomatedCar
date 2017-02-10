@@ -3,6 +3,7 @@ package hu.oe.nik.visualisation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 
 // Example taken from ZetCode: http://zetcode.com/tutorials/javaswingtutorial/firstprograms/
 
@@ -11,6 +12,7 @@ public class GUI extends JFrame {
 	public GUI() {
 		initUI();
 	}
+	private BufferedImage car;
 
 	private void initUI() {
 
@@ -22,10 +24,12 @@ public class GUI extends JFrame {
 
 		createLayout(quitButton);
 
-		setTitle("automatedcar");
+		setTitle("AutomatedCar");
 		setSize(1024, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
 	}
 
 	private void createLayout(JComponent... arg) {
@@ -36,13 +40,9 @@ public class GUI extends JFrame {
 
 		gl.setAutoCreateContainerGaps(true);
 
-		gl.setHorizontalGroup(gl.createSequentialGroup()
-				.addComponent(arg[0])
-		);
+		gl.setHorizontalGroup(gl.createSequentialGroup().addComponent(arg[0]));
 
-		gl.setVerticalGroup(gl.createSequentialGroup()
-				.addComponent(arg[0])
-		);
+		gl.setVerticalGroup(gl.createSequentialGroup().addComponent(arg[0]));
 	}
 
 }

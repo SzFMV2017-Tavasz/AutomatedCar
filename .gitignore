@@ -26,3 +26,6 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+
+#log4j2
+src/main/resources/log4j2.xml
