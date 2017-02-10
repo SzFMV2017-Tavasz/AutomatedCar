@@ -17,14 +17,14 @@ public class VirtualFunctionBus {
 
 	private static final Logger logger = LogManager.getLogger();
 
+	private static List<ISystemComponent> components = new ArrayList<ISystemComponent>();
+
 	// implement the singleton pattern
 	private static VirtualFunctionBus instance = new VirtualFunctionBus();
 	private VirtualFunctionBus() {};
 	public static VirtualFunctionBus getInstance() {
 		return instance;
 	}
-
-	private static List<ISystemComponent> components = new ArrayList<ISystemComponent>();
 
 	public static void registerComponent(ISystemComponent comp) {
 		VirtualFunctionBus.components.add(comp);
