@@ -9,7 +9,7 @@ public class PowertrainSystem extends SystemComponent {
 	private static final int DEMO = 0;
 
 	// input signals
-	private long gas = 0;
+	private int gasPedal = 0;
 
 	// Output signals
 	// Only these are available trough getters
@@ -32,7 +32,7 @@ public class PowertrainSystem extends SystemComponent {
 	public void receiveSignal(Signal s) {
 		switch(s.getId()) {
 
-			// Handle gas pedal position
+			// Handle gasPedal pedal position
 			case DEMO:
 				x += (int)s.getData();
 				break;
@@ -52,5 +52,9 @@ public class PowertrainSystem extends SystemComponent {
 
 	public double getWheelAngle() {
 		return wheelAngle;
+	}
+
+	public int getGasPedal() {
+		return gasPedal;
 	}
 }
