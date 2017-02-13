@@ -1,4 +1,4 @@
-package hu.oe.nik.automatedcar.bus;
+package hu.oe.nik.szfmv17t.automatedcar.bus;
 
 public class Bus {
 	/* fields */

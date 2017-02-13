@@ -1,6 +1,6 @@
-package hu.oe.nik.automatedcar.bus;
+package hu.oe.nik.szfmv17t.automatedcar.bus;
 
-import hu.oe.nik.automatedcar.ISystemComponent;
+import hu.oe.nik.szfmv17t.automatedcar.ISystemComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

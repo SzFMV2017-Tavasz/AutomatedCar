@@ -1,4 +1,4 @@
-package hu.oe.nik.environment;
+package hu.oe.nik.szfmv17t.environment;
 
 public class WorldObject {
 	// the position of the object

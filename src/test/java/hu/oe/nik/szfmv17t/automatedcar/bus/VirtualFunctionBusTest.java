@@ -1,6 +1,6 @@
-package hu.oe.nik.automatedcar.bus;
+package hu.oe.nik.szfmv17t.automatedcar.bus;
 
-import hu.oe.nik.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 
 import static org.junit.Assert.assertEquals;
 

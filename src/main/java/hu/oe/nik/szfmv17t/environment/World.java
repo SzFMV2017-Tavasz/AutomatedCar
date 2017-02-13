@@ -1,4 +1,4 @@
-package hu.oe.nik.environment;
+package hu.oe.nik.szfmv17t.environment;
 
 import java.util.ArrayList;
 import java.util.List;

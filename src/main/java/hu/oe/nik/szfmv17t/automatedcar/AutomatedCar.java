@@ -1,9 +1,9 @@
-package hu.oe.nik.automatedcar;
+package hu.oe.nik.szfmv17t.automatedcar;
 
 
-import hu.oe.nik.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.automatedcar.powertrainsystem.PowertrainSystem;
-import hu.oe.nik.environment.WorldObject;
+import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv17t.environment.WorldObject;
 
 public class AutomatedCar extends WorldObject{
 
