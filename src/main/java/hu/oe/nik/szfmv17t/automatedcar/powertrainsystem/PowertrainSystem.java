@@ -32,7 +32,7 @@ public class PowertrainSystem extends SystemComponent {
 	public void receiveSignal(Signal s) {
 		switch(s.getId()) {
 
-			// Handle gasPedal pedal position
+			// Handle demo signal
 			case DEMO:
 				x += (int)s.getData();
 				break;
