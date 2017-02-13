@@ -20,11 +20,11 @@ public class VirtualFunctionBus {
 
 	private static final Logger logger = LogManager.getLogger();
 
-	private static List<ISystemComponent> components = new ArrayList<ISystemComponent>();
+	private static List<ISystemComponent> components = new ArrayList<>();
 
 	// Implement the singleton pattern
 	private static VirtualFunctionBus instance = new VirtualFunctionBus();
-	private VirtualFunctionBus() {};
+	private VirtualFunctionBus() {}
 	public static VirtualFunctionBus getInstance() {
 		return instance;
 	}
