@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Visualisation {
+public class CourseDisplay {
 
 	private static final Logger logger = LogManager.getLogger();
 	private JFrame frame = new JFrame("OE NIK Automated Car Project");

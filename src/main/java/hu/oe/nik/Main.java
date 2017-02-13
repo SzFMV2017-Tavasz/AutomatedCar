@@ -2,7 +2,7 @@ package hu.oe.nik;
 
 import hu.oe.nik.automatedcar.AutomatedCar;
 import hu.oe.nik.environment.World;
-import hu.oe.nik.visualisation.Visualisation;
+import hu.oe.nik.visualisation.CourseDisplay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +12,7 @@ public class Main {
 	private static final int CYCLE_PERIOD = 200;
 
 	public static void main(String[] args) {
-		Visualisation vis = new Visualisation();
+		CourseDisplay vis = new CourseDisplay();
 
 		// create the world
 		World w = new World(800,600);
