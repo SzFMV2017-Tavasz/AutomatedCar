@@ -15,6 +15,7 @@ package hu.oe.nik.szfmv17t.automatedcar.bus;
  *
  */
 
+//Test comment
 public class Signal {
 	// Signal identifier, a component can decide based on this value
 	// whether the content of the signal shall be processed or not.
