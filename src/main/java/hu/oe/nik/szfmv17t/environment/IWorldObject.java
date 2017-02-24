@@ -16,4 +16,5 @@ public interface IWorldObject {
     public double getRotation();
     public String getImageFileName();
     public int getZIndex();
+    public WorldObjectState state();
 }
