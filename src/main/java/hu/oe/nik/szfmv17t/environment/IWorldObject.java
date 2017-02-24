@@ -12,7 +12,8 @@ package hu.oe.nik.szfmv17t.environment;
 //Object state missing, not added to uml yet.
 public interface IWorldObject {
     public int[] getPosition();
-    public int[] getRotation();
+    //I think it should be double
+    public double getRotation();
     public String getImageFileName();
     public int getZIndex();
 }
