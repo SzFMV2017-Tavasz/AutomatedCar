@@ -13,7 +13,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
-
+		//not a pun
 		// create the world
 		World w = new World(800,600);
 		// create an automated car
