@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv17t.hmi;
+package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
