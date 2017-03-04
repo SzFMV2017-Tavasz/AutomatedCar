@@ -10,7 +10,7 @@ package hu.oe.nik.szfmv17t.environment;
  * @author Gellert Babel <OE-NIK>
  */
 //Base of stationary objects
-public class StaticBase  extends WorldObjectBase{
+public class NonCollidable  extends WorldObjectBase{
 
     @Override
     public void updateWorldObject() {

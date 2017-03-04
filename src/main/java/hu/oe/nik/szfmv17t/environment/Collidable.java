@@ -9,7 +9,7 @@ package hu.oe.nik.szfmv17t.environment;
  *
  * @author Gellert Babel <OE-NIK>
  */
-public class DynamicBase extends WorldObjectBase {
+public class Collidable extends WorldObjectBase {
     private float speed;
 
     public void setSpeed(float speed) {

@@ -9,6 +9,6 @@ package hu.oe.nik.szfmv17t.environment;
  *
  * @author Gellert Babel <OE-NIK>
  */
-public class Walker extends DynamicBase{
+public class Walker extends Collidable{
     
 }

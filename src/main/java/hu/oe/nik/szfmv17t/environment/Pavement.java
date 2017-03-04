@@ -9,6 +9,6 @@ package hu.oe.nik.szfmv17t.environment;
  *
  * @author Gellert Babel <OE-NIK>
  */
-public class Pavement extends StaticBase{
+public class Pavement extends NonCollidable{
     
 }
