@@ -1,5 +1,8 @@
 package hu.oe.nik.szfmv17t.environment;
 
+import hu.oe.nik.szfmv17t.environment.domain.CollidableBase;
+import hu.oe.nik.szfmv17t.environment.domain.Road;
+import hu.oe.nik.szfmv17t.environment.domain.World;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -32,17 +35,22 @@ public class WorldTest {
 	@Test
 	public void getWorldObjectsTest() throws Exception {
 		assertEquals(world.getWorldObjects().size(), 0);
-		world.addObjectToWorld(new WorldObject(100,100, "test.jpg"));
+		world.addObjectToWorld(new CollidableBase(21d,42d,0d,0d,0d,1,"test.jpg",100d,10d,10d));
 		assertEquals(world.getWorldObjects().size(), 1);
 	}
 
 	@Test
 	public void addObjectToWorldTest() throws Exception {
-		world.addObjectToWorld(new WorldObject(100,100, "test.jpg"));
+		world.addObjectToWorld(new CollidableBase(21d,42d,0d,0d,0d,1,"test.jpg",100d,10d,10d));
 		assertEquals(world.getWorldObjects().size(), 1);
-		assertEquals(world.getWorldObjects().get(0).getX(), 100);
-		assertEquals(world.getWorldObjects().get(0).getY(), 100);
-		assertEquals(world.getWorldObjects().get(0).getImageFileName(), "test.jpg");
+		assertEquals(world.getWorldObjects().get(0).getCenterX(), 21d);
+		assertEquals(world.getWorldObjects().get(0).getCenterY(), 42d);
+		assertEquals(world.getWorldObjects().get(0).getImageName(), "test.jpg");
 	}
+        
+        /*@Test
+        public void addRoadPaintTest() throws Exception{
+            world.addObjectToWorld((WorldObject)(new Road(100d,100d,10d,10d,30d,3,"test.jpg",0d,1,1,1)));
+        }
+        */}
 
-}
