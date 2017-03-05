@@ -42,14 +42,14 @@ public class CourseDisplay {
 					  }
 				  }
 		);
-        addSmiView(frame);
+		addSmiDetails(frame);
 
 		frame.validate();
 		frame.setSize(world.getWidth(), world.getHeight());
 		frame.setVisible(true);
 	}
 
-	private void addSmiView(JFrame frame) {
+	private void addSmiDetails(JFrame frame) {
 		//frame.setLayout(new BorderLayout());
 		Label label = new Label("Hello SMI");
         frame.add(label, BorderLayout.PAGE_END);
