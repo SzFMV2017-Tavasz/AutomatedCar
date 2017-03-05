@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package hu.oe.nik.szfmv17t.environment.utils;
-import hu.oe.nik.szfmv17t.environment.domain.WorldObject;
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import java.util.List;
 
 /**
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Gellert Babel <OE-NIK>
  */
 public class XmlParser {
-    public void getWorldObjects(String pathToXml,List<WorldObject> worldObjects)
+    public void getWorldObjects(String pathToXml,List<IWorldObject> worldObjects)
     {
         //Maybe remove worldObjects list if not needed.
     }

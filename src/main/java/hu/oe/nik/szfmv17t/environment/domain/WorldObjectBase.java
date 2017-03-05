@@ -49,7 +49,7 @@ public abstract class WorldObjectBase implements IWorldObject {
         return this.position.getCenter().getY();
     }
 
-    public String getImagePath ()
+    public String getImageName ()
     {
         return  this.imageFilePath;
     }
@@ -67,6 +67,15 @@ public abstract class WorldObjectBase implements IWorldObject {
     public void setState (WorldObjectState value)
     {
         this.state = value;
+    }
+    
+    public double getWidth()
+    {
+        return this.position.getWidth();
+    }
+    public double getHeight()
+    {
+        return this.position.getHeight();
     }
 }
 

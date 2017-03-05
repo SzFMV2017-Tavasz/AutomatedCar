@@ -1,12 +1,13 @@
 package hu.oe.nik.szfmv17t.environment.domain;
 
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class World {
 	private int width = 0;
 	private int height = 0;
-	private List<WorldObject> worldObjects = new ArrayList<>();
+	private List<IWorldObject> worldObjects = new ArrayList<>();
 
 	public World(int width, int height) {
 		this.width = width;
@@ -29,11 +30,11 @@ public class World {
 		this.height = height;
 	}
 
-	public List<WorldObject> getWorldObjects() {
+	public List<IWorldObject> getWorldObjects() {
 		return worldObjects;
 	}
 
-	public void addObjectToWorld(WorldObject o){
+	public void addObjectToWorld(IWorldObject o){
 		worldObjects.add(o);
 	}
 }
