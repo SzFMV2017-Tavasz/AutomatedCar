@@ -1,9 +1,6 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
-import java.util.Calendar;
-
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -12,7 +9,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class TimerSingletonTest {
 
-    TimerSingleton timerSingleton;
+    private TimerSingleton timerSingleton;
 
     @org.junit.Before
     public void setUp() throws Exception {

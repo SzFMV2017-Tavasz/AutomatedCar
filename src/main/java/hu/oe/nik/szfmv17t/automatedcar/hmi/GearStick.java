@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
-import java.awt.event.KeyListener;
 
 /**
  * Created by gabi1_000 on 2017.03.04..

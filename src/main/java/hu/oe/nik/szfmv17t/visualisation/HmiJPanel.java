@@ -12,21 +12,21 @@ public class HmiJPanel extends JPanel {
 
     private static HMI hmi;
 
-    Label labelGasPedalValue;
-    Label gasPedalValue;
+    private Label labelGasPedalValue;
+    private Label gasPedalValue;
 
-    Label labelSpeed;
-    Label speed;
+    private Label labelSpeed;
+    private Label speed;
 
-    Label labelBrakePedalValue;
-    Label brakePedalValue;
+    private Label labelBrakePedalValue;
+    private Label brakePedalValue;
 
 
-    Label labelGearState;
-    Label gearStateValue; //Auto or Manual
+    private Label labelGearState;
+    private Label gearStateValue; //Auto or Manual
 
-    Label labelGear;
-    Label gear; // 1-5 or PD....
+    private Label labelGear;
+    private Label gear; // 1-5 or PD....
 
     public static void setHmi(HMI hmi){
         HmiJPanel.hmi = hmi;

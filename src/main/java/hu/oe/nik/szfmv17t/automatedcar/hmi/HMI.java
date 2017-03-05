@@ -1,13 +1,8 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
-import com.sun.xml.internal.bind.v2.TODO;
-import hu.oe.nik.szfmv17t.Main;
-import hu.oe.nik.szfmv17t.automatedcar.ISystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
