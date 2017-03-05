@@ -6,7 +6,7 @@ package hu.oe.nik.szfmv17t.automatedcar.hmi;
 public class SteeringWheel {
     private int state;
     private HmiTimer timer;
-    private  int steeringStep = 5;
+    private int steeringStep = 5;
     public static int maxLeft = -100;
     public static int maxRight = 100;
 
@@ -84,6 +84,9 @@ public class SteeringWheel {
         }else {
             return false;
         }
+    }
+    public void start() {
+        timer.Start();
     }
 
 

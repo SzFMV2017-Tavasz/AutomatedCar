@@ -51,7 +51,7 @@ public class HmiJPanel extends JPanel {
 
         labelSteeringWheelValue = new Label("Wheel");
         this.add(labelSteeringWheelValue);
-        steeringWheelValue = new Label(String.valueOf(0));
+        steeringWheelValue = new Label(String.valueOf(hmi.getSteeringWheelPosition()));
         this.add(steeringWheelValue);
 
         labelGearState = new Label("Gear: ");
@@ -60,8 +60,14 @@ public class HmiJPanel extends JPanel {
         this.add(gearStateValue);
 
 
+    }
 
-
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        if(steeringWheelValue != null) {
+            steeringWheelValue.setText(String.valueOf(hmi.getSteeringWheelPosition()));
+        }
     }
 
     public static HMI getHmi() {
