@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hu.oe.nik.szfmv17t.environment;
+package hu.oe.nik.szfmv17t.environment.utils;
 
 import java.util.List;
 
