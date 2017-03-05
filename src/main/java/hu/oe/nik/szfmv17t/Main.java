@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
 import hu.oe.nik.szfmv17t.environment.World;
 import hu.oe.nik.szfmv17t.visualisation.CourseDisplay;
+import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,14 +18,17 @@ public class Main {
 
 		// create the world
 		World w = new World(800,600);
+
 		// create an automated car
 		AutomatedCar car = new AutomatedCar(20,20, "bosch1.png");
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
+		HmiJPanel.setHmi(hmi);
 
 		// add car to the world
 		w.addObjectToWorld(car);
+
 		// init visualisation module with the world
 		vis.init(w);
 

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,8 +26,13 @@ public class CourseDisplay {
 
 	public void init(World world){
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new JPanel() {
+
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+
+		JPanel worldObjectsJPanel = new JPanel() {
 					  private static final long serialVersionUID = 1L;
+
 					  public void paintComponent(Graphics g) {
 
 						  for (WorldObject object : world.getWorldObjects()) {
@@ -40,12 +46,16 @@ public class CourseDisplay {
 							  }
 						  }
 					  }
-				  }
-		);
-		addSmiDetails(frame);
+				  };
 
-		frame.validate();
+		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
+		mainPanel.add(getSmiJPanel(), BorderLayout.SOUTH);
+
+		addSmiKeyEventListenerToFrame();
+
 		frame.setSize(world.getWidth(), world.getHeight());
+		frame.add(mainPanel);
+		frame.validate();
 		frame.setVisible(true);
 	}
 
@@ -56,4 +66,19 @@ public class CourseDisplay {
 
 	}
 
+	public JPanel getSmiJPanel() {
+		JPanel smiPanel = new HmiJPanel();
+
+		frame.addKeyListener(HmiJPanel.getHmi());
+		//smiPanel.add(new Label("Hello SMI"));
+		return  smiPanel;
+	}
+
+	public void addSmiKeyEventListenerToFrame() {
+		if(frame != null && HmiJPanel.getHmi() != null) {
+			frame.addKeyListener(HmiJPanel.getHmi());
+		}else{
+			logger.error("JFrame frame or HmiJPanel.getHmi() returned null");
+		}
+	}
 }
