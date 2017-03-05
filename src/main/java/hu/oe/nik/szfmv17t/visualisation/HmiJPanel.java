@@ -23,10 +23,10 @@ public class HmiJPanel extends JPanel {
 
 
     private Label labelGearState;
-    private Label gearStateValue; //Auto or Manual
+    private Label gearStateValue;
 
-    private Label labelGear;
-    private Label gear; // 1-5 or PD....
+    private Label labelSteeringWheelValue;
+    private Label steeringWheelValue;
 
     public static void setHmi(HMI hmi){
         HmiJPanel.hmi = hmi;
@@ -38,6 +38,29 @@ public class HmiJPanel extends JPanel {
         this.add(labelGasPedalValue);
         gasPedalValue = new Label(String.valueOf(0));
         this.add(gasPedalValue);
+
+        labelSpeed = new Label("Speed: ");
+        this.add(labelSpeed);
+        speed = new Label(String.valueOf(0));
+        this.add(speed);
+
+        labelBrakePedalValue = new Label("Break(%):");
+        this.add(labelBrakePedalValue);
+        brakePedalValue = new Label(String.valueOf(0));
+        this.add(brakePedalValue);
+
+        labelSteeringWheelValue = new Label("Wheel");
+        this.add(labelSteeringWheelValue);
+        steeringWheelValue = new Label(String.valueOf(0));
+        this.add(steeringWheelValue);
+
+        labelGearState = new Label("Gear: ");
+        this.add(labelGearState);
+        gearStateValue = new Label("P");
+        this.add(gearStateValue);
+
+
+
 
     }
 
