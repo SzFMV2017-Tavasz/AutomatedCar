@@ -12,6 +12,7 @@ import java.awt.event.KeyListener;
  */
 public class HMI extends SystemComponent implements KeyListener{
 
+    
 
     @Override
     public void loop() {
@@ -28,7 +29,8 @@ public class HMI extends SystemComponent implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-        System.out.println("keyTyped:" + keyEvent.getKeyChar());
+        System.out.println("keyTyped:" + keyEvent.getKeyChar()
+        );
     }
 
     @Override
@@ -39,5 +41,9 @@ public class HMI extends SystemComponent implements KeyListener{
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         System.out.println("keyReleased:" + keyEvent.getKeyChar());
+    }
+
+    public int getGaspedalValue() {
+        return 10;
     }
 }
