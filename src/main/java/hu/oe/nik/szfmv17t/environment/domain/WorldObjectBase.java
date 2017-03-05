@@ -1,81 +1,72 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hu.oe.nik.szfmv17t.environment.domain;
 
-import java.util.List;
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv17t.environment.utils.Position;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
- *
- * @author Gellert Babel <OE-NIK>
+ * Created by Bábel Gellért, Budai Krisztián, Molnár Attila on 2017. 03. 04..
  */
-public abstract class WorldObjectBase implements IWorldObject{
-    
-    int[] position;
-    int[] dimension;
-    double rotation;
-    //Only one image for each object and the interface is declared with string
-    String imageFileName;
-    WorldObjectState state;
-    int zIndex;
-    boolean collide;
+public abstract class WorldObjectBase implements IWorldObject {
+    protected Position position;
+    protected String imageFilePath;
+    protected int zIndex;
+    protected WorldObjectState state;
 
-    public void setPosition(int[] position) {
-        this.position = position;
-    }
-
-    public void setDimension(int[] dimension) {
-        this.dimension = dimension;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-    }
-
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
-    }
-
-    public void setState(WorldObjectState state) {
-        this.state = state;
-    }
-
-    public void setzIndex(int zIndex) {
+    public WorldObjectBase ( double positionX
+                            , double positionY
+                            , double width
+                            , double height
+                            , double axisAngle
+                            , int zIndex
+                            , String imageFilePath
+                            , double directionAngle) {
+        this.position = new Position(positionX, positionY, width, height, axisAngle, directionAngle);
+        this.state = WorldObjectState.Normal;
+        this.imageFilePath = imageFilePath;
         this.zIndex = zIndex;
     }
 
-    public abstract void updateWorldObject();
-
-    @Override
-    public String getImageFileName() {
-        return imageFileName;
+    public double getAxisAngle ()
+    {
+        return  this.position.getAxisAngle();
     }
 
-    public boolean canCollide() {
-        return collide;
-    }
-    
-    @Override
-    public int[] getPosition() {
-        return position;
+    public double getDirectionAngle ()
+    {
+        return  this.position.getDirectionAngle();
     }
 
-    public int[] getDimension() {
-        return dimension;
+    public double getCenterX ()
+    {
+        return this.position.getCenter().getX();
     }
 
-    @Override
-    public double getRotation() {
-        return rotation;
+    public double getCenterY ()
+    {
+        return this.position.getCenter().getY();
     }
 
-    public WorldObjectState getState() {
-        return state;
+    public String getImagePath ()
+    {
+        return  this.imageFilePath;
     }
 
-    public int getzIndex() {
-        return zIndex;
+    public int getZIndex ()
+    {
+        return  this.zIndex;
+    }
+
+    public WorldObjectState getState ()
+    {
+        return  this.state;
+    }
+
+    public void setState (WorldObjectState value)
+    {
+        this.state = value;
     }
 }
+

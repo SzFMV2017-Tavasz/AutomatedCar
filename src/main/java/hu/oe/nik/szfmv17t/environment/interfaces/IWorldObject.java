@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hu.oe.nik.szfmv17t.environment.interfaces;
 
+import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
+
 /**
- *
- * @author Gellert Babel <OE-NIK>
+ * Created by Bábel Gellért, Budai Krisztián, Molnár Attila on 2017. 03. 04..
  */
-//Object state missing, not added to uml yet.
 public interface IWorldObject {
-    public int[] getPosition();
-    //I think it should be double
-    public double getRotation();
-    public String getImageFileName();
-    public int getZIndex();
-    public WorldObjectState state();
+    double getAxisAngle ();
+    double getCenterX ();
+    double getCenterY ();
+    String getImagePath ();
+    int getZIndex ();
+    WorldObjectState getState ();
 }
