@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t.environment;
 
+import hu.oe.nik.szfmv17t.environment.domain.WorldObject;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
