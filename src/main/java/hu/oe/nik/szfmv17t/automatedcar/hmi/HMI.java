@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
  */
-public class HMI extends SystemComponent implements KeyListener, IHmiDisplay{
+public class HMI extends SystemComponent implements KeyListener{
 
     public static final char STEER_LEFT_KEY = 'a';
     public static final char STEER_RIGHT_KEY = 'd';
@@ -28,7 +28,6 @@ public class HMI extends SystemComponent implements KeyListener, IHmiDisplay{
     @Override
     public void loop() {
         //TODO:send break gas and gear signals
-        //System.out.println("HMI loop");
         sendSteeringWheelSignal();
 
 
@@ -57,25 +56,33 @@ public class HMI extends SystemComponent implements KeyListener, IHmiDisplay{
         char key = keyEvent.getKeyChar();
         switch(key) {
             case STEER_LEFT_KEY:
-                steeringWheel.steerLeft();
+                steeringWheel.start();
                 break;
             case STEER_RIGHT_KEY:
-                steeringWheel.steerRight();
+                steeringWheel.start();
                 break;
-
         }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         System.out.println("keyReleased:" + keyEvent.getKeyChar());
+        keyEvent.getSource()
+        char key = keyEvent.getKeyChar();
+        switch(key) {
+            case STEER_LEFT_KEY:
+                steeringWheel.steerLeft();
+                break;
+            case STEER_RIGHT_KEY:
+                steeringWheel.steerRight();
+                break;
+        }
     }
 
     public int getGaspedalValue() {
         return 10;
     }
 
-    @Override
     public int getSteeringWheelPosition() {
         return steeringWheel.getState();
     }

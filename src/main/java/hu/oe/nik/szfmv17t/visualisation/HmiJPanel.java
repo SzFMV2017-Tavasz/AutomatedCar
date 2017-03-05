@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
-import hu.oe.nik.szfmv17t.automatedcar.hmi.IHmiDisplay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +10,7 @@ import java.awt.*;
  */
 public class HmiJPanel extends JPanel {
 
-    private static IHmiDisplay hmi;
+    private static HMI hmi;
 
     private Label labelGasPedalValue;
     private Label gasPedalValue;
@@ -29,7 +28,7 @@ public class HmiJPanel extends JPanel {
     private Label labelSteeringWheelValue;
     private Label steeringWheelValue;
 
-    public static void setHmi(IHmiDisplay hmi){
+    public static void setHmi(HMI hmi){
         HmiJPanel.hmi = hmi;
     }
 
@@ -61,11 +60,17 @@ public class HmiJPanel extends JPanel {
         this.add(gearStateValue);
 
 
-
-
     }
 
-    public static IHmiDisplay getHmi() {
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        if(steeringWheelValue != null) {
+            steeringWheelValue.setText(String.valueOf(hmi.getSteeringWheelPosition()));
+        }
+    }
+
+    public static HMI getHmi() {
         return hmi;
     }
 

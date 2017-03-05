@@ -17,9 +17,12 @@ public class CourseDisplay {
 
 	private static final Logger logger = LogManager.getLogger();
 	private JFrame frame = new JFrame("OE NIK Automated Car Project");
+	private JPanel hmiJPanel;
+
 
 	public void refreshFrame() {
 		frame.invalidate();
+		hmiJPanel.invalidate();
 		frame.validate();
 		frame.repaint();
 	}
@@ -49,7 +52,8 @@ public class CourseDisplay {
 				  };
 
 		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
-		mainPanel.add(getSmiJPanel(), BorderLayout.SOUTH);
+		hmiJPanel = getSmiJPanel();
+		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
 
 		addSmiKeyEventListenerToFrame();
 
@@ -60,11 +64,11 @@ public class CourseDisplay {
 	}
 
 	public JPanel getSmiJPanel() {
-		JPanel smiPanel = new HmiJPanel();
+		JPanel hmiJPanel = new HmiJPanel();
 
 		frame.addKeyListener(HmiJPanel.getHmi());
 		//smiPanel.add(new Label("Hello SMI"));
-		return  smiPanel;
+		return  hmiJPanel;
 	}
 
 	public void addSmiKeyEventListenerToFrame() {
