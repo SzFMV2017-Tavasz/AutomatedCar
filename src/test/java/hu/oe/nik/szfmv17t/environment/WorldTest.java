@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t.environment;
 
+import hu.oe.nik.szfmv17t.environment.domain.Road;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.domain.WorldObject;
 import org.junit.Test;
@@ -46,5 +47,10 @@ public class WorldTest {
 		assertEquals(world.getWorldObjects().get(0).getY(), 100);
 		assertEquals(world.getWorldObjects().get(0).getImageFileName(), "test.jpg");
 	}
+        
+        /*@Test
+        public void addRoadPaintTest() throws Exception{
+            world.addObjectToWorld((WorldObject)(new Road(100d,100d,10d,10d,30d,3,"test.jpg",0d,1,1,1)));
+        }
+        */}
 
-}
