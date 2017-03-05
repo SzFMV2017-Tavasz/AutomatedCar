@@ -12,10 +12,6 @@ import java.awt.event.KeyListener;
  */
 public class HMI extends SystemComponent implements KeyListener{
 
-    public HMI() {
-        super();
-
-    }
 
     @Override
     public void loop() {

@@ -59,13 +59,6 @@ public class CourseDisplay {
 		frame.setVisible(true);
 	}
 
-	private void addSmiDetails(JFrame frame) {
-		//frame.setLayout(new BorderLayout());
-		Label label = new Label("Hello SMI");
-        frame.add(label, BorderLayout.PAGE_END);
-
-	}
-
 	public JPanel getSmiJPanel() {
 		JPanel smiPanel = new HmiJPanel();
 

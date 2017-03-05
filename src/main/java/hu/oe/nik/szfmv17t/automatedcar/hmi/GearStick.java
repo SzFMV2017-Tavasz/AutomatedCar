@@ -13,10 +13,10 @@ public class GearStick {
     private int gearChangeTime;
 
     public int GetManualGearState() {
-       return manualGearState;
+        return manualGearState;
     }
 
-    public AutoGearStates GetAutoGearState() {
+    public AutoGearStates getAutoGearState() {
         return autoGearState;
     }
 
@@ -27,29 +27,31 @@ public class GearStick {
         gearChangeTime = newGearChangeTime;
     }
 
-    public void GearDown() {
+    public void gearDown() {
         GearChangeTimer();
-        if (manualGearState > 0)
+        if (manualGearState > 0) {
             manualGearState--;
-        else
+        } else {
             manualGearState = 0;
+        }
     }
 
-    public void GearUp() {
+    public void gearUp() {
         GearChangeTimer();
-        if (manualGearState < maxGear)
+        if (manualGearState < maxGear) {
             manualGearState++;
-        else
+        } else {
             manualGearState = maxGear;
+        }
     }
 
-    public void SetGearState(AutoGearStates newGearState) {
+    public void setGearState(AutoGearStates newGearState) {
         autoGearState = newGearState;
     }
 
     private void GearChangeTimer() {
         timer.Start();
-        while(timer.getDuration()!=gearChangeTime) {
+        while (timer.getDuration() != gearChangeTime) {
             //TODO: abort accelerating for this time
         }
     }

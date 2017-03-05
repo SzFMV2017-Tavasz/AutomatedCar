@@ -28,28 +28,28 @@ public class GearStickTest {
 
     @Test
     public void getAutoGearState() throws Exception {
-        AutoGearStates currentState = gearStick.GetAutoGearState();
+        AutoGearStates currentState = gearStick.getAutoGearState();
         assertTrue(currentState == AutoGearStates.P || currentState == AutoGearStates.R || currentState == AutoGearStates.N || currentState == AutoGearStates.D);
     }
 
     @Test
     public void gearDown() throws Exception {
-        gearStick.GearDown();
+        gearStick.gearDown();
         int currentManualGear = gearStick.GetManualGearState();
         assertTrue(currentManualGear >= 0);
     }
 
     @Test
     public void gearUp() throws Exception {
-        gearStick.GearUp();
+        gearStick.gearUp();
         int currentManualGear = gearStick.GetManualGearState();
         assertTrue(currentManualGear <= 6);
     }
 
     @Test
     public void setGearState() throws Exception {
-        gearStick.SetGearState(gearStick.GetAutoGearState());
-        AutoGearStates currentState = gearStick.GetAutoGearState();
+        gearStick.setGearState(gearStick.getAutoGearState());
+        AutoGearStates currentState = gearStick.getAutoGearState();
         assertTrue(currentState == AutoGearStates.P || currentState == AutoGearStates.R || currentState == AutoGearStates.N || currentState == AutoGearStates.D);
     }
 
