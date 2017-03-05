@@ -1,10 +1,9 @@
 package hu.oe.nik.szfmv17t.environment.domain;
 
 /**
- * Created by Bábel Gellért, Budai Krisztián, Molnár Attila on 2017. 03. 04..
+ *
+ * @author Gellert Babel <OE-NIK>
  */
 public enum WorldObjectState {
-    Normal,
-    Damaged,
-    Destroyed
+    Untouched,Damaged,Destroyed;
 }

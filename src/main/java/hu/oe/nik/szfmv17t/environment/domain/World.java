@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv17t.environment;
+package hu.oe.nik.szfmv17t.environment.domain;
 
 import java.util.ArrayList;
 import java.util.List;
