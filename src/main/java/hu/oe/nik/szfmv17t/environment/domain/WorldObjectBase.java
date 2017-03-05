@@ -24,7 +24,7 @@ public abstract class WorldObjectBase implements IWorldObject {
                             , String imageFilePath
                             , double directionAngle) {
         this.position = new Position(positionX, positionY, width, height, axisAngle, directionAngle);
-        this.state = WorldObjectState.Normal;
+        this.state = WorldObjectState.Untouched;
         this.imageFilePath = imageFilePath;
         this.zIndex = zIndex;
     }

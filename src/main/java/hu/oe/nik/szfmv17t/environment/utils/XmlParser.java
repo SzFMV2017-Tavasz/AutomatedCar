@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package hu.oe.nik.szfmv17t.environment.utils;
-
+import hu.oe.nik.szfmv17t.environment.domain.WorldObject;
 import java.util.List;
 
 /**

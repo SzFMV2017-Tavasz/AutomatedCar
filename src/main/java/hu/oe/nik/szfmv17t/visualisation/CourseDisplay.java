@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
-import hu.oe.nik.szfmv17t.environment.World;
-import hu.oe.nik.szfmv17t.environment.WorldObject;
+import hu.oe.nik.szfmv17t.environment.domain.World;
+import hu.oe.nik.szfmv17t.environment.domain.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -9,6 +9,9 @@ package hu.oe.nik.szfmv17t.environment.domain;
  *
  * @author Gellert Babel <OE-NIK>
  */
-public class Pavement extends NonCollidable{
+public class Pavement extends NonCollidableBase{
     
+    public Pavement(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double directionAngle) {
+        super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle);
+    }
 }
