@@ -1,12 +1,17 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
 public class BrakePedal{
-    public int state;
+    private int state;
     private int amount;
     
     public BrakePedal(){
         state = 0;
         amount = 10;
+    }
+    
+    public BrakePedal(int changeAmount){
+        state = 0;
+        amount = changeAmount;
     }
     
     public void IncreaseBrake(){
@@ -23,5 +28,12 @@ public class BrakePedal{
     
     public void ReleaseBrake(){
         state = 0;
+    }
+
+    /**
+     * @return the state
+     */
+    public int getState() {
+        return state;
     }
 }
