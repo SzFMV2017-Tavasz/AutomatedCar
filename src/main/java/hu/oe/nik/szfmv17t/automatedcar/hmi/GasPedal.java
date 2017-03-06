@@ -21,16 +21,21 @@ public class GasPedal {
 	}
 
 	public void Accelerate() {
-		this.state += amount;
+		if(this.state + amount <= MAX_STATE)
+			this.state += amount;
+		else
+			this.state = MAX_STATE;
 	}
 
 	public void DecreaseGas() {
-		if (this.state - amount >= MIN_STATE)
+		if(this.state - amount >= MIN_STATE)
 			this.state -= amount;
+		else
+			this.state = MIN_STATE;
 	}
 
 	public void GasPedalRelease() {
-		if (this.state - GAS_PEDAL_RELEASE_DEFAULT_VALUE >= MIN_STATE)
+		if(this.state - GAS_PEDAL_RELEASE_DEFAULT_VALUE >= MIN_STATE)
 			this.state -= GAS_PEDAL_RELEASE_DEFAULT_VALUE;
 	}
 
