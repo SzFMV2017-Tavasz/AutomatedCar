@@ -15,34 +15,29 @@ public class HMI extends SystemComponent implements KeyListener {
 
 	public static final char STEER_LEFT_KEY = 'a';
 	public static final char STEER_RIGHT_KEY = 'd';
-	public static final char GAS_UP_KEY = 'w';
-	public static final char BREAK_DOWN_KEY = 's';
+	public static final char INCRASE_GAS_KEY = 'w';
+	public static final char DECRASE_GAS_KEY = 's';
 	public static final int BUTTON_PRESSING_LENGTH_FOR_PTTM = 5;
 	public static final int DURATION_FOR_PTTM = 100;
 
-	public int previousSteeringWheelState = 0;
-	public int previousGasPedalState = 0;
-	private int gasWasPressed = 0;
+	private int previousSteeringWheelState = 0;
+	private int previousGasPedalState = 0;
 
-	HmiTimer hmiTimerForSlowing;
 	SteeringWheel steeringWheel;
 	GasPedal gasPedal;
+    private boolean keyPressHandled;
 
-	public HMI() {
+    public HMI() {
 		super();
+		keyPressHandled = false;
 		steeringWheel = new SteeringWheel();
-		hmiTimerForSlowing = new HmiTimer();
 		gasPedal = new GasPedal();
-		hmiTimerForSlowing.Start();
 	}
 
 	@Override
 	public void loop() {
-		//TODO:send break gas and gear signals
 		sendSteeringWheelSignal();
 		sendGasPedalSignal();
-		gasPedalRelease();
-
 	}
 
 	private void sendSteeringWheelSignal() {
@@ -60,28 +55,22 @@ public class HMI extends SystemComponent implements KeyListener {
 
 	}
 
-	//
-	private void gasPedalRelease() {
-		long duration = hmiTimerForSlowing.getDuration();
-		int pedalState = gasPedal.getState();
-		if(duration != 0 && duration % 10 == 0 && pedalState != 0) {
-			gasPedal.GasPedalRelease();
-			System.out.println("decrease gas");
-		}
-	}
-
 	@Override
 	public void receiveSignal(Signal s) {
-		System.out.println("HMI received signal: " + s.getId() + " data: " + s.getData());
+		//System.out.println("HMI received signal: " + s.getId() + " data: " + s.getData());
 	}
 
 	@Override
 	public void keyTyped(KeyEvent keyEvent) {
-
+        //System.out.println("keyTyped:" + keyEvent.getKeyChar());
 	}
 
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
+
+        if(keyPressHandled){
+	        return;
+        }
 		System.out.println("keyPressed:" + keyEvent.getKeyChar());
 		char key = keyEvent.getKeyChar();
 		switch(key) {
@@ -91,24 +80,20 @@ public class HMI extends SystemComponent implements KeyListener {
 			case STEER_RIGHT_KEY:
 				steeringWheel.start();
 			break;
-			case GAS_UP_KEY:
-				gasPedal.hmiTimerForPedalToTheMetal.Start();
-				gasWasPressed++;
-				if(gasWasPressed > BUTTON_PRESSING_LENGTH_FOR_PTTM) {
-					gasPedal.PedalToTheMetal();
-					hmiTimerForSlowing.Start();
-				}
+			case INCRASE_GAS_KEY:
+				gasPedal.start();
 			break;
-			case BREAK_DOWN_KEY:
-			//Break
+			case DECRASE_GAS_KEY:
+			    gasPedal.start();
 			break;
 		}
+		keyPressHandled = true;
 	}
 
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
 		System.out.println("keyReleased:" + keyEvent.getKeyChar());
-		keyEvent.getSource();
+		keyPressHandled = false;
 		char key = keyEvent.getKeyChar();
 		switch(key) {
 			case STEER_LEFT_KEY:
@@ -117,16 +102,11 @@ public class HMI extends SystemComponent implements KeyListener {
 			case STEER_RIGHT_KEY:
 				steeringWheel.steerRight();
 			break;
-			case GAS_UP_KEY:
-				if(gasWasPressed > BUTTON_PRESSING_LENGTH_FOR_PTTM) {
-					gasWasPressed = 0;
-				} else {
-					gasPedal.Accelerate();
-					gasWasPressed = 0;
-				}
+			case INCRASE_GAS_KEY:
+                gasPedal.acceleration();
 			break;
-			case BREAK_DOWN_KEY:
-			//Break
+			case DECRASE_GAS_KEY:
+			    gasPedal.deceleration();
 			break;
 		}
 	}
