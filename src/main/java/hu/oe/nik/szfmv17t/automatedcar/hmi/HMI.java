@@ -29,8 +29,6 @@ public class HMI extends SystemComponent implements KeyListener{
     public void loop() {
         //TODO:send break gas and gear signals
         sendSteeringWheelSignal();
-
-
     }
 
     private void sendSteeringWheelSignal(){
@@ -67,7 +65,6 @@ public class HMI extends SystemComponent implements KeyListener{
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         System.out.println("keyReleased:" + keyEvent.getKeyChar());
-        keyEvent.getSource()
         char key = keyEvent.getKeyChar();
         switch(key) {
             case STEER_LEFT_KEY:
