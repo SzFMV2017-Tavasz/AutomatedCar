@@ -94,6 +94,10 @@ public class HMI extends SystemComponent implements KeyListener {
 			case GAS_UP_KEY:
 				gasPedal.hmiTimerForPedalToTheMetal.Start();
 				gasWasPressed++;
+				if(gasWasPressed > BUTTON_PRESSING_LENGTH_FOR_PTTM) {
+					gasPedal.PedalToTheMetal();
+					hmiTimerForSlowing.Start();
+				}
 			break;
 			case BREAK_DOWN_KEY:
 			//Break
@@ -114,9 +118,7 @@ public class HMI extends SystemComponent implements KeyListener {
 				steeringWheel.steerRight();
 			break;
 			case GAS_UP_KEY:
-				long duration = gasPedal.hmiTimerForPedalToTheMetal.getDuration();
-				if(duration < DURATION_FOR_PTTM && gasWasPressed > BUTTON_PRESSING_LENGTH_FOR_PTTM) {
-					gasPedal.PedalToTheMetal();
+				if(gasWasPressed > BUTTON_PRESSING_LENGTH_FOR_PTTM) {
 					gasWasPressed = 0;
 				} else {
 					gasPedal.Accelerate();
