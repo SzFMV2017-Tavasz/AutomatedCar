@@ -7,17 +7,20 @@ public class GasPedal {
 	private final int DEFAULT_AMOUNT = 10;
 	private final int GAS_PEDAL_RELEASE_DEFAULT_VALUE = 5;
 
+	public HmiTimer hmiTimerForPedalToTheMetal;
 	private int amount;
 	private int state;
 
 	public GasPedal() {
 		state = START_STATE;
 		amount = DEFAULT_AMOUNT;
+		hmiTimerForPedalToTheMetal = new HmiTimer();
 	}
 
 	public GasPedal(int amount) {
 		state = START_STATE;
 		this.amount = amount;
+		hmiTimerForPedalToTheMetal = new HmiTimer();
 	}
 
 	public void Accelerate() {
