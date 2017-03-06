@@ -13,7 +13,7 @@ public class WorldTest {
 	@org.junit.Before
 	public void setUp() throws Exception {
 		/* stuff written here runs before the tests */
-		world = new World(800,600);
+		world = new World("AutomatedCar/src/main/resources/test_world.xml");
 	}
 
 	@Test
