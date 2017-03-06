@@ -52,5 +52,20 @@ public class GearStickTest {
         AutoGearStates currentState = gearStick.getAutoGearState();
         assertTrue(currentState == AutoGearStates.P || currentState == AutoGearStates.R || currentState == AutoGearStates.N || currentState == AutoGearStates.D);
     }
-
+    
+    @Test
+    public void automaticGearUp(){
+    	gearStick.setGearState(AutoGearStates.P);
+    	gearStick.gearUpAutomatic();
+    	AutoGearStates currentState = gearStick.getAutoGearState();
+    	assertEquals(currentState,AutoGearStates.R);
+    }
+    
+    @Test
+    public void automaticGeaDown(){
+    	gearStick.setGearState(AutoGearStates.R);
+    	gearStick.gearDownAutomatic();
+    	AutoGearStates currentState = gearStick.getAutoGearState();
+    	assertEquals(currentState,AutoGearStates.P);
+    }
 }

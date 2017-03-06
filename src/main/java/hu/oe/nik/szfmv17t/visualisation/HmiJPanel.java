@@ -56,7 +56,7 @@ public class HmiJPanel extends JPanel {
 
 		labelGearState = new Label("Gear: ");
 		this.add(labelGearState);
-		gearStateValue = new Label("P");
+		gearStateValue = new Label(String.valueOf(hmi.getGearStickPosition()));
 		this.add(gearStateValue);
 
 	}
@@ -64,11 +64,15 @@ public class HmiJPanel extends JPanel {
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		if(steeringWheelValue != null) {
+		if (steeringWheelValue != null) {
 			steeringWheelValue.setText(String.valueOf(hmi.getSteeringWheelPosition()));
 		}
-		if(gasPedalValue != null)
+		if (gasPedalValue != null) {
 			gasPedalValue.setText(String.valueOf(hmi.getGaspedalValue()));
+		}
+		if(gearStateValue != null){
+			gearStateValue.setText(String.valueOf(hmi.getGearStickPosition()));
+		}
 	}
 
 	public static HMI getHmi() {
