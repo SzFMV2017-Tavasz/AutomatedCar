@@ -24,59 +24,56 @@ import java.util.ArrayList;
  * @author Gellert Babel <OE-NIK>
  */
 public class XmlParser {
-    
+
     private String pathToXml;
     private List<IWorldObject> mapObjects;
     private int mapHeight;
     private int mapWidth;
-    
+
     //optional
     private int measureType;
     private String color;
-    
-    public XmlParser(String newPathToXml)
-    {
+
+    public XmlParser(String newPathToXml) {
         pathToXml = newPathToXml;
         mapObjects = new ArrayList<IWorldObject>();
         ReadXml();
     }
 
-    private void ReadXml()
-    {
+    private void ReadXml() {
         try {
-            
-	File fXmlFile = new File(pathToXml);
-	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	Document doc = dBuilder.parse(fXmlFile);
 
-	doc.getDocumentElement().normalize();
+            File fXmlFile = new File(pathToXml);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
 
-        Element rootElement = (Element) doc.getElementsByTagName("Scene").item(0);
-        mapHeight = Integer.parseInt(rootElement.getAttribute("height")); 
-        measureType = Integer.parseInt(rootElement.getAttribute("measureType")); 
-        color = rootElement.getAttribute("color"); 
-        mapWidth = Integer.parseInt(rootElement.getAttribute("width"));
-        
-	NodeList objectList = doc.getElementsByTagName("Object");
+            doc.getDocumentElement().normalize();
 
-	for (int i = 0; i < objectList.getLength(); i++) {
+            Element rootElement = (Element) doc.getElementsByTagName("Scene").item(0);
+            mapHeight = Integer.parseInt(rootElement.getAttribute("height"));
+            measureType = Integer.parseInt(rootElement.getAttribute("measureType"));
+            color = rootElement.getAttribute("color");
+            mapWidth = Integer.parseInt(rootElement.getAttribute("width"));
 
-		Node objectNode = objectList.item(i);
+            NodeList objectList = doc.getElementsByTagName("Object");
 
-		if (objectNode.getNodeType() == Node.ELEMENT_NODE) {
+            for (int i = 0; i < objectList.getLength(); i++) {
 
-			Element objectElement = (Element) objectNode;
-                        createObjectFromElement(objectElement);
-		}
-	}
-    } catch (Exception e) {
-	e.printStackTrace();
+                Node objectNode = objectList.item(i);
+
+                if (objectNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element objectElement = (Element) objectNode;
+                    createObjectFromElement(objectElement);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    } 
-        
-    private void createObjectFromElement(Element objectElement)
-    {
+
+    private void createObjectFromElement(Element objectElement) {
         NamedNodeMap positionAttributes = objectElement.getElementsByTagName("Position").item(0).getAttributes();
         double posX = Double.parseDouble(positionAttributes.item(0).getTextContent());
         double posY = Double.parseDouble(positionAttributes.item(1).getTextContent());
@@ -93,7 +90,7 @@ public class XmlParser {
 
         if (objectElement.getElementsByTagName("Parameter").getLength() != 0) {
             NamedNodeMap firstParamAttributes = objectElement.getElementsByTagName("Parameter").item(0).getAttributes(); //A NEVE AZ XML-BOL VAN
-            
+
             roadPainting1 = Integer.parseInt(firstParamAttributes.item(1).getTextContent()); //VALUE
 
             NamedNodeMap secondParamAttributes = objectElement.getElementsByTagName("Parameter").item(1).getAttributes();
@@ -105,53 +102,57 @@ public class XmlParser {
             roadPainting3 = Integer.parseInt(firstParamAttributes.item(1).getTextContent()); //VALUE
         }
 
-        switch (objectElement.getAttribute("type"))
-            {
-                case "road_2lane_straight":
-                    mapObjects.add(new Road(posX,posY,350,350,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
-                
-                case "road_2lane_90right":
-                case "road_2lane_90left":
-                    mapObjects.add(new Turn(posX,posY,527,527,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
-                
-                case "road_2lane_tjunctionleft":
-                case "road_2lane_tjunctionright":   
-                    mapObjects.add(new Turn(posX,posY,877,1402,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
-                
-                case "road_2lane_45right":
-                case "road_2lane_45left":
-                    mapObjects.add(new Turn(posX,posY,403,373,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
-                
-                case "parking_space_parallel":
-                    mapObjects.add(new ParkingLot(posX,posY,141,624,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35)); break;
-                
-                case "crosswalk":
-                    mapObjects.add(new ZebraCrossing(posX,posY,338,199,35,0,"AutomatedCar/src/main/resources/"  + objectElement.getAttribute("type"),35)); break;
-                
-                case "roadsign_parking_right":
-                case "roadsign_priority_stop":
-                case "roadsign_speed_40":
-                case "roadsign_speed_50":
-                case "roadsign_speed_60":
-                    mapObjects.add(new Sign(posX,posY,80,80,35,0,"AutomatedCar/src/main/resources/road_2lane_straight.png",10,0,35)); break;
-                
-                case "tree":
-                mapObjects.add(new Tree(posX,posY,80,80,35,0,"AutomatedCar/src/main/resources/road_2lane_straight.png",10,0,35)); break;
-            }
+        switch (objectElement.getAttribute("type")) {
+            case "road_2lane_straight":
+                mapObjects.add(new Road(posX, posY, 350, 350, 35, 0, "AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"), 35, roadPainting1, roadPainting2, roadPainting3));
+                break;
+
+            case "road_2lane_90right":
+            case "road_2lane_90left":
+                mapObjects.add(new Turn(posX, posY, 527, 527, 35, 0, "AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"), 35, roadPainting1, roadPainting2, roadPainting3));
+                break;
+
+            case "road_2lane_tjunctionleft":
+            case "road_2lane_tjunctionright":
+                mapObjects.add(new Turn(posX, posY, 877, 1402, 35, 0, "AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"), 35, roadPainting1, roadPainting2, roadPainting3));
+                break;
+
+            case "road_2lane_45right":
+            case "road_2lane_45left":
+                mapObjects.add(new Turn(posX, posY, 403, 373, 35, 0, "AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"), 35, roadPainting1, roadPainting2, roadPainting3));
+                break;
+
+            case "parking_space_parallel":
+                mapObjects.add(new ParkingLot(posX, posY, 141, 624, 35, 0, "AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"), 35));
+                break;
+
+            case "crosswalk":
+                mapObjects.add(new ZebraCrossing(posX, posY, 338, 199, 35, 0, "AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"), 35));
+                break;
+
+            case "roadsign_parking_right":
+            case "roadsign_priority_stop":
+            case "roadsign_speed_40":
+            case "roadsign_speed_50":
+            case "roadsign_speed_60":
+                mapObjects.add(new Sign(posX, posY, 80, 80, 35, 0, "AutomatedCar/src/main/resources/road_2lane_straight.png", 10, 0, 35));
+                break;
+
+            case "tree":
+                mapObjects.add(new Tree(posX, posY, 80, 80, 35, 0, "AutomatedCar/src/main/resources/road_2lane_straight.png", 10, 0, 35));
+                break;
+        }
     }
 
-    public List<IWorldObject> getWorldObjects()
-    {
+    public List<IWorldObject> getWorldObjects() {
         return mapObjects;
     }
-    
-    public int getMapHeight()
-    {
+
+    public int getMapHeight() {
         return mapHeight;
     }
 
-    public int getMapWidth() 
-    {
+    public int getMapWidth() {
         return mapWidth;
     }
 }

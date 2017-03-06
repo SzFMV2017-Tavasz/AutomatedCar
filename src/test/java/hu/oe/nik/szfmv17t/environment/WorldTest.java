@@ -18,16 +18,16 @@ public class WorldTest {
 
 	@Test
 	public void testWidthGetterSetter() throws Exception {
-		assertEquals(world.getWidth(), 800);
+		assertEquals(world.getWidth(),0);
 		world.setWidth(1000);
-		assertEquals(world.getWidth(), 1000);
+		assertEquals(world.getWidth(),1000);
 	}
 
 	@Test
 	public void testHeightGetterSetter() throws Exception {
-		assertEquals(world.getHeight(), 600);
+		assertEquals(world.getHeight(),0);
 		world.setHeight(800);
-		assertEquals(world.getHeight(), 800);
+		assertEquals(world.getHeight(),800);
 	}
 
 
