@@ -11,6 +11,7 @@ import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
  */
+
 public class HMI extends SystemComponent implements KeyListener {
 
 	public static final char STEER_LEFT_KEY = 'a';
