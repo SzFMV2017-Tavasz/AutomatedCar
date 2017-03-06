@@ -33,8 +33,10 @@ public class CourseDisplay {
 							  // draw objects
 							  BufferedImage image;
 							  try {
-								  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-								  g.drawImage(image, object.getX(), object.getY(), null);
+								  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
+                                                                  int segedx=((int)(object.getCenterX()+0.5d));
+                                                                  int segedy=((int)(object.getCenterY()+0.5d));
+								  g.drawImage(image,segedx, segedy, null);
 							  } catch (IOException e) {
 								  logger.error(e.getMessage());
 							  }
