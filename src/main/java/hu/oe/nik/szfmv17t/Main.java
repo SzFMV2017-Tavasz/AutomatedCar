@@ -16,8 +16,8 @@ public class Main {
 
 		// create the world
 		World w = new World(800,600);
-		// create an automated car
-		AutomatedCar car = new AutomatedCar(20,20, "bosch1.png");
+		// create an automated car NEW signature
+		AutomatedCar car = new AutomatedCar(20d,20d,10d,10d,0d,0,"bosch1.png",100d,0d,0d);
 		// add car to the world
 		w.addObjectToWorld(car);
 		// init visualisation module with the world

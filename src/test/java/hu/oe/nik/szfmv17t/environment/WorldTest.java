@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv17t.environment;
 
 import hu.oe.nik.szfmv17t.environment.domain.CollidableBase;
-import hu.oe.nik.szfmv17t.environment.domain.Road;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import org.junit.Test;
 
@@ -48,9 +47,5 @@ public class WorldTest {
 		assertEquals(world.getWorldObjects().get(0).getImageName(), "test.jpg");
 	}
         
-        /*@Test
-        public void addRoadPaintTest() throws Exception{
-            world.addObjectToWorld((WorldObject)(new Road(100d,100d,10d,10d,30d,3,"test.jpg",0d,1,1,1)));
-        }
-        */}
+}
 

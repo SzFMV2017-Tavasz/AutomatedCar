@@ -33,12 +33,12 @@ public class WorldObjectTest {
 
 	@Test
 	public void testWidthGetterSetter(){
-		assertEquals(worldObject.getWidth(), 0);
+		assertEquals(worldObject.getWidth(), 0d);
 	}
 
 	@Test
 	public void testHeightGetterSetter(){
-		assertEquals(worldObject.getHeight(), 0);
+		assertEquals(worldObject.getHeight(), 0d);
 	}
 
 	@Test

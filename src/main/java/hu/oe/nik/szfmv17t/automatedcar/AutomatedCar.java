@@ -10,12 +10,13 @@ public class AutomatedCar extends Car{
 	private PowertrainSystem powertrainSystem;
 	private double wheelAngle = 0;
 
-	public AutomatedCar(int x, int y, String imageFileName) {
-		super(x, y, imageFileName);
+   public AutomatedCar(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double mass, double speed, double directionAngle) {
+        super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, mass, speed, directionAngle);
+    
 
 		// Compose our car from brand new system components
 		// The car has to know its PowertrainSystem, to get its coordinates
-		powertrainSystem = new PowertrainSystem(x,y);
+		powertrainSystem = new PowertrainSystem(((int)(positionX+0.5d)),((int)(positionY+0.5d)));
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
 
@@ -27,8 +28,8 @@ public class AutomatedCar extends Car{
 		// call components
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
-		x = powertrainSystem.getX();
-		y = powertrainSystem.getY();
+		position.getCenter().setX(powertrainSystem.getX());
+		position.getCenter().setX(powertrainSystem.getY());
 		wheelAngle = (float)powertrainSystem.getWheelAngle();
 	}
 }
