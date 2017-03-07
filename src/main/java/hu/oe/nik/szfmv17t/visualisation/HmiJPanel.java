@@ -70,6 +70,9 @@ public class HmiJPanel extends JPanel {
 		if (gasPedalValue != null) {
 			gasPedalValue.setText(String.valueOf(hmi.getGaspedalValue()));
 		}
+                if (brakePedalValue != null) {
+			brakePedalValue.setText(String.valueOf(hmi.getBrakepedalValue()));
+		}
 		if(gearStateValue != null){
 			gearStateValue.setText(String.valueOf(hmi.getGearStickPosition()));
 		}
