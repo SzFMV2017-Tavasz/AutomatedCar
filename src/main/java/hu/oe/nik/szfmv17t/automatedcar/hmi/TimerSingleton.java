@@ -8,7 +8,6 @@ import java.util.Calendar;
 public class TimerSingleton {
 
     private static TimerSingleton instance;
-    private  static Calendar calendar;
 
     private TimerSingleton() {
 

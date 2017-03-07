@@ -1,9 +1,6 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
 import static java.lang.Thread.*;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
