@@ -15,17 +15,17 @@ import org.junit.Test;
  *
  * @author Gellert Babel <OE-NIK>
  */
-public class CollosionDetectorTest {
+public class CollisionDetectorTest {
 
-    private CollidableBase elso;
-    private CollidableBase masodik;
+    private CollidableBase first;
+    private CollidableBase second;
 
     @org.junit.Before
     public void setUp() throws Exception {
         /* stuff written here runs before the tests */
 
-        elso = new Car(0d, 0d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d);
-        masodik = new Car(50d, 50d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d);
+        first = new Car(0d, 0d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d);
+        second = new Car(50d, 50d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d);
     }
 
     @Test
@@ -35,12 +35,12 @@ public class CollosionDetectorTest {
 
     @Test
     public void sameObject() throws Exception {
-        assertEquals(CollisionDetector.collide(elso, elso), true);
+        assertEquals(CollisionDetector.collide(first, first), true);
     }
 
     @Test
     public void differentObjectFarAway() throws Exception {
-        assertEquals(CollisionDetector.collide(elso, masodik), false);
+        assertEquals(CollisionDetector.collide(first, second), false);
     }
 
 }
