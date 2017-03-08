@@ -1,11 +1,7 @@
 package hu.oe.nik.szfmv17t.environment.utils;
 
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
-import hu.oe.nik.szfmv17t.environment.domain.Bycicle;
-import hu.oe.nik.szfmv17t.environment.domain.Car;
 import hu.oe.nik.szfmv17t.environment.domain.ParkingLot;
-import hu.oe.nik.szfmv17t.environment.domain.Pavement;
-import hu.oe.nik.szfmv17t.environment.domain.Pedestrian;
 import hu.oe.nik.szfmv17t.environment.domain.Road;
 import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.Tree;
@@ -59,13 +55,11 @@ public class XmlParser {
         mapWidth = Integer.parseInt(rootElement.getAttribute("width"));
         
 	NodeList objectList = doc.getElementsByTagName("Object");
-
 	for (int i = 0; i < objectList.getLength(); i++) {
 
 		Node objectNode = objectList.item(i);
 
 		if (objectNode.getNodeType() == Node.ELEMENT_NODE) {
-
 			Element objectElement = (Element) objectNode;
                         createObjectFromElement(objectElement);
 		}
@@ -86,7 +80,9 @@ public class XmlParser {
         double m12 = Double.parseDouble(transformAttributes.item(1).getTextContent());
         double m21 = Double.parseDouble(transformAttributes.item(2).getTextContent());
         double m22 = Double.parseDouble(transformAttributes.item(3).getTextContent());
-
+        
+        double axisAngle = convertMatrixToRadians(m11,m12,m21,m22);
+        
         int roadPainting1 = 1;
         int roadPainting2 = 1;
         int roadPainting3 = 1;
@@ -108,36 +104,59 @@ public class XmlParser {
         switch (objectElement.getAttribute("type"))
             {
                 case "road_2lane_straight":
-                    mapObjects.add(new Road(posX,posY,350,350,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Road(posX,posY,350,350,axisAngle,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "road_2lane_90right":
                 case "road_2lane_90left":
-                    mapObjects.add(new Turn(posX,posY,527,527,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,527,527,axisAngle,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "road_2lane_tjunctionleft":
                 case "road_2lane_tjunctionright":   
-                    mapObjects.add(new Turn(posX,posY,877,1402,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,877,1402,axisAngle,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "road_2lane_45right":
                 case "road_2lane_45left":
-                    mapObjects.add(new Turn(posX,posY,403,373,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,403,373,axisAngle,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "parking_space_parallel":
-                    mapObjects.add(new ParkingLot(posX,posY,141,624,35,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35)); break;
+                    mapObjects.add(new ParkingLot(posX,posY,141,624,axisAngle,0,"AutomatedCar/src/main/resources/" + objectElement.getAttribute("type"),35)); break;
                 
                 case "crosswalk":
-                    mapObjects.add(new ZebraCrossing(posX,posY,338,199,35,0,"AutomatedCar/src/main/resources/"  + objectElement.getAttribute("type"),35)); break;
+                    mapObjects.add(new ZebraCrossing(posX,posY,338,199,axisAngle,0,"AutomatedCar/src/main/resources/"  + objectElement.getAttribute("type"),35)); break;
                 
                 case "roadsign_parking_right":
                 case "roadsign_priority_stop":
                 case "roadsign_speed_40":
                 case "roadsign_speed_50":
                 case "roadsign_speed_60":
-                    mapObjects.add(new Sign(posX,posY,80,80,35,0,"AutomatedCar/src/main/resources/road_2lane_straight.png",10,0,35)); break;
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,0,"AutomatedCar/src/main/resources/road_2lane_straight.png",10,0,35)); break;
                 
                 case "tree":
-                mapObjects.add(new Tree(posX,posY,80,80,35,0,"AutomatedCar/src/main/resources/road_2lane_straight.png",10,0,35)); break;
+                mapObjects.add(new Tree(posX,posY,80,80,axisAngle,0,"AutomatedCar/src/main/resources/road_2lane_straight.png",10,0,35)); break;
             }
+    }
+    
+    private double convertMatrixToRadians(double m11, double m12, double m21, double m22)
+    {
+        //formula of the angle between the two vectors: a * b = |a| * |b| * cos(beta)
+        //where a * b is the scalarProduct
+        
+        //Our zero degree will be the horizontal right:
+        int defaultX = 1;
+        int defaultY = 0;
+
+        double transformedX = m11*defaultX + m12*defaultX;
+        double transformedY = m21*defaultY + m22*defaultY;
+        
+        double scalarProduct = defaultX * transformedX + defaultY* transformedY;
+        
+        double defaultVectorLength = Math.sqrt(defaultX * defaultX + defaultY * defaultY);
+        double transformedVectorLength = Math.sqrt(transformedX * transformedX + transformedY * transformedY);
+        
+        double angleInDegrees = Math.acos(scalarProduct / (defaultVectorLength * transformedVectorLength));
+        double angleInRadians = Math.toRadians(angleInDegrees);
+        
+        return angleInRadians;
     }
 
     public List<IWorldObject> getWorldObjects()

@@ -13,21 +13,17 @@ public class WorldTest {
 	@org.junit.Before
 	public void setUp() throws Exception {
 		/* stuff written here runs before the tests */
-		world = new World("AutomatedCar/src/main/resources/test_world.xml");
+		world = new World("src/main/resources/test_world.xml");
 	}
 
 	@Test
 	public void testWidthGetterSetter() throws Exception {
-		assertEquals(world.getWidth(), 800);
-		world.setWidth(1000);
-		assertEquals(world.getWidth(), 1000);
+		assertEquals(world.getWidth(), 5120);
 	}
 
 	@Test
 	public void testHeightGetterSetter() throws Exception {
-		assertEquals(world.getHeight(), 600);
-		world.setHeight(800);
-		assertEquals(world.getHeight(), 800);
+		assertEquals(world.getHeight(), 3000);
 	}
 
 

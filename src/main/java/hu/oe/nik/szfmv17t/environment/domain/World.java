@@ -14,7 +14,9 @@ public class World {
 
 	public World(String pathToXml) {
 		xmlParser = new XmlParser(pathToXml);
-                
+                width = xmlParser.getMapWidth();
+                height = xmlParser.getMapHeight();
+                worldObjects = xmlParser.getWorldObjects();
 	}
 
 	public int getWidth() {
