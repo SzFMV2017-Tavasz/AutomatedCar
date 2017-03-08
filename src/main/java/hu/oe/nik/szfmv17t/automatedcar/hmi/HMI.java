@@ -43,7 +43,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		steeringWheel = new SteeringWheel();
 		gasPedal = new GasPedal();
                 brakePedal = new BrakePedal();
-		gearStick = new GearStick(0);
+		gearStick = new GearStick();
 	}
 
 	@Override
