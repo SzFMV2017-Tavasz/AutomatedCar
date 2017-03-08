@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,17 +17,25 @@ public class CourseDisplay {
 
 	private static final Logger logger = LogManager.getLogger();
 	private JFrame frame = new JFrame("OE NIK Automated Car Project");
+	private JPanel hmiJPanel;
+
 
 	public void refreshFrame() {
 		frame.invalidate();
+		hmiJPanel.invalidate();
 		frame.validate();
 		frame.repaint();
 	}
 
 	public void init(World world){
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new JPanel() {
+
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+
+		JPanel worldObjectsJPanel = new JPanel() {
 					  private static final long serialVersionUID = 1L;
+
 					  public void paintComponent(Graphics g) {
 
 						  for (IWorldObject object : world.getWorldObjects()) {
@@ -42,12 +51,33 @@ public class CourseDisplay {
 							  }
 						  }
 					  }
-				  }
-		);
+				  };
 
-		frame.validate();
+		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
+		hmiJPanel = getSmiJPanel();
+		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
+
+		addSmiKeyEventListenerToFrame();
+
 		frame.setSize(world.getWidth(), world.getHeight());
+		frame.add(mainPanel);
+		frame.validate();
 		frame.setVisible(true);
 	}
 
+	public JPanel getSmiJPanel() {
+		JPanel hmiJPanel = new HmiJPanel();
+
+		frame.addKeyListener(HmiJPanel.getHmi());
+		//smiPanel.add(new Label("Hello SMI"));
+		return  hmiJPanel;
+	}
+
+	public void addSmiKeyEventListenerToFrame() {
+		if(frame != null && HmiJPanel.getHmi() != null) {
+			frame.addKeyListener(HmiJPanel.getHmi());
+		}else{
+			logger.error("JFrame frame or HmiJPanel.getHmi() returned null");
+		}
+	}
 }
