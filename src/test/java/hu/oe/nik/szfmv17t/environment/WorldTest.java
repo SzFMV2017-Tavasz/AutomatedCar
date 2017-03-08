@@ -29,18 +29,14 @@ public class WorldTest {
 
 	@Test
 	public void getWorldObjectsTest() throws Exception {
-		assertEquals(world.getWorldObjects().size(), 0);
-		world.addObjectToWorld(new CollidableBase(21d,42d,0d,0d,0d,1,"test.jpg",100d,10d,10d));
-		assertEquals(world.getWorldObjects().size(), 1);
+		assertEquals(world.getWorldObjects().size(), 46);
 	}
 
 	@Test
 	public void addObjectToWorldTest() throws Exception {
+                assertEquals(world.getWorldObjects().size(), 46);
 		world.addObjectToWorld(new CollidableBase(21d,42d,0d,0d,0d,1,"test.jpg",100d,10d,10d));
-		assertEquals(world.getWorldObjects().size(), 1);
-		assertEquals(world.getWorldObjects().get(0).getCenterX(), 21d);
-		assertEquals(world.getWorldObjects().get(0).getCenterY(), 42d);
-		assertEquals(world.getWorldObjects().get(0).getImageName(), "test.jpg");
+		assertEquals(world.getWorldObjects().size(), 47);
 	}
         
 }
