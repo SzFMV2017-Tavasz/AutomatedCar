@@ -18,8 +18,6 @@ public class GearStickTest {
         gearStick = new GearStick(100);
     }
 
-
-
     @Test
     public void getManualGearState() throws Exception {
         int actualManualGear = gearStick.GetManualGearState();
@@ -30,20 +28,6 @@ public class GearStickTest {
     public void getAutoGearState() throws Exception {
         AutoGearStates currentState = gearStick.getAutoGearState();
         assertTrue(currentState == AutoGearStates.P || currentState == AutoGearStates.R || currentState == AutoGearStates.N || currentState == AutoGearStates.D);
-    }
-
-    @Test
-    public void gearDown() throws Exception {
-        gearStick.gearDown();
-        int currentManualGear = gearStick.GetManualGearState();
-        assertTrue(currentManualGear >= 0);
-    }
-
-    @Test
-    public void gearUp() throws Exception {
-        gearStick.gearUp();
-        int currentManualGear = gearStick.GetManualGearState();
-        assertTrue(currentManualGear <= 6);
     }
 
     @Test
