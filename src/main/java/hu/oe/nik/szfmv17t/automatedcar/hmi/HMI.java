@@ -33,7 +33,7 @@ public class HMI extends SystemComponent implements KeyListener {
 
 	SteeringWheel steeringWheel;
 	GasPedal gasPedal;
-        BrakePedal brakePedal;
+    BrakePedal brakePedal;
 	GearStick gearStick;
 	private boolean keyPressHandled;
 
@@ -42,7 +42,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		keyPressHandled = false;
 		steeringWheel = new SteeringWheel();
 		gasPedal = new GasPedal();
-                brakePedal = new BrakePedal();
+        brakePedal = new BrakePedal();
 		gearStick = new GearStick(0);
 	}
 
@@ -50,7 +50,7 @@ public class HMI extends SystemComponent implements KeyListener {
 	public void loop() {
 		sendSteeringWheelSignal();
 		sendGasPedalSignal();
-                sendBrakePedalSignal();
+        sendBrakePedalSignal();
 		sendGearStickSignal();
 	}
 
@@ -68,7 +68,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		}
 	}
         
-        private void sendBrakePedalSignal() {
+    private void sendBrakePedalSignal() {
 		if (brakePedal.getState() != previousBrakePedalState) {
 			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_BrakePedal, brakePedal.getState()));
 			previousBrakePedalState = brakePedal.getState();
@@ -116,7 +116,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		case DECRASE_GAS_KEY:
 			gasPedal.start();
 			break;
-                case INCRASE_BRAKE_KEY:
+        case INCRASE_BRAKE_KEY:
 			brakePedal.start();
 			break;
 		case DECRASE_BRAKE_KEY:
@@ -144,7 +144,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		case DECRASE_GAS_KEY:
 			gasPedal.deceleration();
 			break;
-                case INCRASE_BRAKE_KEY:
+        case INCRASE_BRAKE_KEY:
 			brakePedal.braking();
 			break;
 		case DECRASE_BRAKE_KEY:
@@ -163,7 +163,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		return gasPedal.getState();
 	}
         
-        public int getBrakepedalValue() {
+    public int getBrakepedalValue() {
 		return brakePedal.getState();
 	}
 

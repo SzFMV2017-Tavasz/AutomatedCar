@@ -14,23 +14,25 @@ public class BrakePedal{
     public BrakePedal(){
         state = START_STATE;
         amount = DEFAULT_AMOUNT;
+        timer = new HmiTimer();
     }
     
     public void braking(){
         if (timer.getDuration() >= LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN) {
-            releaseBrake();
+        	emergencyBrake();
         }
         else{
-            decreaseBrake();
+        	increaseBrake();
+            
         }
     }
     
     public void releasingBrake(){
         if (timer.getDuration() >= LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN) {
-            increaseBrake();
+        	releaseBrake();
         }
         else{
-            emergencyBrake();
+        	decreaseBrake();
         }
     }
     
@@ -47,11 +49,11 @@ public class BrakePedal{
     }
     
     private void emergencyBrake(){
-        state = 100;
+        state = MAX_STATE;
     }
     
     private void releaseBrake(){
-        state = 0;
+        state = MIN_STATE;
     }
 
     public int getState() {
