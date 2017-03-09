@@ -11,30 +11,26 @@ import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
  */
-
 public class HMI extends SystemComponent implements KeyListener {
 
-	public static final char STEER_LEFT_KEY = 'a';
-	public static final char STEER_RIGHT_KEY = 'd';
-	public static final char INCRASE_GAS_KEY = 'w';
-	public static final char DECRASE_GAS_KEY = 's';
-	public static final char GEAR_UP_KEY = 'l';
-	public static final char GEAR_DOWN_KEY = 'k';
-        public static final char INCRASE_BRAKE_KEY = 'h';
-	public static final char DECRASE_BRAKE_KEY = 'j';
-
-	public static final int BUTTON_PRESSING_LENGTH_FOR_PTTM = 5;
-	public static final int DURATION_FOR_PTTM = 100;
+	private static final char STEER_LEFT_KEY = 'a';
+    private static final char STEER_RIGHT_KEY = 'd';
+    private static final char INCRASE_GAS_KEY = 'w';
+    private static final char DECRASE_GAS_KEY = 's';
+    private static final char GEAR_UP_KEY = 'l';
+    private static final char GEAR_DOWN_KEY = 'k';
+    private static final char INCRASE_BRAKE_KEY = 'h';
+    private static final char DECRASE_BRAKE_KEY = 'j';
 
 	private int previousSteeringWheelState = 0;
 	private int previousGasPedalState = 0;
         private int previousBrakePedalState = 0;
 	private AutoGearStates previousGearStickState = AutoGearStates.P;
 
-	SteeringWheel steeringWheel;
-	GasPedal gasPedal;
-    BrakePedal brakePedal;
-	GearStick gearStick;
+    private SteeringWheel steeringWheel;
+    private GasPedal gasPedal;
+    private BrakePedal brakePedal;
+    private GearStick gearStick;
 	private boolean keyPressHandled;
 
 	public HMI() {
