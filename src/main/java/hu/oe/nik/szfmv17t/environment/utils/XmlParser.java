@@ -17,26 +17,20 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Gellert Babel <OE-NIK>
+ * @author Krisztian Juhasz <OE-NIK>
  */
 public class XmlParser {
 
-    private String pathToXml;
     private List<IWorldObject> mapObjects;
     private int mapHeight;
     private int mapWidth;
 
-    //optional
-    private int measureType;
-    private String color;
-
     public XmlParser(String newPathToXml) {
-        pathToXml = newPathToXml;
         mapObjects = new ArrayList<IWorldObject>();
-        ReadXml();
+        ReadXml(newPathToXml);
     }
 
-    private void ReadXml() {
+    private void ReadXml(String pathToXml) {
         try {
 
             File fXmlFile = new File(pathToXml);
@@ -44,22 +38,20 @@ public class XmlParser {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
 
-        Element rootElement = (Element) doc.getElementsByTagName("Scene").item(0);
-        mapHeight = Integer.parseInt(rootElement.getAttribute("height")); 
-        measureType = Integer.parseInt(rootElement.getAttribute("measureType")); 
-        color = rootElement.getAttribute("color"); 
-        mapWidth = Integer.parseInt(rootElement.getAttribute("width"));
-        
-	NodeList objectList = doc.getElementsByTagName("Object");
-	for (int i = 0; i < objectList.getLength(); i++) {
+            Element rootElement = (Element) doc.getElementsByTagName("Scene").item(0);
+            mapHeight = Integer.parseInt(rootElement.getAttribute("height")); 
+            mapWidth = Integer.parseInt(rootElement.getAttribute("width"));
 
-            Node objectNode = objectList.item(i);
+            NodeList objectList = doc.getElementsByTagName("Object");
+            for (int i = 0; i < objectList.getLength(); i++) {
 
-            if (objectNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element objectElement = (Element) objectNode;
-                    createObjectFromElement(objectElement);
-		}
-	}
+                Node objectNode = objectList.item(i);
+
+                if (objectNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element objectElement = (Element) objectNode;
+                        createObjectFromElement(objectElement);
+                    }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
