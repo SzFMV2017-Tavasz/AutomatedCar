@@ -112,21 +112,21 @@ public class XmlParser {
                     mapObjects.add(new ParkingLot(posX,posY,141,624,axisAngle,0,"parking_space_parallel.png",axisAngle)); break;
                 
                 case "crosswalk":
-                    mapObjects.add(new ZebraCrossing(posX,posY,338,199,axisAngle,0,"crosswalk.png",axisAngle)); break;
+                    mapObjects.add(new ZebraCrossing(posX,posY,338,199,axisAngle,1,"crosswalk.png",axisAngle)); break;
                 
                 case "roadsign_parking_right":
-                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,0,"roadsign_parking_right.png",10,0,axisAngle)); break;
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_parking_right.png",10,0,axisAngle)); break;
                 case "roadsign_priority_stop":
-                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,0,"roadsign_priority_stop.png",10,0,axisAngle)); break;
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_priority_stop.png",10,0,axisAngle)); break;
                 case "roadsign_speed_40":
-                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,0,"roadsign_speed_40.png",10,0,axisAngle)); break;
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_40.png",10,0,axisAngle)); break;
                 case "roadsign_speed_50":
-                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,0,"roadsign_speed_50.png",10,0,axisAngle)); break;
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_50.png",10,0,axisAngle)); break;
                 case "roadsign_speed_60":
-                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,0,"roadsign_speed_60.png",10,0,axisAngle)); break;
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_60.png",10,0,axisAngle)); break;
                 
                 case "tree":
-                mapObjects.add(new Tree(posX,posY,80,80,axisAngle,0,"tree.png",20,0,axisAngle)); break;
+                mapObjects.add(new Tree(posX,posY,80,80,axisAngle,2,"tree.png",20,0,axisAngle)); break;
             }
     }
     
