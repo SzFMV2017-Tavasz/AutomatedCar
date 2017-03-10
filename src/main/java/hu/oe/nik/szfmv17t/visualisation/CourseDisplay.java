@@ -2,23 +2,25 @@ package hu.oe.nik.szfmv17t.visualisation;
 
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class CourseDisplay {
 
 	private static final Logger logger = LogManager.getLogger();
 	private JFrame frame = new JFrame("OE NIK Automated Car Project");
 	private JPanel hmiJPanel;
-
 
 	public void refreshFrame() {
 		frame.invalidate();
@@ -57,7 +59,8 @@ public class CourseDisplay {
 		hmiJPanel = getSmiJPanel();
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
 
-		addSmiKeyEventListenerToFrame();
+		//Solve the duplicated key listener
+		//addSmiKeyEventListenerToFrame();
 
 		frame.setSize(world.getWidth(), world.getHeight());
 		frame.add(mainPanel);
@@ -70,7 +73,7 @@ public class CourseDisplay {
 
 		frame.addKeyListener(HmiJPanel.getHmi());
 		//smiPanel.add(new Label("Hello SMI"));
-		return  hmiJPanel;
+		return hmiJPanel;
 	}
 
 	public void addSmiKeyEventListenerToFrame() {
