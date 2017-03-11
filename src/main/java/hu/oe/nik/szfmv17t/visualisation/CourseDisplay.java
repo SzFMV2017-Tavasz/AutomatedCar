@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
+import hu.oe.nik.szfmv17t.environment.domain.World;
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -13,8 +15,6 @@ import javax.swing.JPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import hu.oe.nik.szfmv17t.environment.World;
-import hu.oe.nik.szfmv17t.environment.WorldObject;
 
 public class CourseDisplay {
 
@@ -29,31 +29,33 @@ public class CourseDisplay {
 		frame.repaint();
 	}
 
-	public void init(World world) {
+	public void init(World world){
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 
 		JPanel worldObjectsJPanel = new JPanel() {
-			private static final long serialVersionUID = 1L;
+					  private static final long serialVersionUID = 1L;
 
-			public void paintComponent(Graphics g) {
+					  public void paintComponent(Graphics g) {
 
-				for(WorldObject object : world.getWorldObjects()) {
-					// draw objects
-					BufferedImage image;
-					try {
-						image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-						g.drawImage(image, object.getX(), object.getY(), null);
-					} catch(IOException e) {
-						logger.error(e.getMessage());
-					}
-				}
-			}
-		};
+						  for (IWorldObject object : world.getWorldObjects()) {
+							  // draw objects
+							  BufferedImage image;
+							  try {
+								  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
+                                                                  int segedx=((int)(object.getCenterX()+0.5d));
+                                                                  int segedy=((int)(object.getCenterY()+0.5d));
+								  g.drawImage(image,segedx, segedy, null);
+							  } catch (IOException e) {
+								  logger.error(e.getMessage());
+							  }
+						  }
+					  }
+				  };
 
-		mainPanel.add(worldObjectsJPanel, BorderLayout.CENTER);
+		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
 
@@ -77,7 +79,7 @@ public class CourseDisplay {
 	public void addSmiKeyEventListenerToFrame() {
 		if(frame != null && HmiJPanel.getHmi() != null) {
 			frame.addKeyListener(HmiJPanel.getHmi());
-		} else {
+		}else{
 			logger.error("JFrame frame or HmiJPanel.getHmi() returned null");
 		}
 	}
