@@ -11,26 +11,30 @@ import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
  */
+
 public class HMI extends SystemComponent implements KeyListener {
 
-	private static final char STEER_LEFT_KEY = 'a';
-    private static final char STEER_RIGHT_KEY = 'd';
-    private static final char INCRASE_GAS_KEY = 'w';
-    private static final char DECRASE_GAS_KEY = 's';
-    private static final char GEAR_UP_KEY = 'l';
-    private static final char GEAR_DOWN_KEY = 'k';
-    private static final char INCRASE_BRAKE_KEY = 'h';
-    private static final char DECRASE_BRAKE_KEY = 'j';
+	public static final char STEER_LEFT_KEY = 'a';
+	public static final char STEER_RIGHT_KEY = 'd';
+	public static final char INCRASE_GAS_KEY = 'w';
+	public static final char DECRASE_GAS_KEY = 's';
+	public static final char GEAR_UP_KEY = 'l';
+	public static final char GEAR_DOWN_KEY = 'k';
+        public static final char INCRASE_BRAKE_KEY = 'h';
+	public static final char DECRASE_BRAKE_KEY = 'j';
+
+	public static final int BUTTON_PRESSING_LENGTH_FOR_PTTM = 5;
+	public static final int DURATION_FOR_PTTM = 100;
 
 	private int previousSteeringWheelState = 0;
 	private int previousGasPedalState = 0;
         private int previousBrakePedalState = 0;
 	private AutoGearStates previousGearStickState = AutoGearStates.P;
 
-    private SteeringWheel steeringWheel;
-    private GasPedal gasPedal;
-    private BrakePedal brakePedal;
-    private GearStick gearStick;
+	SteeringWheel steeringWheel;
+	GasPedal gasPedal;
+        BrakePedal brakePedal;
+	GearStick gearStick;
 	private boolean keyPressHandled;
 
 	public HMI() {
@@ -38,15 +42,15 @@ public class HMI extends SystemComponent implements KeyListener {
 		keyPressHandled = false;
 		steeringWheel = new SteeringWheel();
 		gasPedal = new GasPedal();
-        brakePedal = new BrakePedal();
-		gearStick = new GearStick(0);
+                brakePedal = new BrakePedal();
+		gearStick = new GearStick();
 	}
 
 	@Override
 	public void loop() {
 		sendSteeringWheelSignal();
 		sendGasPedalSignal();
-        sendBrakePedalSignal();
+                sendBrakePedalSignal();
 		sendGearStickSignal();
 	}
 
@@ -64,7 +68,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		}
 	}
         
-    private void sendBrakePedalSignal() {
+        private void sendBrakePedalSignal() {
 		if (brakePedal.getState() != previousBrakePedalState) {
 			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_BrakePedal, brakePedal.getState()));
 			previousBrakePedalState = brakePedal.getState();
@@ -112,7 +116,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		case DECRASE_GAS_KEY:
 			gasPedal.start();
 			break;
-        case INCRASE_BRAKE_KEY:
+                case INCRASE_BRAKE_KEY:
 			brakePedal.start();
 			break;
 		case DECRASE_BRAKE_KEY:
@@ -140,7 +144,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		case DECRASE_GAS_KEY:
 			gasPedal.deceleration();
 			break;
-        case INCRASE_BRAKE_KEY:
+                case INCRASE_BRAKE_KEY:
 			brakePedal.braking();
 			break;
 		case DECRASE_BRAKE_KEY:
@@ -159,7 +163,7 @@ public class HMI extends SystemComponent implements KeyListener {
 		return gasPedal.getState();
 	}
         
-    public int getBrakepedalValue() {
+        public int getBrakepedalValue() {
 		return brakePedal.getState();
 	}
 
