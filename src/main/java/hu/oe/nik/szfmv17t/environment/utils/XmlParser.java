@@ -1,19 +1,167 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hu.oe.nik.szfmv17t.environment.utils;
+
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv17t.environment.domain.ParkingLot;
+import hu.oe.nik.szfmv17t.environment.domain.Road;
+import hu.oe.nik.szfmv17t.environment.domain.Sign;
+import hu.oe.nik.szfmv17t.environment.domain.Tree;
+import hu.oe.nik.szfmv17t.environment.domain.Turn;
+import hu.oe.nik.szfmv17t.environment.domain.ZebraCrossing;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.*;
+import java.io.File;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
- * @author Gellert Babel <OE-NIK>
+ * @author Krisztian Juhasz <OE-NIK>
  */
 public class XmlParser {
-    public void getWorldObjects(String pathToXml,List<IWorldObject> worldObjects)
+
+    private List<IWorldObject> mapObjects;
+    private int mapHeight;
+    private int mapWidth;
+
+    public XmlParser(String newPathToXml) {
+        mapObjects = new ArrayList<IWorldObject>();
+        ReadXml(newPathToXml);
+    }
+
+    private void ReadXml(String pathToXml) {
+        try {
+
+            File fXmlFile = new File(pathToXml);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+
+            Element rootElement = (Element) doc.getElementsByTagName("Scene").item(0);
+            mapHeight = Integer.parseInt(rootElement.getAttribute("height")); 
+            mapWidth = Integer.parseInt(rootElement.getAttribute("width"));
+
+            NodeList objectList = doc.getElementsByTagName("Object");
+            for (int i = 0; i < objectList.getLength(); i++) {
+
+                Node objectNode = objectList.item(i);
+
+                if (objectNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element objectElement = (Element) objectNode;
+                        createObjectFromElement(objectElement);
+                    }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void createObjectFromElement(Element objectElement) {
+        NamedNodeMap positionAttributes = objectElement.getElementsByTagName("Position").item(0).getAttributes();
+        double posX = Double.parseDouble(positionAttributes.item(0).getTextContent());
+        double posY = Double.parseDouble(positionAttributes.item(1).getTextContent());
+
+        NamedNodeMap transformAttributes = objectElement.getElementsByTagName("Transform").item(0).getAttributes();
+        double m11 = Double.parseDouble(transformAttributes.item(0).getTextContent());
+        double m12 = Double.parseDouble(transformAttributes.item(1).getTextContent());
+        double m21 = Double.parseDouble(transformAttributes.item(2).getTextContent());
+        double m22 = Double.parseDouble(transformAttributes.item(3).getTextContent());
+        
+        double axisAngle = convertMatrixToRadians(m11,m12,m21,m22);
+        
+        int roadPainting1 = 1;
+        int roadPainting2 = 1;
+        int roadPainting3 = 1;
+
+        if (objectElement.getElementsByTagName("Parameter").getLength() != 0) {
+            NamedNodeMap firstParamAttributes = objectElement.getElementsByTagName("Parameter").item(0).getAttributes(); //A NEVE AZ XML-BOL VAN
+
+            roadPainting1 = Integer.parseInt(firstParamAttributes.item(1).getTextContent()); //VALUE
+
+            NamedNodeMap secondParamAttributes = objectElement.getElementsByTagName("Parameter").item(1).getAttributes();
+
+            roadPainting2 = Integer.parseInt(firstParamAttributes.item(1).getTextContent()); //VALUE
+
+            NamedNodeMap thirdParamAttributes = objectElement.getElementsByTagName("Parameter").item(2).getAttributes();
+
+            roadPainting3 = Integer.parseInt(firstParamAttributes.item(1).getTextContent()); //VALUE
+        }
+
+        switch (objectElement.getAttribute("type"))
+            {
+                case "road_2lane_straight":
+                    mapObjects.add(new Road(posX,posY,350,350,axisAngle,0,"road_2lane_straight.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                
+                case "road_2lane_90right":
+                    mapObjects.add(new Turn(posX,posY,527,527,axisAngle,0,"road_2lane_90right.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                case "road_2lane_90left":
+                    mapObjects.add(new Turn(posX,posY,527,527,axisAngle,0,"road_2lane_90left.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                
+                case "road_2lane_tjunctionleft":
+                    mapObjects.add(new Turn(posX,posY,877,1402,axisAngle,0,"road_2lane_tjunctionleft.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                case "road_2lane_tjunctionright":   
+                    mapObjects.add(new Turn(posX,posY,877,1402,axisAngle,0,"road_2lane_tjunctionright.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                
+                case "road_2lane_45right":
+                    mapObjects.add(new Turn(posX,posY,403,373,axisAngle,0,"road_2lane_45right.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                case "road_2lane_45left":
+                    mapObjects.add(new Turn(posX,posY,403,373,axisAngle,0,"road_2lane_45left.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                
+                case "parking_space_parallel":
+                    mapObjects.add(new ParkingLot(posX,posY,141,624,axisAngle,0,"parking_space_parallel.png",axisAngle)); break;
+                
+                case "crosswalk":
+                    mapObjects.add(new ZebraCrossing(posX,posY,338,199,axisAngle,1,"crosswalk.png",axisAngle)); break;
+                
+                case "roadsign_parking_right":
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_parking_right.png",10,0,axisAngle)); break;
+                case "roadsign_priority_stop":
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_priority_stop.png",10,0,axisAngle)); break;
+                case "roadsign_speed_40":
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_40.png",10,0,axisAngle)); break;
+                case "roadsign_speed_50":
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_50.png",10,0,axisAngle)); break;
+                case "roadsign_speed_60":
+                    mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_60.png",10,0,axisAngle)); break;
+                
+                case "tree":
+                mapObjects.add(new Tree(posX,posY,80,80,axisAngle,2,"tree.png",20,0,axisAngle)); break;
+            }
+    }
+    
+    private double convertMatrixToRadians(double m11, double m12, double m21, double m22)
     {
-        //Maybe remove worldObjects list if not needed.
+        //formula of the angle between the two vectors: a * b = |a| * |b| * cos(beta)
+        //where a * b is the scalarProduct
+        
+        //Our zero degree will be the horizontal right:
+        int defaultX = 1;
+        int defaultY = 0;
+
+        double transformedX = m11*defaultX + m12*defaultX;
+        double transformedY = m21*defaultY + m22*defaultY;
+        
+        double scalarProduct = defaultX * transformedX + defaultY* transformedY;
+        
+        double defaultVectorLength = Math.sqrt(defaultX * defaultX + defaultY * defaultY);
+        double transformedVectorLength = Math.sqrt(transformedX * transformedX + transformedY * transformedY);
+        
+        double angleInDegrees = Math.acos(scalarProduct / (defaultVectorLength * transformedVectorLength));
+        double angleInRadians = Math.toRadians(angleInDegrees);
+        
+        return angleInRadians;
+    }
+
+    public List<IWorldObject> getWorldObjects() {
+        return mapObjects;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
     }
 }
