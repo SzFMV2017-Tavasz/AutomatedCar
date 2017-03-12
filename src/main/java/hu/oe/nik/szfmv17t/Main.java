@@ -1,17 +1,18 @@
 package hu.oe.nik.szfmv17t;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
 import hu.oe.nik.szfmv17t.environment.World;
 import hu.oe.nik.szfmv17t.visualisation.CourseDisplay;
 import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Main {
 
 	private static final Logger logger = LogManager.getLogger();
-	private static final int CYCLE_PERIOD = 200;
+	public static final int CYCLE_PERIOD = 200;
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();

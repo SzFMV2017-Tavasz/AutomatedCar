@@ -15,7 +15,11 @@ public class AutomatedCar extends WorldObject{
 
 		// Compose our car from brand new system components
 		// The car has to know its PowertrainSystem, to get its coordinates
-		powertrainSystem = new PowertrainSystem(x,y);
+
+		// TODO use 'mass' from constructor parameters
+		double carWeight = 2000;
+
+		powertrainSystem = new PowertrainSystem(x, y, carWeight);
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
 
