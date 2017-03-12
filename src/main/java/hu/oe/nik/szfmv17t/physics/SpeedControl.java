@@ -6,20 +6,23 @@ public class SpeedControl {
 	/* m/s, km/h: 0, 20, 45, 75, 110, 200 */
 	public static final double[] GEAR_MAX_VELOCITY = new double[] { 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
 
+	private final int SECOND_MULTIPLIER = 1000;
+
 	private double carWeight;
 	private int gearShift;
 	private int gasPedal;
 	private int brakePedal;
 	private int maxGasPedal;
 	private int maxBrakePedal;
-	private float actualVelocity;
+	private double actualVelocity;
+
 
 	public SpeedControl(double carWeight) {
 		this.carWeight = carWeight;
 	}
 
-	private float sumAcceleration() {
-		return 0;
+	public double calculateVelocity() {
+		return actualVelocity;
 	}
 
 	public void setCarWeight(double carWeight) {
@@ -44,5 +47,17 @@ public class SpeedControl {
 
 	public void setMaxBrakePedal(int maxBrakePedal) {
 		this.maxBrakePedal = maxBrakePedal;
+	}
+
+	private double sumAcceleration() {
+		return 0;
+	}
+	
+	private double calculatePedalPercentage(int actualValue, int maxValue) throws IllegalArgumentException {
+		if (maxValue == 0) {
+			throw new IllegalArgumentException();
+		}
+
+		return (double) actualValue / maxValue;
 	}
 }

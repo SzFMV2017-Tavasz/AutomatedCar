@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv17t.physics.SpeedControl;
 
 public class PowertrainSystem extends SystemComponent {
 
@@ -17,12 +18,12 @@ public class PowertrainSystem extends SystemComponent {
 	public static final int Physics_Gear = 32;
 	public static final int Visualisation = 40;
 
+	// physics
+	private SpeedControl speedControl;
+
 	// input signals
 	private int gasPedal = 0;
 	private int brakePedal = 0;
-
-
-
 
 	// Output signals
 	// Only these are available trough getters
@@ -30,10 +31,11 @@ public class PowertrainSystem extends SystemComponent {
 	private int y = 0;
 	private double wheelAngle = 0;
 
-	public PowertrainSystem(int x, int y) {
+	public PowertrainSystem(int x, int y, double carWeight) {
 		super();
 		this.x = x;
 		this.y = y;
+		this.speedControl = new SpeedControl(carWeight);
 	}
 
 	@Override
@@ -44,15 +46,24 @@ public class PowertrainSystem extends SystemComponent {
 	@Override
 	public void receiveSignal(Signal s) {
 		switch(s.getId()) {
-
-			// Handle demo signal
-			case DEMO:
-				x += (int)s.getData();
-				break;
-			case SMI_BrakePedal:
-				brakePedal = (int)s.getData();
-			default:
-				// ignore other signals
+		// Handle demo signal
+		case DEMO:
+			x += (int) s.getData();
+			break;
+		case SMI_BrakePedal:
+			brakePedal = (int) s.getData();
+			this.speedControl.setBrakePedal(brakePedal);
+			break;
+		case SMI_Gaspedal:
+			int gasPedal = (int) s.getData();
+			this.speedControl.setGasPedal(gasPedal);
+			break;
+		case SMI_Gear:
+			int gear = (int) s.getData();
+			this.speedControl.setGearShift(gear);
+			break;
+		default:
+			// ignore other signals
 		}
 	}
 
