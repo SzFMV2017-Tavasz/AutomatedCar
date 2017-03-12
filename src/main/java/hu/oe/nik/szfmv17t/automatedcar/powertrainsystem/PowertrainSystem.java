@@ -2,9 +2,6 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
-import hu.oe.nik.szfmv17t.physics.SpeedControl;
-import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
 public class PowertrainSystem extends SystemComponent {
 
@@ -20,11 +17,12 @@ public class PowertrainSystem extends SystemComponent {
 	public static final int Physics_Gear = 32;
 	public static final int Visualisation = 40;
 
-	// physics
-	private SpeedControl speedControl;
-	private SteeringControl steeringControl;
-
 	// input signals
+	private int gasPedal = 0;
+	private int brakePedal = 0;
+
+
+
 
 	// Output signals
 	// Only these are available trough getters
@@ -32,12 +30,10 @@ public class PowertrainSystem extends SystemComponent {
 	private int y = 0;
 	private double wheelAngle = 0;
 
-	public PowertrainSystem(int x, int y, double carWeight) {
+	public PowertrainSystem(int x, int y) {
 		super();
 		this.x = x;
 		this.y = y;
-		this.speedControl = new SpeedControl(carWeight);
-		this.steeringControl = new SteeringControl();
 	}
 
 	@Override
@@ -48,24 +44,15 @@ public class PowertrainSystem extends SystemComponent {
 	@Override
 	public void receiveSignal(Signal s) {
 		switch(s.getId()) {
-		case SMI_BrakePedal:
-			int brakePedal = (int) s.getData();
-			this.speedControl.setBrakePedal(brakePedal);
-			break;
-		case SMI_Gaspedal:
-			int gasPedal = (int) s.getData();
-			this.speedControl.setGasPedal(gasPedal);
-			break;
-		case SMI_Gear:
-			AutoGearStates gear = AutoGearStates.values()[(int) s.getData()];
-			this.speedControl.setAutoGearState(gear);
-			break;
-		case SMI_SteeringWheel:
-			this.wheelAngle = this.steeringControl.calculateWheelAngle((int)s.getData());
-			break;
-		default:
-			break;
-			// ignore other signals
+
+			// Handle demo signal
+			case DEMO:
+				x += (int)s.getData();
+				break;
+			case SMI_BrakePedal:
+				brakePedal = (int)s.getData();
+			default:
+				// ignore other signals
 		}
 	}
 
@@ -81,7 +68,7 @@ public class PowertrainSystem extends SystemComponent {
 		return wheelAngle;
 	}
 
-	public double getVelocity() {
-		return speedControl.calculateVelocity();
+	public int getGasPedal() {
+		return gasPedal;
 	}
 }
