@@ -1,9 +1,8 @@
-package hu.oe.nik.szfmv17t.Physics;
+package hu.oe.nik.szfmv17t.physics;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import hu.oe.nik.szfmv17t.physics.Acceleration;
 
 public class AccelerationTest {
 
