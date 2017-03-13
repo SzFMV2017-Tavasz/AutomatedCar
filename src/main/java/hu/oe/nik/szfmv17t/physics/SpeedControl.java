@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv17t.physics;
 
 import hu.oe.nik.szfmv17t.Main;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
 
 public class SpeedControl {
 	/* m/s^2 */
@@ -20,6 +22,8 @@ public class SpeedControl {
 
 	public SpeedControl(double carWeight) {
 		this.carWeight = carWeight;
+		this.maxGasPedal = GasPedal.MAX_STATE;
+		this.maxBrakePedal = BrakePedal.MAX_STATE;
 	}
 
 	public double calculateVelocity() {
@@ -53,6 +57,9 @@ public class SpeedControl {
 	}
 
 	private double sumAcceleration() {
+		double accelerationByGasPedalAndGear = Acceleration.CalculateAcceleration(this.gearShift,
+				calculatePedalPercentage(this.gasPedal, this.maxGasPedal));
+
 		return 0;
 	}
 	
