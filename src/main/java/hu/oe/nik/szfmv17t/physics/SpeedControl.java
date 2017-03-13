@@ -12,6 +12,8 @@ public class SpeedControl {
 
 	private final int SECOND_MULTIPLIER = 1000;
 
+	private Brake brake;
+
 	private double carWeight;
 	private int gearShift;
 	private int gasPedal;
@@ -21,6 +23,7 @@ public class SpeedControl {
 	private double actualVelocity;
 
 	public SpeedControl(double carWeight) {
+		brake = new Brake();
 		this.carWeight = carWeight;
 		this.maxGasPedal = GasPedal.MAX_STATE;
 		this.maxBrakePedal = BrakePedal.MAX_STATE;
@@ -57,10 +60,15 @@ public class SpeedControl {
 	}
 
 	private double sumAcceleration() {
-		double accelerationByGasPedalAndGear = Acceleration.CalculateAcceleration(this.gearShift,
+		double gasPedalAccelerationByGear = Acceleration.CalculateAcceleration(this.gearShift,
 				calculatePedalPercentage(this.gasPedal, this.maxGasPedal));
 
-		return 0;
+		double brakeDeceleration = brake
+				.CalculateAcceleration(calculatePedalPercentage(this.brakePedal, this.maxBrakePedal));
+
+		double sumAcceleration = gasPedalAccelerationByGear + brakeDeceleration;
+
+		return sumAcceleration;
 	}
 	
 	private double calculatePedalPercentage(int actualValue, int maxValue) throws IllegalArgumentException {
