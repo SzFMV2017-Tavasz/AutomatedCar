@@ -9,10 +9,12 @@ import org.junit.Test;
 
 public class SpeedControlTest {
 
+	// TODO mock private method call (sumAcceleration) in calculateVelocity
 	@Test
 	public void CalculateVelocityTest_Return0() {
 		// arrange
 		double carWeight = 2000;
+
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
 		// act
