@@ -71,4 +71,8 @@ public class PowertrainSystem extends SystemComponent {
 	public int getGasPedal() {
 		return gasPedal;
 	}
+
+	public double getVelocity() {
+		return speedControl.calculateVelocity();
+	}
 }
