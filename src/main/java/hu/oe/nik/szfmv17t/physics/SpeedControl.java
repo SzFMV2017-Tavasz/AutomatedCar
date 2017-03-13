@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv17t.physics;
 
+import hu.oe.nik.szfmv17t.Main;
+
 public class SpeedControl {
 	/* m/s^2 */
 	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 0, 10, 6, 4.5, 2.65, 1.6 };
@@ -16,12 +18,13 @@ public class SpeedControl {
 	private int maxBrakePedal;
 	private double actualVelocity;
 
-
 	public SpeedControl(double carWeight) {
 		this.carWeight = carWeight;
 	}
 
 	public double calculateVelocity() {
+		double sumAcceleration = sumAcceleration();
+		actualVelocity = sumAcceleration * Main.CYCLE_PERIOD * SECOND_MULTIPLIER;
 		return actualVelocity;
 	}
 
