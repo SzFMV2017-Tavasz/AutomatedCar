@@ -9,6 +9,9 @@ public class EngineBrake {
 	}
 
 	public float calculateAcceleration(int gear, float gasPedalPercentage){
+		double s = SpeedControl.GEAR_MAX_ACCELERATION[gear];
+		double t = SpeedControl.GEAR_MAX_VELOCITY[gear];
+
 		return 0;
 	}
 }
