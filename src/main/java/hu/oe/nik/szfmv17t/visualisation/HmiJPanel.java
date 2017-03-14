@@ -28,6 +28,9 @@ public class HmiJPanel extends JPanel {
 	private Label labelSteeringWheelValue;
 	private Label steeringWheelValue;
 
+	private Label labelIndicationValue;
+	private Label indicationValue;
+
 	public static void setHmi(HMI hmi) {
 		HmiJPanel.hmi = hmi;
 	}
@@ -59,6 +62,11 @@ public class HmiJPanel extends JPanel {
 		gearStateValue = new Label(String.valueOf(hmi.getGearStickPosition()));
 		this.add(gearStateValue);
 
+		labelIndicationValue = new Label("Indicating: ");
+		this.add(labelIndicationValue);
+		indicationValue = new Label(String.valueOf(hmi.getDirectionIndicatorState()));
+		this.add(indicationValue);
+
 	}
 
 	@Override
@@ -75,6 +83,9 @@ public class HmiJPanel extends JPanel {
 		}
 		if(gearStateValue != null){
 			gearStateValue.setText(String.valueOf(hmi.getGearStickPosition()));
+		}
+		if(indicationValue != null){
+			indicationValue.setText(String.valueOf(hmi.getDirectionIndicatorState()));
 		}
 	}
 
