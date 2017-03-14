@@ -1,5 +1,9 @@
 package hu.oe.nik.szfmv17t.physics;
 
+import hu.oe.nik.szfmv17t.Main;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
+
 public class SpeedControl {
 	/* m/s^2 */
 	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 0, 10, 6, 4.5, 2.65, 1.6 };
@@ -7,6 +11,8 @@ public class SpeedControl {
 	public static final double[] GEAR_MAX_VELOCITY = new double[] { 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
 
 	private final int SECOND_MULTIPLIER = 1000;
+
+	private Brake brake;
 
 	private double carWeight;
 	private int gearShift;
@@ -16,12 +22,16 @@ public class SpeedControl {
 	private int maxBrakePedal;
 	private double actualVelocity;
 
-
 	public SpeedControl(double carWeight) {
+		brake = new Brake();
 		this.carWeight = carWeight;
+		this.maxGasPedal = GasPedal.MAX_STATE;
+		this.maxBrakePedal = BrakePedal.MAX_STATE;
 	}
 
 	public double calculateVelocity() {
+		double sumAcceleration = sumAcceleration();
+		actualVelocity = sumAcceleration * Main.CYCLE_PERIOD * SECOND_MULTIPLIER;
 		return actualVelocity;
 	}
 
@@ -50,7 +60,15 @@ public class SpeedControl {
 	}
 
 	private double sumAcceleration() {
-		return 0;
+		double gasPedalAccelerationByGear = Acceleration.CalculateAcceleration(this.gearShift,
+				calculatePedalPercentage(this.gasPedal, this.maxGasPedal));
+
+		double brakeDeceleration = brake
+				.CalculateAcceleration(calculatePedalPercentage(this.brakePedal, this.maxBrakePedal));
+
+		double sumAcceleration = gasPedalAccelerationByGear + brakeDeceleration;
+
+		return sumAcceleration;
 	}
 	
 	private double calculatePedalPercentage(int actualValue, int maxValue) throws IllegalArgumentException {
