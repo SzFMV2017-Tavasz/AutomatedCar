@@ -6,6 +6,7 @@ import org.junit.Test;
 
 public class AccelerationTest {
 
+	//private double[] GEAR_MAX_ACCELERATION = new double[] { 0, 10, 6, 4.5, 2.65, 1.6 };
 	
 	@Test
 	public void acceleration_0_0() {
@@ -19,8 +20,8 @@ public class AccelerationTest {
 	
 	@Test
 	public void acceleration_0_N() {
-		for (int i = 0; i < 100; i++) {
-			assertEquals(0,Acceleration.CalculateAcceleration(0, i),0);
+		for (double percentage = 0; percentage < 1; percentage+=0.01) {
+			assertEquals(0,Acceleration.CalculateAcceleration(0, percentage),0);
 		}		
 	}
 	
@@ -32,36 +33,31 @@ public class AccelerationTest {
 	@Test
 	public void acceleration_1_100() {
 		
-		double expected=20;
-		double actual=Acceleration.CalculateAcceleration(1, 100);		
+		double expected=10;
+		double actual=Acceleration.CalculateAcceleration(1, 1);		
 		assertEquals(expected,actual,0);
 			
 	}
 	
 	@Test
 	public void acceleration_1_N() {
-		for (int i = 0; i < 100; i++) {
-			double div= (double)i/100;
-			double expected=20*div;
-			double actual=Acceleration.CalculateAcceleration(1, i);			
+		for (double percentage = 0; percentage < 1; percentage+=0.01) {			
+			double expected=10*percentage;
+			double actual=Acceleration.CalculateAcceleration(1, percentage);			
 			assertEquals(expected,actual,0);	
 		}		
 	}
 	
-	@Test
-	public void acceleration_R_100() {		
-		assertEquals(-10,Acceleration.CalculateAcceleration(-1, 100),0);		
-	}
+	
 	
 	@Test
-	public void acceleration_all() {
-		double[] gear_max_acceleration = { -10, 0, 20, 18, 15, 10, 5, 4 };
-		for (int j = -1; j < 6; j++) {
-			double actGearMaxAcc = gear_max_acceleration[j + 1];
-			for (int i = 0; i < 100; i++) {
-				double percentage = (double) i / 100;
+	public void acceleration_allHundred() {
+		double[] gear_max_acceleration = new double[] { 0, 10, 6, 4.5, 2.65, 1.6 };
+		for (int j = 0; j < 6; j++) {
+			double actGearMaxAcc = gear_max_acceleration[j];
+			for (double percentage = 0; percentage < 1; percentage+=0.01) {				
 				double expected = actGearMaxAcc * percentage;
-				double actual = Acceleration.CalculateAcceleration(j, i);
+				double actual = Acceleration.CalculateAcceleration(j, percentage);
 				assertEquals(expected, actual, 0);
 			}
 		}
