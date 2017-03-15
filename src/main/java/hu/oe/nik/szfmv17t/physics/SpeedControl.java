@@ -70,7 +70,7 @@ public class SpeedControl {
 
 		double gasPedalAccelerationByGear = Acceleration.calculateAcceleration(this.gearShift, gasPedalPercentage);
 
-		double brakeAcceleration = this.brake.CalculateAcceleration(brakePedalPercentage);
+		double brakeAcceleration = this.brake.calculateAcceleration(brakePedalPercentage);
 
 		double engineBrakeAcceleration = this.engineBrake.calculateAcceleration(this.gearShift,
 				(float) gasPedalPercentage,
