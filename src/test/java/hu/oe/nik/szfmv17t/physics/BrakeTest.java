@@ -10,7 +10,7 @@ import org.junit.Test;
 public class BrakeTest {
 
 	@Test
-	public void CalculateAcceleration_Returns0(){
+	public void CalculateAccelerationReturns0(){
 		Brake brakeTest = new Brake();
 		double pedalPercentage = 0;
 		
@@ -19,13 +19,15 @@ public class BrakeTest {
 		assertEquals(0, result, 0);
 	}
 	
+	String mbd = "MAX_BRAKING_DECELERATION";
+	
 	@Test
-	public void CalculateAcceleration_ReturnsMax(){
+	public void CalculateAccelerationReturnsMax(){
 		Brake brakeTest = new Brake();
 		double pedalPercentage = 1;
 		Field maxDeceleration = null;
 		try {
-			maxDeceleration = Brake.class.getDeclaredField("MAX_BRAKING_DECELERATION");
+			maxDeceleration = Brake.class.getDeclaredField(mbd);
 			maxDeceleration.setAccessible(true);
 		} catch (NoSuchFieldException e) {
 			// TODO Auto-generated catch block
@@ -51,12 +53,12 @@ public class BrakeTest {
 	}
 	
 	@Test
-	public void CalculateAcceleration_Returns50Percent(){
+	public void CalculateAccelerationReturns50Percent(){
 		Brake brakeTest = new Brake();
 		double pedalPercentage = 0.5;
 		Field maxDeceleration = null;
 		try {
-			maxDeceleration = Brake.class.getDeclaredField("MAX_BRAKING_DECELERATION");
+			maxDeceleration = Brake.class.getDeclaredField(mbd);
 			maxDeceleration.setAccessible(true);
 		} catch (NoSuchFieldException e) {
 			// TODO Auto-generated catch block
@@ -82,7 +84,7 @@ public class BrakeTest {
 	}
 	
 	@Test
-	public void CalculateAcceleration_BiggerReturnsBigger(){
+	public void CalculateAccelerationBiggerReturnsBigger(){
 		Brake brakeTest = new Brake();
 		double pedalPercentageFirst = 0.8;
 		double pedalPercentageSecond = 0.4;
