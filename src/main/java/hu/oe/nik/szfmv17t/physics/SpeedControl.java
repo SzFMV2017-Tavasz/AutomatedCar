@@ -13,6 +13,8 @@ public class SpeedControl {
 	private final int SECOND_MULTIPLIER = 1000;
 
 	private Brake brake;
+	private EngineBrake engineBrake;
+	private ExternalForces externalForces;
 
 	private double carWeight;
 	private int gearShift;
@@ -23,7 +25,10 @@ public class SpeedControl {
 	private double actualVelocity;
 
 	public SpeedControl(double carWeight) {
-		brake = new Brake();
+		this.brake = new Brake();
+		this.engineBrake = new EngineBrake();
+		this.externalForces = new ExternalForces();
+
 		this.carWeight = carWeight;
 		this.maxGasPedal = GasPedal.MAX_STATE;
 		this.maxBrakePedal = BrakePedal.MAX_STATE;
@@ -60,15 +65,18 @@ public class SpeedControl {
 	}
 
 	private double sumAcceleration() {
-		double gasPedalAccelerationByGear = Acceleration.CalculateAcceleration(this.gearShift,
-				calculatePedalPercentage(this.gasPedal, this.maxGasPedal));
+		double gasPedalPercentage = calculatePedalPercentage(this.gasPedal, this.maxGasPedal);
+		double brakePedalPercentage = calculatePedalPercentage(this.brakePedal, this.maxBrakePedal);
 
-		double brakeDeceleration = brake
-				.CalculateAcceleration(calculatePedalPercentage(this.brakePedal, this.maxBrakePedal));
+		double gasPedalAccelerationByGear = Acceleration.CalculateAcceleration(this.gearShift, gasPedalPercentage);
 
-		double sumAcceleration = gasPedalAccelerationByGear + brakeDeceleration;
+		double brakeAcceleration = brake.CalculateAcceleration(brakePedalPercentage);
 
-		return sumAcceleration;
+		double externalForcesAcceleration = externalForces.calculateAcceleration(this.carWeight, this.actualVelocity);
+
+		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + externalForcesAcceleration;
+
+		return summedAcceleration;
 	}
 	
 	private double calculatePedalPercentage(int actualValue, int maxValue) throws IllegalArgumentException {
