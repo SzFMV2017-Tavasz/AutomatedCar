@@ -15,7 +15,7 @@ public class GearStickTest {
 
     @Before
     public void setUp() throws Exception {
-        gearStick = new GearStick(100);
+        gearStick = new GearStick();
     }
 
     @Test

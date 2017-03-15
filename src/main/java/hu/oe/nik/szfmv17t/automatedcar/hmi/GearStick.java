@@ -10,7 +10,8 @@ public class GearStick {
     private AutoGearStates autoGearState;
     private int autoGearStateIndex;
     private int manualGearState;
-
+    private final int maxGear = 6;
+    private HmiTimer timer;
     private final AutoGearStates lastGearState = AutoGearStates.D;
     private final AutoGearStates firstGearState = AutoGearStates.P;
 
@@ -22,11 +23,27 @@ public class GearStick {
         return autoGearState;
     }
 
-    public GearStick(int newGearChangeTime) {
+    public GearStick() {
         autoGearState = AutoGearStates.P;
         autoGearStateIndex = autoGearState.ordinal();
         manualGearState = 0;
+        timer = new HmiTimer();
+    }
 
+    public void gearDown() {
+        if (manualGearState > 0) {
+            manualGearState--;
+        } else {
+            manualGearState = 0;
+        }
+    }
+
+    public void gearUp() {
+        if (manualGearState < maxGear) {
+            manualGearState++;
+        } else {
+            manualGearState = maxGear;
+        }
     }
 
     public void setGearState(AutoGearStates newGearState) {
