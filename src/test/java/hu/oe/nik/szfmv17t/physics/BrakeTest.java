@@ -9,8 +9,10 @@ import org.junit.Test;
 
 public class BrakeTest {
 
+	private String mbd = "MAX_BRAKING_DECELERATION";
+
 	@Test
-	public void CalculateAccelerationReturns0(){
+	public void calculateAccelerationReturns0(){
 		Brake brakeTest = new Brake();
 		double pedalPercentage = 0;
 		
@@ -19,10 +21,9 @@ public class BrakeTest {
 		assertEquals(0, result, 0);
 	}
 	
-	String mbd = "MAX_BRAKING_DECELERATION";
 	
 	@Test
-	public void CalculateAccelerationReturnsMax(){
+	public void calculateAccelerationReturnsMax(){
 		Brake brakeTest = new Brake();
 		double pedalPercentage = 1;
 		Field maxDeceleration = null;
@@ -53,7 +54,7 @@ public class BrakeTest {
 	}
 	
 	@Test
-	public void CalculateAccelerationReturns50Percent(){
+	public void calculateAccelerationReturns50Percent(){
 		Brake brakeTest = new Brake();
 		double pedalPercentage = 0.5;
 		Field maxDeceleration = null;
@@ -84,7 +85,7 @@ public class BrakeTest {
 	}
 	
 	@Test
-	public void CalculateAccelerationBiggerReturnsBigger(){
+	public void calculateAccelerationBiggerReturnsBigger(){
 		Brake brakeTest = new Brake();
 		double pedalPercentageFirst = 0.8;
 		double pedalPercentageSecond = 0.4;
