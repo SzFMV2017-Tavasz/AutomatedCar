@@ -16,7 +16,11 @@ public class AutomatedCar extends Car{
 
 		// Compose our car from brand new system components
 		// The car has to know its PowertrainSystem, to get its coordinates
-		powertrainSystem = new PowertrainSystem(((int)(positionX+0.5d)),((int)(positionY+0.5d)), mass);
+
+		// TODO use 'mass' from constructor parameters
+		double carWeight = 2000;
+
+		powertrainSystem = new PowertrainSystem(x, y, carWeight);
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
 
@@ -28,8 +32,8 @@ public class AutomatedCar extends Car{
 		// call components
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
-		position.getCenter().setX(powertrainSystem.getX());
-		position.getCenter().setX(powertrainSystem.getY());
+		x = powertrainSystem.getX();
+		y = powertrainSystem.getY();
 		wheelAngle = (float)powertrainSystem.getWheelAngle();
 
 		this.speed = this.powertrainSystem.getVelocity();
