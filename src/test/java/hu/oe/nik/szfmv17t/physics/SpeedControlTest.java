@@ -8,10 +8,12 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 public class SpeedControlTest {
+	private final String calculatePedalPercentageMethodName = "calculatePedalPercentage";
+	private final String sumAccelerationMethodName = "sumAcceleration";
 
 	// TODO mock private method call (sumAcceleration) in calculateVelocity
 	@Test
-	public void CalculateVelocityTestReturn0() {
+	public void calculateVelocityTestReturn0() {
 		// arrange
 		double carWeight = 2000;
 
@@ -26,14 +28,14 @@ public class SpeedControlTest {
 
 	// TODO mock methods called in SumAcceleration
 	@Test
-	public void SumAccelerationReturn0() {
+	public void sumAccelerationReturn0() {
 		// arrange
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
 		Method method = null;
 		try {
-			method = SpeedControl.class.getDeclaredMethod("sumAcceleration");
+			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -58,14 +60,14 @@ public class SpeedControlTest {
 	}
 
 	@Test
-	public void CalculatePedalPercentageActual20Max100Return20percent() {
+	public void calculatePedalPercentageActual20Max100Return20percent() {
 		// arrange
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
 		Method method = null;
 		try {
-			method = SpeedControl.class.getDeclaredMethod("calculatePedalPercentage", int.class, int.class);
+			method = SpeedControl.class.getDeclaredMethod(calculatePedalPercentageMethodName, int.class, int.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -89,14 +91,14 @@ public class SpeedControlTest {
 	}
 
 	@Test
-	public void CalculatePedalPercentageMax0IllegalArgumentException() {
+	public void calculatePedalPercentageMax0IllegalArgumentException() {
 		// arrange
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
 		Method method = null;
 		try {
-			method = SpeedControl.class.getDeclaredMethod("calculatePedalPercentage", int.class, int.class);
+			method = SpeedControl.class.getDeclaredMethod(calculatePedalPercentageMethodName, int.class, int.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
