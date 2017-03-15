@@ -8,7 +8,9 @@ public class ExternalForces {
 	
 	public double calculateAcceleration(double carWeight, double velocity) {		
 		if (carWeight <= 0 || velocity <= 0)
+		{
 			return 0;
+		}
 		
 		double forceDrag = calculateDragForce(velocity);
 		
@@ -29,7 +31,9 @@ public class ExternalForces {
 		double constantRollingCoefficient = 0;
 		
 		if (velocity != 0)
+		{
 			constantRollingCoefficient = 0.005 + (1 / tirePressure) * (0.01 + 0.0095 * Math.pow(velocity / 100, 2));
+		}
 		
 		return constantRollingCoefficient * carWeight * accelerationOfGravity;
 	}
