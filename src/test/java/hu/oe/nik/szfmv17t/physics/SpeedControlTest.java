@@ -11,7 +11,7 @@ public class SpeedControlTest {
 
 	// TODO mock private method call (sumAcceleration) in calculateVelocity
 	@Test
-	public void CalculateVelocityTest_Return0() {
+	public void CalculateVelocityTestReturn0() {
 		// arrange
 		double carWeight = 2000;
 
@@ -24,8 +24,9 @@ public class SpeedControlTest {
 		assertEquals(0, result, 0);
 	}
 
+	// TODO mock methods called in SumAcceleration
 	@Test
-	public void SumAcceleration_Return0() {
+	public void SumAccelerationReturn0() {
 		// arrange
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
@@ -35,10 +36,8 @@ public class SpeedControlTest {
 			method = SpeedControl.class.getDeclaredMethod("sumAcceleration");
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -47,13 +46,10 @@ public class SpeedControlTest {
 		try {
 			result = (double) method.invoke(speedControl);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -62,7 +58,7 @@ public class SpeedControlTest {
 	}
 
 	@Test
-	public void CalculatePedalPercentage_Actual20Max100_Return20percent() {
+	public void CalculatePedalPercentageActual20Max100Return20percent() {
 		// arrange
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
@@ -72,10 +68,8 @@ public class SpeedControlTest {
 			method = SpeedControl.class.getDeclaredMethod("calculatePedalPercentage", int.class, int.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// act
@@ -83,13 +77,10 @@ public class SpeedControlTest {
 		try {
 			result = (double) method.invoke(speedControl, 20, 100);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -98,7 +89,7 @@ public class SpeedControlTest {
 	}
 
 	@Test
-	public void CalculatePedalPercentage_Max0_ThrowDivideByZeroException() {
+	public void CalculatePedalPercentageMax0IllegalArgumentException() {
 		// arrange
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
@@ -108,10 +99,8 @@ public class SpeedControlTest {
 			method = SpeedControl.class.getDeclaredMethod("calculatePedalPercentage", int.class, int.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -120,13 +109,10 @@ public class SpeedControlTest {
 		try {
 			method.invoke(speedControl, 20, 0);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			if (IllegalArgumentException.class == e.getTargetException().getClass()) {
 				illegelArgumentExceptionThrown = true;
 			}

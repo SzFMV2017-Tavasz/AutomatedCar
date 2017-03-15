@@ -36,7 +36,7 @@ public class SpeedControl {
 
 	public double calculateVelocity() {
 		double sumAcceleration = sumAcceleration();
-		actualVelocity = sumAcceleration * Main.CYCLE_PERIOD * SECOND_MULTIPLIER;
+		actualVelocity += sumAcceleration * Main.CYCLE_PERIOD * SECOND_MULTIPLIER;
 		return actualVelocity;
 	}
 
@@ -68,15 +68,16 @@ public class SpeedControl {
 		double gasPedalPercentage = calculatePedalPercentage(this.gasPedal, this.maxGasPedal);
 		double brakePedalPercentage = calculatePedalPercentage(this.brakePedal, this.maxBrakePedal);
 
-		double gasPedalAccelerationByGear = Acceleration.CalculateAcceleration(this.gearShift, gasPedalPercentage);
+		double gasPedalAccelerationByGear = Acceleration.calculateAcceleration(this.gearShift, gasPedalPercentage);
 
-		double brakeAcceleration = brake.CalculateAcceleration(brakePedalPercentage);
+		double brakeAcceleration = this.brake.CalculateAcceleration(brakePedalPercentage);
 
 		double engineBrakeAcceleration = this.engineBrake.calculateAcceleration(this.gearShift,
 				(float) gasPedalPercentage,
 				this.actualVelocity);
 
-		double externalForcesAcceleration = externalForces.calculateAcceleration(this.carWeight, this.actualVelocity);
+		double externalForcesAcceleration = this.externalForces.calculateAcceleration(this.carWeight,
+				this.actualVelocity);
 
 		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration
 				+ externalForcesAcceleration;
