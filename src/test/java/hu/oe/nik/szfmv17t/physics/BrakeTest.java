@@ -16,7 +16,7 @@ public class BrakeTest {
 		Brake brakeTest = new Brake();
 		double pedalPercentage = 0;
 		
-		double result = brakeTest.CalculateAcceleration(pedalPercentage);
+		double result = brakeTest.calculateAcceleration(pedalPercentage);
 		
 		assertEquals(0, result, 0);
 	}
@@ -48,7 +48,7 @@ public class BrakeTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		double result = brakeTest.CalculateAcceleration(pedalPercentage);
+		double result = brakeTest.calculateAcceleration(pedalPercentage);
 		
 		assertEquals(expected, result, 0);
 	}
@@ -79,7 +79,7 @@ public class BrakeTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		double result = brakeTest.CalculateAcceleration(pedalPercentage);
+		double result = brakeTest.calculateAcceleration(pedalPercentage);
 		
 		assertEquals(expected, result, 0);
 	}
@@ -90,8 +90,8 @@ public class BrakeTest {
 		double pedalPercentageFirst = 0.8;
 		double pedalPercentageSecond = 0.4;
 		
-		double resultFirst = brakeTest.CalculateAcceleration(pedalPercentageFirst);
-		double resultSecond = brakeTest.CalculateAcceleration(pedalPercentageSecond);
+		double resultFirst = brakeTest.calculateAcceleration(pedalPercentageFirst);
+		double resultSecond = brakeTest.calculateAcceleration(pedalPercentageSecond);
 		
 		assertTrue(resultFirst < resultSecond); //negatív
 	}
