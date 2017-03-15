@@ -14,11 +14,11 @@ public class EngineBrake {
 			
 			int ratio=(gear+1)*4;
 			
-			if (actualVelocity >= startInterval && actualVelocity <= startInterval + gearVelocityInterval * 0.3)
-				deceleration = -gearVelocityInterval / ratio;
-			else if (actualVelocity > startInterval + gearVelocityInterval * 0.3
-					&& actualVelocity <= startInterval + gearVelocityInterval * 0.7)
-				deceleration = -gearVelocityInterval / ratio;
+			if (actualVelocity >= startInterval && actualVelocity <= (startInterval + gearVelocityInterval * 0.3))
+				deceleration = -gearVelocityInterval / (ratio+6);
+			else if (actualVelocity > (startInterval + gearVelocityInterval * 0.3)
+					&& (actualVelocity <= startInterval + gearVelocityInterval * 0.7))
+				deceleration = -gearVelocityInterval / (ratio+3);
 			else
 				deceleration = -gearVelocityInterval / ratio;
 		}
