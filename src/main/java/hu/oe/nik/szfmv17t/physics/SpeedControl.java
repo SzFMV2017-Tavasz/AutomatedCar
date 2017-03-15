@@ -6,9 +6,9 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
 
 public class SpeedControl {
 	/* m/s^2 */
-	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 6,0, 10, 6, 4.5, 2.65, 1.6 };
+	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 6, 0, 10, 6, 4.5, 2.65, 1.6 };
 	/* m/s, km/h: 0, 20, 45, 75, 110, 200 */
-	public static final double[] GEAR_MAX_VELOCITY = new double[] { 4,0, 5.5, 12.5, 20.8, 30.6, 55.5 };
+	public static final double[] GEAR_MAX_VELOCITY = new double[] { 4, 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
 
 	private final int SECOND_MULTIPLIER = 1000;
 
@@ -72,9 +72,14 @@ public class SpeedControl {
 
 		double brakeAcceleration = brake.CalculateAcceleration(brakePedalPercentage);
 
+		double engineBrakeAcceleration = this.engineBrake.calculateAcceleration(this.gearShift,
+				(float) gasPedalPercentage,
+				this.actualVelocity);
+
 		double externalForcesAcceleration = externalForces.calculateAcceleration(this.carWeight, this.actualVelocity);
 
-		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + externalForcesAcceleration;
+		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration
+				+ externalForcesAcceleration;
 
 		return summedAcceleration;
 	}

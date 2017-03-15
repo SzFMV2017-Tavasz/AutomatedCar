@@ -47,9 +47,6 @@ public class PowertrainSystem extends SystemComponent {
 	public void receiveSignal(Signal s) {
 		switch(s.getId()) {
 		// Handle demo signal
-		case DEMO:
-			x += (int) s.getData();
-			break;
 		case SMI_BrakePedal:
 			brakePedal = (int) s.getData();
 			this.speedControl.setBrakePedal(brakePedal);
