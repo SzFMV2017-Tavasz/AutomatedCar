@@ -14,22 +14,28 @@ public class EngineBrake {
 			
 			int ratio=(gear+1)*4;
 			
-			if (actualVelocity >= startInterval && actualVelocity <= (startInterval + gearVelocityInterval * 0.3))
+			if (actualVelocity >= startInterval && actualVelocity <= (startInterval + gearVelocityInterval * 0.3)){
 				deceleration = -gearVelocityInterval / (ratio+6);
+			}
 			else if (actualVelocity > (startInterval + gearVelocityInterval * 0.3)
-					&& (actualVelocity <= startInterval + gearVelocityInterval * 0.7))
+					&& (actualVelocity <= startInterval + gearVelocityInterval * 0.7)){
 				deceleration = -gearVelocityInterval / (ratio+3);
-			else
+			}
+			else{
 				deceleration = -gearVelocityInterval / ratio;
-		}
+			}
+			}
 		else if(gear==-1 && gasPedalPercentage == 0 && actualVelocity>0 ){
 			double interval = SpeedControl.GEAR_MAX_VELOCITY[0];
-			if(actualVelocity >0 && actualVelocity <= interval*0.3)
+			if(actualVelocity >0 && actualVelocity <= interval*0.3){
 				deceleration= -interval/20;
-			else if(actualVelocity >interval*0.3 && actualVelocity <= interval*0.7)
+			}
+			else if(actualVelocity >interval*0.3 && actualVelocity <= interval*0.7){
 				deceleration = -interval/15;
-			else
+			}
+			else {
 				deceleration=-interval/12;
+			}
 		}
 		return deceleration;
 	}
