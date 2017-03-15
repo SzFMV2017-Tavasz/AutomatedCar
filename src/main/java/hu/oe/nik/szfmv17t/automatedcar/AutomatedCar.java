@@ -31,5 +31,7 @@ public class AutomatedCar extends Car{
 		position.getCenter().setX(powertrainSystem.getX());
 		position.getCenter().setX(powertrainSystem.getY());
 		wheelAngle = (float)powertrainSystem.getWheelAngle();
+
+		this.speed = this.powertrainSystem.getVelocity();
 	}
 }
