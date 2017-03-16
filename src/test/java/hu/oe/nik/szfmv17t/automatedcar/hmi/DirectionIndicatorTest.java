@@ -18,9 +18,21 @@ public class DirectionIndicatorTest {
     }
 
     @Test
-    public void indicating() throws Exception {
+    public void indicatingLeft() throws Exception {
         DirectionIndicatorStates currentState = directionIndicator.GetDirectionIndicatorState();
-        assertTrue(currentState == DirectionIndicatorStates.Default || currentState == DirectionIndicatorStates.Left || currentState == DirectionIndicatorStates.Right || currentState == DirectionIndicatorStates.BreakDown);
+        assertTrue(currentState == DirectionIndicatorStates.Left || currentState == DirectionIndicatorStates.Default || currentState == DirectionIndicatorStates.BreakDown);
+    }
+
+    @Test
+    public void indicatingRight() throws Exception {
+        DirectionIndicatorStates currentState = directionIndicator.GetDirectionIndicatorState();
+        assertTrue(currentState == DirectionIndicatorStates.Right || currentState == DirectionIndicatorStates.Default || currentState == DirectionIndicatorStates.BreakDown);
+    }
+
+    @Test
+    public void indicatingBreakdown() throws Exception {
+        DirectionIndicatorStates currentState = directionIndicator.GetDirectionIndicatorState();
+        assertTrue(currentState == DirectionIndicatorStates.Default || currentState == DirectionIndicatorStates.BreakDown);
     }
 
 }

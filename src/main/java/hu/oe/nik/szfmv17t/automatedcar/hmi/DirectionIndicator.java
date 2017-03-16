@@ -15,8 +15,33 @@ public class DirectionIndicator {
         directionIndicatorState = DirectionIndicatorStates.Default;
     }
 
-    public void Indicating(DirectionIndicatorStates newDirectionState) {
-        directionIndicatorState = newDirectionState;
+    public void IndicatingLeft() {
+        switch (directionIndicatorState){
+            case Default:
+                directionIndicatorState = DirectionIndicatorStates.Left;
+                break;
+            case Right:
+                directionIndicatorState = DirectionIndicatorStates.Default;
+                break;
+        }
+    }
+
+    public void IndicatingRight() {
+        switch (directionIndicatorState){
+            case Default:
+                directionIndicatorState = DirectionIndicatorStates.Right;
+                break;
+            case Left:
+                directionIndicatorState = DirectionIndicatorStates.Default;
+                break;
+        }
+    }
+
+    public void IndicatingBreakdown() {
+        if(directionIndicatorState != DirectionIndicatorStates.BreakDown)
+            directionIndicatorState = DirectionIndicatorStates.BreakDown;
+        else
+            directionIndicatorState = DirectionIndicatorStates.Default;
     }
 
 }
