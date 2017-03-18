@@ -14,14 +14,14 @@ public class Main {
 	private static final int CYCLE_PERIOD = 200;
 	public static final int worldHeight = 600;
 	public static final int worldWidth= 800;
-	public static final int FPS=30;
+	public static final int FPS=60;
 	public static void main(String[] args) throws InterruptedException {
 		CourseDisplay vis = new CourseDisplay();
 		//not a pun
 		// create the world
 		World w = new World("src/main/resources/test_world.xml");
 		// create an automated car NEW signature
-		AutomatedCar car = new AutomatedCar(20d,20d,10d,10d,0d,0,"bosch1.png",100d,0d,0d);
+		AutomatedCar car = new AutomatedCar(300,300,100d,100d,90d,0,"car_1_white.png",100d,0d,0d);
 
 		// create an automated car
 
