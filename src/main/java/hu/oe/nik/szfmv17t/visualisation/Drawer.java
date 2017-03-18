@@ -5,6 +5,13 @@ import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.visualisation.interfaces.IWorldVisualization;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,18 +33,51 @@ public class Drawer implements IWorldVisualization {
         return world.getWorldObjects();
     }
     private static Drawer instance = null;
-    private Drawer(World world,int frameWidth,int frameHeight)
+    private Drawer(World world)
     {}
-    public static Drawer getDrawer(World world,int frameWidth,int frameHeight)
+    public static Drawer getDrawer(World world)
     {
         if (instance==null)
-            instance = new Drawer(world,frameWidth,frameHeight);
+            instance = new Drawer(world);
         return instance;
     }
 
-    public FrameComposer getComposer()
+    public FrameComposer getComposer(World world)
     {
-        return FrameComposer.getComposer();
+        return FrameComposer.getComposer(world);
+    }
+
+    static int t=0;
+    public void DrawFrametoPanel(JPanel worldObjectsPanel,World world,JPanel mainPanel)
+    {
+        worldObjectsPanel.setDoubleBuffered(true);
+
+        List<IWorldObject> toDraw=getComposer(world).composeFrame();
+        t++;
+
+        worldObjectsPanel = new JPanel() {
+            private static final long serialVersionUID = 1L;
+            public void paintComponent(Graphics g) {
+                for (IWorldObject object : toDraw) {
+                    // draw objects
+                    BufferedImage image;
+
+                    try {
+                        image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
+                        int segedx=((int)(object.getCenterX()+0.5d));
+                        int segedy=((int)(object.getCenterY()+0.5d));
+                        g.drawImage(image,t, t, null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        BorderLayout layout = (BorderLayout)mainPanel.getLayout();
+        mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
+        mainPanel.add(worldObjectsPanel,BorderLayout.CENTER);
+        mainPanel.invalidate();
+        mainPanel.validate();
     }
    /* public void Loop() throws InterruptedException {
         int refreshRate=calculateRefresh(Main.FPS);
