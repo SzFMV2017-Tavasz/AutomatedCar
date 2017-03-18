@@ -26,7 +26,7 @@ public class Main {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 	//	int width = gd.getDisplayMode().getWidth();
 	//	int height = gd.getDisplayMode().getHeight();
-		AutomatedCar car = new AutomatedCar((double)Config.startPosition.getMinimumX(),(double)Config.startPosition.getMinimumY()-50,2,100d,100d,1,"car_1_white.png",100d,0d,0);
+		AutomatedCar car = new AutomatedCar((double)Config.startPosition.getMinimumX(),(double)Config.startPosition.getMinimumY()-50,108,240,0,1,"car_1_white.png",100d,0d,0);
 
 		// create an automated car
 
