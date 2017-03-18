@@ -1,3 +1,4 @@
+
 package hu.oe.nik.szfmv17t;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
@@ -14,6 +15,7 @@ import java.awt.*;
 public class Main {
 
 	private static final Logger logger = LogManager.getLogger();
+	public static final int CYCLE_PERIOD = Config.CYCLE_PERIOD;
 //	public static final int worldHeight = 600;
 	//public static final int worldWidth= 800;
 	//public static final int FPS=60;
@@ -22,18 +24,13 @@ public class Main {
 		//not a pun
 		// create the world
 		World w = new World("src/main/resources/test_world.xml");
-		// create an automated car NEW signature
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	//	int width = gd.getDisplayMode().getWidth();
-	//	int height = gd.getDisplayMode().getHeight();
-		AutomatedCar car = new AutomatedCar((double)Config.startPosition.getMinimumX(),(double)Config.startPosition.getMinimumY()-50,108,240,0,1,"car_1_white.png",100d,0d,0);
 
 		// create an automated car
+		AutomatedCar car = new AutomatedCar(Config.startPosition.getMinimumX(),Config.startPosition.getMinimumY()-50,108,240,0,1,"car_1_white.png",100d,0d,0);
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
 		HmiJPanel.setHmi(hmi);
-
 
 		// add car to the world
 		w.addObjectToWorld(car);
@@ -54,3 +51,4 @@ public class Main {
 		}
 	}
 }
+
