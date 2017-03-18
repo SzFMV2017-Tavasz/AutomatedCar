@@ -8,6 +8,8 @@ import hu.oe.nik.szfmv17t.visualisation.interfaces.IWorldVisualization;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -66,7 +68,13 @@ public class Drawer implements IWorldVisualization {
                         image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
                         int segedx=((int)(object.getCenterX()+0.5d));
                         int segedy=((int)(object.getCenterY()+0.5d));
-                        g.drawImage(image,t, t, null);
+
+
+
+                        image = transformImage(object,image);
+
+                        g.drawImage(image,segedx,segedy,null);
+                        //g.drawImage(image,t, t, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -79,6 +87,20 @@ public class Drawer implements IWorldVisualization {
         mainPanel.invalidate();
         mainPanel.validate();
     }
+    private BufferedImage transformImage(IWorldObject object, BufferedImage image){
+        AffineTransform transform = new AffineTransform();
+        double rot = object.getAxisAngle();
+        if (rot>=0)
+            transform.rotate(rot, image.getWidth()/2, image.getHeight()/2);
+        else
+            transform.rotate((2*Math.PI) + (Math.PI/2) + rot, image.getWidth()/2, image.getHeight()/2);
+
+
+        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        BufferedImage bimage = op.filter(image, null);
+        return bimage;
+    }
+
    /* public void Loop() throws InterruptedException {
         int refreshRate=calculateRefresh(Main.FPS);
         while (true)
