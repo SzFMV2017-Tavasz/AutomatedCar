@@ -8,6 +8,8 @@ import hu.oe.nik.szfmv17t.visualisation.interfaces.IWorldVisualization;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -64,8 +66,9 @@ public class Drawer implements IWorldVisualization {
                         int segedx=((int)(object.getCenterX()+0.5d));
                         int segedy=((int)(object.getCenterY()+0.5d));
 
-                        PutDebugInformationOnImage(image, object);
-
+                        image = transformImage(object,image);       
+                        //DEBUG OVERLAY
+                        PutDebugInformationOnImage(image, object);  
                         g2d.drawImage(image, segedx, segedy, null);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -79,6 +82,18 @@ public class Drawer implements IWorldVisualization {
         mainPanel.invalidate();
         mainPanel.validate();
     }
+
+    private BufferedImage transformImage(IWorldObject object, BufferedImage image){
+        AffineTransform transform = new AffineTransform();
+        double rot = object.getAxisAngle();
+        if (rot>=0)
+            transform.rotate(rot, image.getWidth()/2, image.getHeight()/2);
+        else
+            transform.rotate((2*Math.PI) + (Math.PI/2) + rot, image.getWidth()/2, image.getHeight()/2);
+
+        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        BufferedImage bimage = op.filter(image, null);
+        return bimage;
 
     private void PutDebugInformationOnImage (Image image, IWorldObject object) {
         Graphics2D g = (Graphics2D) image.getGraphics();
