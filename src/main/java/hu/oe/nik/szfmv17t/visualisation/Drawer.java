@@ -49,13 +49,9 @@ public class Drawer implements IWorldVisualization {
         return FrameComposer.getComposer(world);
     }
 
-    static int t=0;
     public void DrawFrametoPanel(JPanel worldObjectsPanel,World world,JPanel mainPanel)
     {
-        worldObjectsPanel.setDoubleBuffered(true);
-
         List<IWorldObject> toDraw=getComposer(world).composeFrame();
-        t++;
 
         worldObjectsPanel = new JPanel() {
             private static final long serialVersionUID = 1L;
@@ -63,18 +59,17 @@ public class Drawer implements IWorldVisualization {
                 for (IWorldObject object : toDraw) {
                     // draw objects
                     BufferedImage image;
-
+                    Graphics2D g2d=(Graphics2D)g;
                     try {
                         image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
+
                         int segedx=((int)(object.getCenterX()+0.5d));
                         int segedy=((int)(object.getCenterY()+0.5d));
 
-
-
-                        image = transformImage(object,image);
-
-                        g.drawImage(image,segedx,segedy,null);
-                        //g.drawImage(image,t, t, null);
+                        image = transformImage(object,image);       
+                        //DEBUG OVERLAY
+                        PutDebugInformationOnImage(image, object);  
+                        g2d.drawImage(image, segedx, segedy, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -87,6 +82,7 @@ public class Drawer implements IWorldVisualization {
         mainPanel.invalidate();
         mainPanel.validate();
     }
+
     private BufferedImage transformImage(IWorldObject object, BufferedImage image){
         AffineTransform transform = new AffineTransform();
         double rot = object.getAxisAngle();
@@ -95,10 +91,23 @@ public class Drawer implements IWorldVisualization {
         else
             transform.rotate((2*Math.PI) + (Math.PI/2) + rot, image.getWidth()/2, image.getHeight()/2);
 
-
         AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
         BufferedImage bimage = op.filter(image, null);
         return bimage;
+
+    private void PutDebugInformationOnImage (Image image, IWorldObject object) {
+        Graphics2D g = (Graphics2D) image.getGraphics();
+
+        String loc = String.format ("x: %.0f, y:%.0f", object.getCenterX(), object.getCenterY(), object.getAxisAngle());
+        String rot = String.format ("%.3f (rad)", object.getAxisAngle());
+
+        g.setColor(Color.red);
+        g.drawRect(0, 0, image.getWidth(null) - 1, image.getHeight(null) - 1);
+
+        g.setColor(Color.black);
+        g.setFont(new Font("sans", Font.PLAIN, 15));
+        g.drawString(loc, 3, 20);
+        g.drawString(rot, 3, 35);
     }
 
    /* public void Loop() throws InterruptedException {
