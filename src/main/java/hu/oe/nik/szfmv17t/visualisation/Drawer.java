@@ -47,13 +47,11 @@ public class Drawer implements IWorldVisualization {
         return FrameComposer.getComposer(world);
     }
 
-    static int t=0;
     public void DrawFrametoPanel(JPanel worldObjectsPanel,World world,JPanel mainPanel)
     {
         worldObjectsPanel.setDoubleBuffered(true);
 
         List<IWorldObject> toDraw=getComposer(world).composeFrame();
-        t++;
 
         worldObjectsPanel = new JPanel() {
             private static final long serialVersionUID = 1L;
@@ -66,7 +64,10 @@ public class Drawer implements IWorldVisualization {
                         image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
                         int segedx=((int)(object.getCenterX()+0.5d));
                         int segedy=((int)(object.getCenterY()+0.5d));
-                        g.drawImage(image,t, t, null);
+
+                        PutDebugInformationOnImage(image, object);
+
+                        g.drawImage(image, segedx, segedy, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -79,6 +80,22 @@ public class Drawer implements IWorldVisualization {
         mainPanel.invalidate();
         mainPanel.validate();
     }
+
+    private void PutDebugInformationOnImage (Image image, IWorldObject object) {
+        Graphics2D g = (Graphics2D) image.getGraphics();
+
+        String loc = String.format ("x: %.0f, y:%.0f", object.getCenterX(), object.getCenterY(), object.getAxisAngle());
+        String rot = String.format ("%.3f (rad)", object.getAxisAngle());
+
+        g.setColor(Color.red);
+        g.drawRect(0, 0, image.getWidth(null) - 1, image.getHeight(null) - 1);
+
+        g.setColor(Color.black);
+        g.setFont(new Font("sans", Font.PLAIN, 15));
+        g.drawString(loc, 3, 20);
+        g.drawString(rot, 3, 35);
+    }
+
    /* public void Loop() throws InterruptedException {
         int refreshRate=calculateRefresh(Main.FPS);
         while (true)

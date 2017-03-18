@@ -64,7 +64,7 @@ public class CourseDisplay implements Runnable{
 		mainPanel.setPreferredSize(new Dimension(700,500));
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
 
-		FillMainpanel(mainPanel);
+		//FillMainpanel(mainPanel);
 		SizeFrame(frame);
 		//Solve the duplicated key listener
 		//addSmiKeyEventListenerToFrame();
