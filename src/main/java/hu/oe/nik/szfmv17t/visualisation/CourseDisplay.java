@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import hu.oe.nik.szfmv17t.environment.utils.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,9 +49,10 @@ public class CourseDisplay implements Runnable{
 							  BufferedImage image;
 							  try {
 								  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
-                                                                  int segedx=((int)(object.getCenterX()+0.5d));
-                                                                  int segedy=((int)(object.getCenterY()+0.5d));
-         								  g.drawImage(image,segedx, segedy, null);
+                                                                  int segedx=((int)(object.getCenterX()-object.getWidth()/2));
+                                                                  int segedy=((int)(object.getCenterY()-object.getHeight()/2));
+         								  g.drawImage(image,
+												  segedx, segedy, null);
 							  } catch (IOException e) {
 								  logger.error(e.getMessage());
 							  }
@@ -61,7 +63,7 @@ public class CourseDisplay implements Runnable{
 
 		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
-		mainPanel.setPreferredSize(new Dimension(700,500));
+		//mainPanel.setPreferredSize(new Dimension(700,500));
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
 
 		//FillMainpanel(mainPanel);
@@ -103,7 +105,7 @@ public class CourseDisplay implements Runnable{
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
-		frame.setSize(width,height-50);
+		frame.setSize(Config.getScreenWidth,Config.getScreenHeight- 50);
 	}
 	private JPanel filler()
 	{
@@ -115,7 +117,7 @@ public class CourseDisplay implements Runnable{
 	}
 	@Override
 	public void run() {
-		int refreshRate=1000/Main.FPS;
+		int refreshRate=1000/ Config.FPS;
 		while (true)
 		{
 			try {

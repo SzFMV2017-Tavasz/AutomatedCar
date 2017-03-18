@@ -49,8 +49,6 @@ public class Drawer implements IWorldVisualization {
 
     public void DrawFrametoPanel(JPanel worldObjectsPanel,World world,JPanel mainPanel)
     {
-        worldObjectsPanel.setDoubleBuffered(true);
-
         List<IWorldObject> toDraw=getComposer(world).composeFrame();
 
         worldObjectsPanel = new JPanel() {
@@ -59,15 +57,16 @@ public class Drawer implements IWorldVisualization {
                 for (IWorldObject object : toDraw) {
                     // draw objects
                     BufferedImage image;
-
+                    Graphics2D g2d=(Graphics2D)g;
                     try {
                         image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
+
                         int segedx=((int)(object.getCenterX()+0.5d));
                         int segedy=((int)(object.getCenterY()+0.5d));
 
                         PutDebugInformationOnImage(image, object);
 
-                        g.drawImage(image, segedx, segedy, null);
+                        g2d.drawImage(image, segedx, segedy, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
