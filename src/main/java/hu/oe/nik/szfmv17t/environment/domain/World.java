@@ -17,8 +17,9 @@ public class World {
         public void updateWorld()
         {
             for (int i = 0; i < worldObjects.size(); i++) {
-                if(worldObjects.get(i) instanceof ICollidableObject)
+                if(worldObjects.get(i) instanceof CollidableBase)
                 {
+                    int a=0;
                     ///TODO call updateWorldObject()
                 }
             }
