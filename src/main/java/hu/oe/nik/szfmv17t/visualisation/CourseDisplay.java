@@ -40,7 +40,7 @@ public class CourseDisplay {
 
 					  public void paintComponent(Graphics g) {
 
-						  for (IWorldObject object : world.getWorldObjects()) {
+						  for (IWorldObject object : world.getWorld()) {
 							  // draw objects
 							  BufferedImage image;
 							  try {
