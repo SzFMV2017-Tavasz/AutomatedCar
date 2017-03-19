@@ -30,6 +30,7 @@ public class CourseDisplay implements Runnable{
 	//private Drawer drawer;
 	private World world;
 	private BufferStrategy strategy;
+
 	public void refreshFrame() {
 		frame.invalidate();
 		hmiJPanel.invalidate();
