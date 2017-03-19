@@ -85,10 +85,11 @@ public class FrameComposer {
             return null;
 
         Rectangle objectRectangle = new Rectangle();
-        objectRectangle.x = (int)object.getCenterX();
-        objectRectangle.y = (int)object.getCenterY();
         objectRectangle.width = (int)object.getWidth();
         objectRectangle.height = (int)object.getHeight();
+        objectRectangle.x = (int)object.getCenterX() - objectRectangle.width / 2;
+        objectRectangle.y = (int)object.getCenterY() - objectRectangle.height / 2;
+
         return objectRectangle;
     }
 
