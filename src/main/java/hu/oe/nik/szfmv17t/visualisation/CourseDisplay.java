@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv17t.visualisation;
 
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -29,7 +30,7 @@ public class CourseDisplay {
 		frame.repaint();
 	}
 
-	public void init(World world){
+	public void init(IWorldVisualisation world){
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel mainPanel = new JPanel();
@@ -40,7 +41,7 @@ public class CourseDisplay {
 
 					  public void paintComponent(Graphics g) {
 
-						  for (IWorldObject object : world.getWorldObjects()) {
+						  for (IWorldObject object : world.getWorld()) {
 							  // draw objects
 							  BufferedImage image;
 							  try {
