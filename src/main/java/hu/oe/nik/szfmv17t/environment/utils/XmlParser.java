@@ -151,7 +151,7 @@ public class XmlParser {
         if (transformedY < 0) {
             angleInRad = 2*Math.PI - angleInRad;
         }
-        
+        //If angle is NaN as a result of transformedVectorLength=0, Math.round() returns 0. It is correct in our cases.
         angleInRad = Math.round(angleInRad * 100.0) / 100.0;     
         return angleInRad;
     }
