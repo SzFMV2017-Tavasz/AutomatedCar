@@ -1,22 +1,27 @@
 package hu.oe.nik.szfmv17t.physics;
 
 import hu.oe.nik.szfmv17t.Main;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
 
 public class SpeedControl {
-	/* m/s^2 */
+	/* m/s^2, R, P, 1, 2... */
 	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 6, 0, 10, 6, 4.5, 2.65, 1.6 };
 	/* m/s, km/h: 0, 20, 45, 75, 110, 200 */
 	public static final double[] GEAR_MAX_VELOCITY = new double[] { 4, 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
 
-	private final int SECOND_MULTIPLIER = 1000;
+	private final int SECOND_MULTIPLIER = 5;
 
+	private GearControl gearControl;
 	private Brake brake;
 	private EngineBrake engineBrake;
 	private ExternalForces externalForces;
 
 	private double carWeight;
+
+	private AutoGearStates autoGearState;
+	private boolean autoGear;
 	private int gearShift;
 	private int gasPedal;
 	private int brakePedal;
@@ -25,6 +30,8 @@ public class SpeedControl {
 	private double actualVelocity;
 
 	public SpeedControl(double carWeight) {
+		this.autoGear = false;
+		this.gearControl = new GearControl(this.GEAR_MAX_VELOCITY);
 		this.brake = new Brake();
 		this.engineBrake = new EngineBrake();
 		this.externalForces = new ExternalForces();
@@ -35,6 +42,9 @@ public class SpeedControl {
 	}
 
 	public double calculateVelocity() {
+		if (this.autoGear) {
+			this.gearShift = this.gearControl.actualGearState(this.autoGearState, this.gearShift, this.actualVelocity);
+		}
 		double sumAcceleration = sumAcceleration();
 		actualVelocity += sumAcceleration * Main.CYCLE_PERIOD * SECOND_MULTIPLIER;
 		return actualVelocity;
@@ -46,6 +56,11 @@ public class SpeedControl {
 
 	public void setGearShift(int gearShift) {
 		this.gearShift = gearShift;
+	}
+
+	public void setAutoGearState(AutoGearStates gearState) {
+		this.autoGearState = gearState;
+		this.autoGear = true;
 	}
 
 	public void setGasPedal(int gasPedal) {
