@@ -5,6 +5,9 @@ import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,57 +29,59 @@ public class CourseDisplay implements Runnable{
 	private JPanel worldObjectsJPanel;
 	//private Drawer drawer;
 	private World world;
+	private BufferStrategy strategy;
 	public void refreshFrame() {
 		frame.invalidate();
 		hmiJPanel.invalidate();
 		//mainPanel.invalidate();
+		//frame.pack();
 		frame.validate();
 		frame.repaint();
 	}
 
 	public void init(World world){
 		this.world=world;
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//Graphics g=Drawer.getDrawer(world,Main.worldHeight,Main.worldWidth).getComposer().composeFrame();
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-
+		frame.setVisible(true);
+		frame.createBufferStrategy(4);
+		strategy = frame.getBufferStrategy();
 		worldObjectsJPanel = new JPanel() {
 					  private static final long serialVersionUID = 1L;
 					  public void paintComponent(Graphics g) {
 						  for (IWorldObject object : world.getWorldObjects()) {
 							  // draw objects
 							  BufferedImage image;
+
+							  g = strategy.getDrawGraphics();
+							  Graphics2D g2d=(Graphics2D)g.create();
 							  try {
 								  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
                                                                   int segedx=((int)(object.getCenterX()-object.getWidth()/2));
                                                                   int segedy=((int)(object.getCenterY()-object.getHeight()/2));
-         								  g.drawImage(image,
+         								  g2d.drawImage(image,
 												  segedx, segedy, null);
 							  } catch (IOException e) {
 								  logger.error(e.getMessage());
 							  }
+							  g2d.dispose();
+							  g.dispose();
 						  }
 					  }
 				  };
-		//worldObjectsJPanel.setPreferredSize(new Dimension(600,400));
-
 		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
-		//mainPanel.setPreferredSize(new Dimension(700,500));
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
-
-		//FillMainpanel(mainPanel);
 		SizeFrame(frame);
 		//Solve the duplicated key listener
 		//addSmiKeyEventListenerToFrame();
-
-
 		frame.add(mainPanel);
 		frame.validate();
-		frame.setVisible(true);
+		//frame.setVisible(true);
 		frame.setResizable(false);
-
 	}
 
 	public JPanel getSmiJPanel() {
@@ -94,12 +99,7 @@ public class CourseDisplay implements Runnable{
 			logger.error("JFrame frame or HmiJPanel.getHmi() returned null");
 		}
 	}
-	private void FillMainpanel(JPanel mainPanel)
-	{
-		mainPanel.add(filler(),BorderLayout.LINE_END);
-		mainPanel.add(filler(),BorderLayout.LINE_START);
-		mainPanel.add(filler(),BorderLayout.PAGE_START);
-	}
+
 	private void SizeFrame(JFrame frame)
 	{
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -117,7 +117,7 @@ public class CourseDisplay implements Runnable{
 	}
 	@Override
 	public void run() {
-		int refreshRate=1000/ Config.FPS;
+		int refreshRate = 1000 / Config.FPS;
 		while (true)
 		{
 			try {
@@ -125,7 +125,11 @@ public class CourseDisplay implements Runnable{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel,world,mainPanel);
+			try {
+				Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel,world,mainPanel);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			refreshFrame();
 		}
 	}

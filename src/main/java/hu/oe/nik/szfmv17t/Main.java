@@ -26,7 +26,7 @@ public class Main {
 		World w = new World("src/main/resources/test_world.xml");
 
 		// create an automated car
-		AutomatedCar car = new AutomatedCar(Config.startPosition.getMinimumX(),Config.startPosition.getMinimumY()-50,108,240,0,1,"car_1_white.png",100d,0d,0);
+		AutomatedCar car = new AutomatedCar(Config.startPosition.getMinimumX(),Config.startPosition.getMinimumY()-50,108,240,45,1,"car_1_white.png",100d,0d,0);
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();

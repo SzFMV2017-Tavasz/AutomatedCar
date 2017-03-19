@@ -14,6 +14,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -35,12 +37,18 @@ public class Drawer implements IWorldVisualization {
         return world.getWorldObjects();
     }
     private static Drawer instance = null;
+    private static ArrayList <BufferedImage> worldImages;
     private Drawer(World world)
     {}
-    public static Drawer getDrawer(World world)
-    {
-        if (instance==null)
+    public static Drawer getDrawer(World world) throws IOException {
+        if (instance==null) {
+            worldImages=new ArrayList<BufferedImage>();
             instance = new Drawer(world);
+            for (IWorldObject object:world.getWorldObjects()) {
+                BufferedImage bimg = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
+                worldImages.add(bimg);
+            }
+        }
         return instance;
     }
 
@@ -48,55 +56,36 @@ public class Drawer implements IWorldVisualization {
     {
         return FrameComposer.getComposer(world);
     }
-
-    public void DrawFrametoPanel(JPanel worldObjectsPanel,World world,JPanel mainPanel)
+    private static int t=0;
+    public void DrawFrametoPanel(JPanel worldObjectsPanel, World world, JPanel mainPanel)
     {
+
+        BorderLayout layout = (BorderLayout)mainPanel.getLayout();
+        mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));;
         List<IWorldObject> toDraw=getComposer(world).composeFrame();
 
         worldObjectsPanel = new JPanel() {
             private static final long serialVersionUID = 1L;
             public void paintComponent(Graphics g) {
+                int t2=0;
+                BufferedImage image;
                 for (IWorldObject object : toDraw) {
                     // draw objects
-                    BufferedImage image;
+                    image = worldImages.get(t2++);
                     Graphics2D g2d=(Graphics2D)g.create();
-                    try {
-                        image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
-
-                        int segedx=((int)(object.getCenterX()-object.getWidth()/2));
-                        int segedy=((int)(object.getCenterY()-object.getHeight()/2));
-                        g2d.rotate(object.getAxisAngle()+Math.PI/2,object.getCenterX(),object.getCenterY());
-                        //image = transformImage(object,image,g2d);
-                        //DEBUG OVERLAY
-                        PutDebugInformationOnImage(image, object);  
-                        g2d.drawImage(image, segedx, segedy, null);
-                        g2d.dispose();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    g2d.rotate(object.getAxisAngle()+Math.PI/2,object.getCenterX(),object.getCenterY());
+                    int segedx=((int)(object.getCenterX()-object.getWidth()/2));
+                    int segedy=((int)(object.getCenterY()-object.getHeight()/2)+t);
+                    //DEBUG OVERLAY
+                    PutDebugInformationOnImage(image, object);
+                    g2d.drawImage(image, segedx, segedy, null);
+                    g2d.dispose();
                 }
+                t+=5;
             }
         };
-        BorderLayout layout = (BorderLayout)mainPanel.getLayout();
-        mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
         mainPanel.add(worldObjectsPanel,BorderLayout.CENTER);
-        mainPanel.invalidate();
-        mainPanel.validate();
     }
-
-
-    private BufferedImage transformImage(IWorldObject object, BufferedImage image,Graphics2D g2d) {
-        AffineTransform transform = new AffineTransform();
-        double rot = object.getAxisAngle()+Math.PI/2;
-        transform.rotate(rot, image.getWidth() / 2, image.getHeight() / 2);
-        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
-
-        BufferedImage bimage = new BufferedImage((int)object.getWidth(),(int)object.getHeight(),image.getType());
-        bimage=op.filter(image, bimage);
-        //g2d.drawImage(bimage);
-        return bimage;
-    }
-
     private void PutDebugInformationOnImage (Image image, IWorldObject object) {
         Graphics2D g = (Graphics2D) image.getGraphics();
 
@@ -111,13 +100,4 @@ public class Drawer implements IWorldVisualization {
         g.drawString(loc, 3, 20);
         g.drawString(rot, 3, 35);
     }
-
-   /* public void Loop() throws InterruptedException {
-        int refreshRate=calculateRefresh(Main.FPS);
-        while (true)
-        {
-            Thread.sleep(refreshRate);
-            fc.composeFrame();
-        }
-    }*/
 }
