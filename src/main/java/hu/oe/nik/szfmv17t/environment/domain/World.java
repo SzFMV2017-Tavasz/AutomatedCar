@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv17t.environment.domain;
 
+import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
+
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import hu.oe.nik.szfmv17t.environment.utils.XmlParser;
 import java.util.ArrayList;
@@ -12,6 +14,16 @@ public class World implements IWorldVisualisation {
 	private int height = 0;
 	private List<IWorldObject> worldObjects = new ArrayList<>();
         private XmlParser xmlParser;
+        public void updateWorld()
+        {
+            for(IWorldObject object:worldObjects) {
+                if(object instanceof CollidableBase)
+                {
+                    ///TODO call updateWorldObject()
+                    //(CollidableBase)item.updateWorldObject();
+                }
+            }
+        }
 
 	public World(String pathToXml) {
 		xmlParser = new XmlParser(pathToXml);

@@ -38,6 +38,7 @@ public class Main {
 			try {
 				car.drive();
 				vis.refreshFrame();
+                                w.updateWorld();
 				Thread.sleep(CYCLE_PERIOD);
 			} catch (InterruptedException e) {
 				logger.error(e.getMessage());
