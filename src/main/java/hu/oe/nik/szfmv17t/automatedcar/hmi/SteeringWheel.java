@@ -7,23 +7,31 @@ public class SteeringWheel {
     private int state;
     private HmiTimer timer;
     private int steeringStep = 5;
+    private int steeringStateForIndicationLeft = -30;
+    private int steeringStateForIndicationRight = 30;
+    private DirectionIndicator directionIndicator;
     public static int maxLeft = -100;
     public static int maxRight = 100;
 
     public SteeringWheel() {
         this.state = 0;
         this.timer = new HmiTimer();
+        this.directionIndicator = new DirectionIndicator();
     }
 
     public void steerLeft() {
         if(state >= maxLeft + steeringStep) {
             state -= steeringStep;
+            if (state <= steeringStateForIndicationLeft)
+                directionIndicator.IndicatingLeft();
         }
     }
 
     public void steerRight() {
         if(state <= maxRight - steeringStep) {
             state += steeringStep;
+            if (state >= steeringStateForIndicationRight)
+                directionIndicator.IndicatingRight();
         }
     }
 
