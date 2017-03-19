@@ -11,6 +11,10 @@ public class World {
 	private int height = 0;
 	private List<IWorldObject> worldObjects = new ArrayList<>();
         private XmlParser xmlParser;
+        public void updateWorld()
+        {
+            
+        }
 
 	public World(String pathToXml) {
 		xmlParser = new XmlParser(pathToXml);
