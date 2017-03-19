@@ -74,10 +74,10 @@ public class Camera {
 
     public Rectangle getCameraRectangle() {
         Rectangle cameraRectangle = new Rectangle();
-        cameraRectangle.x = (int) getX();
-        cameraRectangle.y = (int) getY();
         cameraRectangle.width = getWidth();
         cameraRectangle.height = getHeight();
+        cameraRectangle.x = (int) getX() - cameraRectangle.width / 2;
+        cameraRectangle.y = (int) getY() - cameraRectangle.height / 2;
         return cameraRectangle;
     }
 }
