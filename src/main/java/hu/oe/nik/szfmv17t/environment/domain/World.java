@@ -15,10 +15,11 @@ public class World {
         private XmlParser xmlParser;
         public void updateWorld()
         {
-            for (int i = 0; i < worldObjects.size(); i++) {
-                if(worldObjects.get(i) instanceof CollidableBase)
+            for(IWorldObject object:worldObjects) {
+                if(object instanceof CollidableBase)
                 {
                     ///TODO call updateWorldObject()
+                    //(CollidableBase)item.updateWorldObject();
                 }
             }
         }
