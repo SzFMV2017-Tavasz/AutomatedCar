@@ -9,7 +9,6 @@ import java.util.List;
 
 
 public class World {
-        private ICollidableObject temp;
 	private int width = 0;
 	private int height = 0;
 	private List<IWorldObject> worldObjects = new ArrayList<>();
@@ -19,7 +18,6 @@ public class World {
             for (int i = 0; i < worldObjects.size(); i++) {
                 if(worldObjects.get(i) instanceof CollidableBase)
                 {
-                    int a=0;
                     ///TODO call updateWorldObject()
                 }
             }
