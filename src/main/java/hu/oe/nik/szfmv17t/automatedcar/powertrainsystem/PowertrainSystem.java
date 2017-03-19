@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 
 public class PowertrainSystem extends SystemComponent {
@@ -53,8 +54,8 @@ public class PowertrainSystem extends SystemComponent {
 			this.speedControl.setGasPedal(gasPedal);
 			break;
 		case SMI_Gear:
-			int gear = (int) s.getData();
-			this.speedControl.setGearShift(gear);
+			AutoGearStates gear = AutoGearStates.values()[(int) s.getData()];
+			this.speedControl.setAutoGearState(gear);
 			break;
 		default:
 			break;
