@@ -10,7 +10,6 @@ public class XmlParserTest {
     
     @org.junit.Before
 	public void setUp() throws Exception {
-		/* stuff written here runs before the tests */
 		xmlParser = new XmlParser("src/main/resources/test_world.xml");
 	}
     
@@ -23,4 +22,9 @@ public class XmlParserTest {
 	public void testMapWidthGetter(){
 		assertEquals(xmlParser.getMapWidth(), 5120);
 	}
+        
+    /*@Test
+	public void testAxisAngle(){
+		assertEquals(xmlParser.convertMatrixToRadians(0,1,-1,0), 4.71);
+	}*/
 }
