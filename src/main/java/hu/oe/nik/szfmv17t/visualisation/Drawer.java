@@ -1,7 +1,7 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
-import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import hu.oe.nik.szfmv17t.visualisation.interfaces.IWorldVisualization;
 
 import javax.imageio.ImageIO;
@@ -11,7 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,21 +27,21 @@ public class Drawer implements IWorldVisualization {
     public int getWidth() {
         return 0;
     }
-    private World world;
+    private IWorldVisualization world;
     @Override
     public List<IWorldObject> getWorld() {
-        return world.getWorldObjects();
+        return world.getWorld();
     }
     private static Drawer instance = null;
     private static ArrayList <BufferedImage> worldImages;
-    private Drawer(World world)
+    private Drawer(IWorldVisualisation world)
     {}
 
-    public static Drawer getDrawer(World world) throws IOException {
+    public static Drawer getDrawer(IWorldVisualisation world) throws IOException {
         if (instance==null) {
             worldImages=new ArrayList<BufferedImage>();
             instance = new Drawer(world);
-            for (IWorldObject object:world.getWorldObjects()) {
+            for (IWorldObject object:world.getWorld()) {
                 BufferedImage bimg = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
                 worldImages.add(bimg);
             }
@@ -49,13 +49,13 @@ public class Drawer implements IWorldVisualization {
         return instance;
     }
 
-    public FrameComposer getComposer(World world)
+    public FrameComposer getComposer(IWorldVisualisation world)
     {
         return FrameComposer.getComposer(world);
     }
 
     private static int t=0;
-    public void DrawFrametoPanel(JPanel worldObjectsPanel, World world, JPanel mainPanel)
+    public void DrawFrametoPanel(JPanel worldObjectsPanel, IWorldVisualisation world, JPanel mainPanel)
     {
         BorderLayout layout = (BorderLayout)mainPanel.getLayout();
         mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));;

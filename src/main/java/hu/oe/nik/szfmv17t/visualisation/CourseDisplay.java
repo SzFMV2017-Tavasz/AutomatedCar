@@ -1,28 +1,19 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
-import hu.oe.nik.szfmv17t.Main;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferStrategy;
-
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
 import hu.oe.nik.szfmv17t.environment.utils.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 public class CourseDisplay implements Runnable{
@@ -33,7 +24,7 @@ public class CourseDisplay implements Runnable{
 	private JPanel mainPanel;
 	private JPanel worldObjectsJPanel;
 	//private Drawer drawer;
-	private World world;
+	private IWorldVisualisation world;
 	private BufferStrategy strategy;
 
 	public void refreshFrame() {
@@ -48,7 +39,7 @@ public class CourseDisplay implements Runnable{
 	public void init(IWorldVisualisation world){
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		this.world=world;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		frame.setVisible(true);
