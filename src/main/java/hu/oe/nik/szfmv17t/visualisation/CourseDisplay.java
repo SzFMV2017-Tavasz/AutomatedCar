@@ -8,6 +8,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +45,7 @@ public class CourseDisplay implements Runnable{
 		frame.repaint();
 	}
 
-	public void init(World world){
-		this.world=world;
+	public void init(IWorldVisualisation world){
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -53,7 +57,9 @@ public class CourseDisplay implements Runnable{
 		worldObjectsJPanel = new JPanel() {
 					  private static final long serialVersionUID = 1L;
 					  public void paintComponent(Graphics g) {
-						  for (IWorldObject object : world.getWorldObjects()) {
+
+						  for (IWorldObject object : world.getWorld()) {
+
 							  // draw objects
 							  BufferedImage image;
 

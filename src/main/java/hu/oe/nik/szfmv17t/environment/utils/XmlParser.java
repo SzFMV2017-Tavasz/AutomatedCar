@@ -139,21 +139,22 @@ public class XmlParser {
         double defaultX = 1;
         double defaultY = 0;
 
-        double transformedX = m11*defaultX + m12*defaultX;
-        double transformedY = m21*defaultY + m22*defaultY;
+        double transformedX = m11*defaultX + m12*defaultY;
+        double transformedY = m21*defaultX + m22*defaultY;
         
         double scalarProduct = defaultX * transformedX + defaultY* transformedY;
         
         double defaultVectorLength = Math.sqrt(defaultX * defaultX + defaultY * defaultY);
         double transformedVectorLength = Math.sqrt(transformedX * transformedX + transformedY * transformedY);
+   
+        double angleInRad = Math.acos(scalarProduct / (defaultVectorLength * transformedVectorLength));
+        if (transformedY < 0) {
+            angleInRad = 2*Math.PI - angleInRad;
+        }
+        //If angle is NaN as a result of transformedVectorLength=0, Math.round() returns 0. It is correct in our cases.
+        angleInRad = Math.round(angleInRad * 100.0) / 100.0;     
+        return angleInRad;
 
-        double angleInDegrees = Math.acos(scalarProduct / (defaultVectorLength * transformedVectorLength));
-        double angleInRadians = Math.toRadians(angleInDegrees);
-
-        if (Double.isNaN(angleInDegrees))
-            return 0;
-        else
-            return angleInRadians;
     }
 
     public List<IWorldObject> getWorldObjects() {
