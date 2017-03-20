@@ -21,6 +21,7 @@ public class World implements IWorldVisualisation {
                 {
                     ///TODO call updateWorldObject()
                     //(CollidableBase)item.updateWorldObject();
+                    ((CollidableBase) object).updateWorldObject();
                 }
             }
         }
