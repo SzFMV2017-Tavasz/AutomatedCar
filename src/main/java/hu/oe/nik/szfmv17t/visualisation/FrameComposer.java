@@ -31,7 +31,7 @@ public class FrameComposer {
     {
         try
         {
-            List<IWorldObject> worldObjects = world.getWorldObjects();
+            List<IWorldObject> worldObjects = world.getWorld();
             IWorldObject car = getCar(worldObjects);
                 if (car == null) throw new Exception("Car not found");
             setCameraPosition(car);
@@ -42,7 +42,7 @@ public class FrameComposer {
             System.err.println(e.toString());
         }
         //return getVisibleObjects(worldObjects); //uncomment when appropriate
-        return world.getWorldObjects();
+        return world.getWorld();
     }
     private IWorldObject getCar(List<IWorldObject> objects)
     {
