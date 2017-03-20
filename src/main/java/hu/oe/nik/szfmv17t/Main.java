@@ -33,12 +33,13 @@ public class Main {
 
 		// init visualisation module with the world
 		vis.init(w);
-
+		Thread drawThread=new Thread(vis);
+		drawThread.start();
 		while(true) {
 			try {
 				car.drive();
 				vis.refreshFrame();
-                                w.updateWorld();
+				w.updateWorld();
 				Thread.sleep(CYCLE_PERIOD);
 			} catch (InterruptedException e) {
 				logger.error(e.getMessage());

@@ -1,11 +1,11 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,14 +13,14 @@ import java.util.List;
  */
 public class FrameComposer {
     private Camera camera = new Camera();
-    private World world;
+    private IWorldVisualisation world;
     private static FrameComposer instance=null;
-    private FrameComposer(World world)
+    private FrameComposer(IWorldVisualisation world)
     {
         this.world=world;
     }
 
-    public static FrameComposer getComposer(World world)
+    public static FrameComposer getComposer(IWorldVisualisation world)
     {
         if (instance==null)
             instance=new FrameComposer(world);
