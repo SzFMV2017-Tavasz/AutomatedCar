@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
+import hu.oe.nik.szfmv17t.environment.domain.Turn;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import hu.oe.nik.szfmv17t.visualisation.interfaces.IWorldVisualization;
@@ -73,18 +74,38 @@ public class Drawer implements IWorldVisualization {
                     // draw objects
                     image = worldImages.get(t2++);
 
-                    int segedx=((int)(object.getCenterX()-object.getWidth()/2));
-                    int segedy=((int)(object.getCenterY()-object.getHeight()/2)+t);
+                    int drawCornerX=(int)(object.getCenterX()+object.getWidth()/2);
+                    int drawCornerY=0;
+
+                    if (Turn.class.isInstance(object))
+                    {
+                        switch (object.getImageName()) {
+                            case "road_2lane_90left.png":
+                                break;
+                            case "road_2lane_90right.png":
+                                break;
+                            case "road_2lane_45left.png":
+                                break;
+                            case "road_2lane_45right.png":
+                                break;
+                        }
+                        drawCornerY=(int)(object.getCenterY()-object.getHeight()/2);
+
+                    }
+                    else {
+                        drawCornerX = ((int) (object.getCenterX() - object.getWidth() / 2)) / 2;
+                        drawCornerY = ((int) (object.getCenterY() - object.getHeight() / 2)) / 2;
+                    }
 
                     PutDebugInformationOnImage(image, object);
                     AffineTransform transform = new AffineTransform();
-                    transform.translate(segedx, segedy);
-                    transform.rotate(object.getAxisAngle()+Math.PI/2);
+                    transform.translate(drawCornerX, drawCornerY);
+                    transform.scale(0.5,0.5);
+                    transform.rotate(object.getAxisAngle(), object.getWidth()/2, object.getHeight()/2 );
                     //DEBUG OVERLAY
                     g2d.drawImage(image,transform, null);
                 }
                 g2d.dispose();
-                t+=5;
             }
         };
         mainPanel.add(worldObjectsPanel,BorderLayout.CENTER);

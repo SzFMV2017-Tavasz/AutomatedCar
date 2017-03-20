@@ -45,31 +45,7 @@ public class CourseDisplay implements Runnable{
 		frame.setVisible(true);
 		frame.createBufferStrategy(4);
 		strategy = frame.getBufferStrategy();
-		worldObjectsJPanel = new JPanel() {
-					  private static final long serialVersionUID = 1L;
-					  public void paintComponent(Graphics g) {
-
-						  for (IWorldObject object : world.getWorld()) {
-
-							  // draw objects
-							  BufferedImage image;
-
-							  g = strategy.getDrawGraphics();
-							  Graphics2D g2d=(Graphics2D)g.create();
-							  try {
-								  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageName()).getFile()));
-                                                                  int segedx=((int)(object.getCenterX()-object.getWidth()/2));
-                                                                  int segedy=((int)(object.getCenterY()-object.getHeight()/2));
-         								  g2d.drawImage(image,
-												  segedx, segedy, null);
-							  } catch (IOException e) {
-								  logger.error(e.getMessage());
-							  }
-							  g2d.dispose();
-							  g.dispose();
-						  }
-					  }
-				  };
+		worldObjectsJPanel = new JPanel();
 		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);

@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv17t.visualisation;
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
+import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,13 +37,15 @@ public class FrameComposer {
                 if (car == null) throw new Exception("Car not found");
             setCameraPosition(car);
             List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
+            //return getVisibleObjects(worldObjects); //uncomment when appropriate
+            return world.getWorld();
         }
         catch (Exception e)
         {
             System.err.println(e.toString());
         }
-        //return getVisibleObjects(worldObjects); //uncomment when appropriate
-        return world.getWorld();
+        return null;
+        //return world.getWorld();
     }
     private IWorldObject getCar(List<IWorldObject> objects)
     {
@@ -87,8 +90,8 @@ public class FrameComposer {
         Rectangle objectRectangle = new Rectangle();
         objectRectangle.width = (int)object.getWidth();
         objectRectangle.height = (int)object.getHeight();
-        objectRectangle.x = (int)object.getCenterX() - objectRectangle.width / 2;
-        objectRectangle.y = (int)object.getCenterY() - objectRectangle.height / 2;
+        objectRectangle.x = (int)object.getCenterX();
+        objectRectangle.y = (int)object.getCenterY();
 
         return objectRectangle;
     }
@@ -99,6 +102,8 @@ public class FrameComposer {
                 object.x + object.width < camera.x ||
                 object.y> camera.y + camera.height ||
                 object.y + object.height< camera.y);
+
     }
+
 }
 
