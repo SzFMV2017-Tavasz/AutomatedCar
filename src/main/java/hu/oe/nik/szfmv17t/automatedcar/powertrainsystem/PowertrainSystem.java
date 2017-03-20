@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
+import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
 public class PowertrainSystem extends SystemComponent {
 
@@ -21,6 +22,7 @@ public class PowertrainSystem extends SystemComponent {
 
 	// physics
 	private SpeedControl speedControl;
+	private SteeringControl steeringControl;
 
 	// input signals
 
@@ -35,6 +37,7 @@ public class PowertrainSystem extends SystemComponent {
 		this.x = x;
 		this.y = y;
 		this.speedControl = new SpeedControl(carWeight);
+		this.steeringControl = new SteeringControl();
 	}
 
 	@Override
@@ -56,6 +59,9 @@ public class PowertrainSystem extends SystemComponent {
 		case SMI_Gear:
 			AutoGearStates gear = AutoGearStates.values()[(int) s.getData()];
 			this.speedControl.setAutoGearState(gear);
+			break;
+		case SMI_SteeringWheel:
+			this.wheelAngle = this.steeringControl.calculateWheelAngle((int)s.getData());
 			break;
 		default:
 			break;
