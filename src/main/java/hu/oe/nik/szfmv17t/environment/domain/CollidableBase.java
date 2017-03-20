@@ -67,21 +67,27 @@ public class CollidableBase extends WorldObjectBase implements ICollidableObject
             way.add(new int[]{random.nextInt(4820),random.nextInt(2700)});
         }
    }
-   private boolean inTarget(int[] xy)
+
+   private /*public*/ boolean inTarget(int[] xy)
+
    {
        if(xy[0]>=xy[2]&&xy[1]>=xy[3])
            return true;
        return false;
    }
     
-   private double vectorLength(double[] v)
+
+    /* public*/ private double vectorLength(double[] v)
+
    {
        return  Math.sqrt(  Math.pow((v[2] - v[0]),2 ) + Math.pow((v[3] - v[1]),2 ));
    }
    
    private double[] oneStepLenght(double vL, double[] dV)
    {
-       return new double[]{ dV[0]/vL,dV[0]/vL} ;
+
+       return new double[]{ dV[0]/vL,dV[1]/vL} ;
+
    }
    
    //--------
