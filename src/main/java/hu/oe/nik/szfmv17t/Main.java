@@ -19,7 +19,7 @@ public class Main {
 		// create the world
 		World w = new World("src/main/resources/test_world.xml");
 		// create an automated car NEW signature
-		AutomatedCar car = new AutomatedCar(20d,20d,10d,10d,0d,0,"bosch1.png",100d,0d,0d);
+		AutomatedCar car = new AutomatedCar(20d,20d,10d,10d,0d,0,"bosch1.png",2000d,0d,0d);
 
 		// create an automated car
 
