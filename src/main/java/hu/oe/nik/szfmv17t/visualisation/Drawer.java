@@ -87,88 +87,80 @@ public class Drawer implements IWorldVisualization {
                     {
                         double baseX=(object.getCenterX()-(object.getWidth()/2));
                         double baseY=(object.getCenterY()-(object.getHeight()/2));
+                        double angle = Math.round(Math.toDegrees(object.getAxisAngle()));
 
                         //drawCornerY=(int)(object.getCenterY()-object.getHeight()*1.5) / SCALE;
                         switch (object.getImageName())
                         {
                             case "road_2lane_90left.png":
                                 //drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350)));
-                                drawCornerX = (int) (object.getCenterX() - (object.getWidth()/2)) / SCALE;
-                                if (Math.round(Math.toDegrees(object.getAxisAngle()))==0)
-                                {
-                                    drawCornerX = (int) (object.getCenterX() - (object.getWidth()/2 )) / SCALE;
-                                    drawCornerY = (int)(object.getCenterY()-object.getHeight()) / SCALE;
-                                }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==90)
+                                if (angle==90 || angle == 90)
                                 {
                                     drawCornerX=baseX/SCALE;
                                     drawCornerY=(baseY-(2* object.getHeight()))/SCALE;
                                 }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==180)
+                                else if (angle==180 ||angle==270)
                                 {
                                     drawCornerY=baseY/SCALE;
                                     drawCornerX=(baseX-object.getWidth())/SCALE;
                                 }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==270)
-                                {
-                                    drawCornerY=baseY/SCALE;
-                                    drawCornerX=(baseX-object.getWidth())/SCALE;
-                                }
+
                                 break;
                             case "road_2lane_90right.png":
 
-                                if (Math.round(Math.toDegrees(object.getAxisAngle()))==0)
+                                if (angle==0)
                                 {
-                                    drawCornerX = (baseX-350)/SCALE;
+                                    drawCornerX = (baseX - (object.getWidth() /1.5))/SCALE;
                                     drawCornerY = (baseY-object.getHeight()) / SCALE;
                                 }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==90)
+                                else if (angle==90)
                                 {
                                     drawCornerX=baseX/SCALE;
                                     drawCornerY=(baseY-object.getHeight())/SCALE;
                                 }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==180)
+                                else if (angle==180)
                                 {
                                     drawCornerY=(baseY + object.getHeight())/SCALE;
                                     drawCornerX=(baseX+(object.getWidth() / 1.5))/SCALE;
                                 }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==270)
+                                else if (angle==270)
                                 {
-                                    drawCornerY=(baseY-(2* object.getHeight()))/SCALE;
+                                    drawCornerY=(baseY-(object.getHeight()))/SCALE;
                                     drawCornerX=(baseX-object.getWidth())/SCALE;
                                 }
                                 break;
 
                             case "road_2lane_45right.png":
-                                if (Math.round(Math.toDegrees(object.getAxisAngle()))==0)
+                                if (angle==0)
                                 {
                                     drawCornerX = (baseX)/SCALE;
                                     drawCornerY = (baseY-object.getHeight()) / SCALE;
                                 }
 
-                                if (Math.round(Math.toDegrees(object.getAxisAngle()))==45)
+                                if (angle==45)
                                 {
-                                    drawCornerX = (baseX - object.getWidth())/SCALE;
+                                    drawCornerX = (baseX - object.getWidth() * 1.25)  /SCALE;
                                     drawCornerY = (baseY) / SCALE;
                                 }
 
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==90)
+                                else if (angle==90)
                                 {
                                     drawCornerX=(baseX - object.getWidth())/SCALE;
                                     drawCornerY=(baseY + (object.getHeight()))/SCALE;
                                 }
 
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==135)
+                                else if (angle==135)
                                 {
                                     drawCornerX=(baseX - object.getWidth())/SCALE;
                                     drawCornerY=(baseY + (object.getHeight()))/SCALE;
                                 }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==180)
+                                else if (angle==180)
                                 {
                                     drawCornerY=(baseY + object.getHeight())/SCALE;
                                     drawCornerX=(baseX+(object.getWidth() / 1.5))/SCALE;
                                 }
-                                else if (Math.round(Math.toDegrees(object.getAxisAngle()))==270)
+
+                                else if (angle==270)
                                 {
                                     drawCornerY=(baseY-(object.getHeight()))/SCALE;
                                     drawCornerX=(baseX+ object.getWidth())/SCALE;
@@ -176,7 +168,7 @@ public class Drawer implements IWorldVisualization {
                                 break;
 
                                 case "road_2lane_45left.png":
-                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(2*object.getWidth()))) / SCALE;
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()))) / SCALE;
                                 break;
                             /*case "road_2lane_45right.png":
                                 drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350)) / SCALE;
