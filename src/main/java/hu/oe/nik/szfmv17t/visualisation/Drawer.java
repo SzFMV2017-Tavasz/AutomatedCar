@@ -87,9 +87,11 @@ public class Drawer implements IWorldVisualization {
                             case "road_2lane_90right.png":
                                 drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350));
                                 break;
-                            case "road_2lane_45left.png":drawCornerX=10000;
+                            case "road_2lane_45left.png":
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350)));
                                 break;
-                            case "road_2lane_45right.png":drawCornerX=10000;
+                            case "road_2lane_45right.png":
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350));
                                 break;
                         }
                     }
@@ -98,14 +100,16 @@ public class Drawer implements IWorldVisualization {
                         drawCornerY = ((int) (object.getCenterY() - object.getHeight() / 2)) ;
                     }
 
-                    PutDebugInformationOnImage(image, object);
-                    AffineTransform transform = new AffineTransform();
-
-                    transform.translate(drawCornerX, drawCornerY);
-                    
-                    transform.rotate(-object.getAxisAngle(), object.getWidth()/2, object.getHeight()/2 );
-                    //DEBUG OVERLAY
+                    //PutDebugInformationOnImage(image, object);
+                    //AffineTransform transform = new AffineTransform();
+                    AffineTransform transform = AffineTransform.getTranslateInstance(drawCornerX, drawCornerY);
+                    transform.rotate(-object.getAxisAngle());
+                   // transform.translate(0,0);
+                    //transform.rotate(-object.getAxisAngle());
                     g2d.drawImage(image,transform, null);
+
+                    //DEBUG OVERLAY
+
                 }
                 g2d.dispose();
             }
