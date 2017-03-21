@@ -55,7 +55,9 @@ public class Drawer implements IWorldVisualization {
         return FrameComposer.getComposer(world);
     }
 
-    private static int t=0;
+    //private static double t=0.1;
+    //double direction =0.1;
+    int t=0;
     public void DrawFrametoPanel(JPanel worldObjectsPanel, IWorldVisualisation world, JPanel mainPanel)
     {
         BorderLayout layout = (BorderLayout)mainPanel.getLayout();
@@ -68,21 +70,22 @@ public class Drawer implements IWorldVisualization {
             private static final long serialVersionUID = 1L;
             public void paintComponent(Graphics g) {
                 int t2=0;
+
                 BufferedImage image;
                 Graphics2D g2d=(Graphics2D)g.create();
                 for (IWorldObject object : toDraw) {
                     // draw objects
                     image = worldImages.get(t2++);
 
-                    int drawCornerX=0;
-                    int drawCornerY=(int)(object.getCenterY()-object.getHeight()/2);
-
+                    double drawCornerX=0;
+                    double drawCornerY=(int)(object.getCenterY()-object.getHeight()/2);
                     if (Turn.class.isInstance(object))
                     {
                         drawCornerY=(int)(object.getCenterY()-object.getHeight()*1.5);
                         switch (object.getImageName()) {
                             case "road_2lane_90left.png":
-                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350)));
+                                //drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350)));
+                                drawCornerX = (int) (object.getCenterX() - (object.getWidth()/2 + (object.getWidth() - 350)));
                                 break;
                             case "road_2lane_90right.png":
                                 drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350));
@@ -97,21 +100,30 @@ public class Drawer implements IWorldVisualization {
                     }
                     else {
                         drawCornerX = ((int) (object.getCenterX() - object.getWidth() / 2)) ;
-                        drawCornerY = ((int) (object.getCenterY() - object.getHeight() / 2)) ;
+                        //drawCornerY = ((int) (object.getCenterY() - object.getHeight() / 2)) ;
                     }
-
-                    //PutDebugInformationOnImage(image, object);
+                    PutDebugInformationOnImage(image, object);
                     //AffineTransform transform = new AffineTransform();
-                    AffineTransform transform = AffineTransform.getTranslateInstance(drawCornerX, drawCornerY);
-                    transform.rotate(-object.getAxisAngle());
-                   // transform.translate(0,0);
+                    //drawCornerX=drawCornerX/(1d/t);
+                    //drawCornerY=drawCornerY/(1d/t);
+                    AffineTransform fullTransForm=new AffineTransform();
+                    fullTransForm.rotate(-object.getAxisAngle());
+
+                    double[] pt = {drawCornerX, drawCornerY};
+                    AffineTransform.getRotateInstance(object.getAxisAngle(), drawCornerX+object.getWidth()/2, drawCornerY+object.getHeight()/2)
+                            .transform(pt, 0, pt, 0, 1); // specifying to use this double[] to hold coords
+                    drawCornerX = pt[0];
+                    drawCornerY = pt[1];
+                    fullTransForm.translate(drawCornerX,drawCornerY);
+
+                    //AffineTransform tr=fullTransForm.getTranslateInstance(drawCornerX,drawCornerY);
+                    //AffineTransform transform = AffineTransform.getTranslateInstance(drawCornerX, drawCornerY);
                     //transform.rotate(-object.getAxisAngle());
-                    g2d.drawImage(image,transform, null);
-
+                    //AffineTransform transform2 = AffineTransform.getTranslateInstance(drawCornerX, drawCornerY);
+                    g2d.drawImage(image,fullTransForm, null);
                     //DEBUG OVERLAY
-
                 }
-                g2d.dispose();
+                t+=5;
             }
         };
         mainPanel.add(worldObjectsPanel,BorderLayout.CENTER);
