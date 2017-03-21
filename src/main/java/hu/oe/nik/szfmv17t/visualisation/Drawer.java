@@ -74,34 +74,36 @@ public class Drawer implements IWorldVisualization {
                     // draw objects
                     image = worldImages.get(t2++);
 
-                    int drawCornerX=(int)(object.getCenterX()+object.getWidth()/2);
-                    int drawCornerY=0;
+                    int drawCornerX=0;
+                    int drawCornerY=(int)(object.getCenterY()-object.getHeight()/2);
 
                     if (Turn.class.isInstance(object))
                     {
+                        drawCornerY=(int)(object.getCenterY()-object.getHeight()*1.5);
                         switch (object.getImageName()) {
                             case "road_2lane_90left.png":
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350)));
                                 break;
                             case "road_2lane_90right.png":
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350));
                                 break;
-                            case "road_2lane_45left.png":
+                            case "road_2lane_45left.png":drawCornerX=10000;
                                 break;
-                            case "road_2lane_45right.png":
+                            case "road_2lane_45right.png":drawCornerX=10000;
                                 break;
                         }
-                        drawCornerY=(int)(object.getCenterY()-object.getHeight()/2);
-
                     }
                     else {
-                        drawCornerX = ((int) (object.getCenterX() - object.getWidth() / 2)) / 2;
-                        drawCornerY = ((int) (object.getCenterY() - object.getHeight() / 2)) / 2;
+                        drawCornerX = ((int) (object.getCenterX() - object.getWidth() / 2)) ;
+                        drawCornerY = ((int) (object.getCenterY() - object.getHeight() / 2)) ;
                     }
 
                     PutDebugInformationOnImage(image, object);
                     AffineTransform transform = new AffineTransform();
+
                     transform.translate(drawCornerX, drawCornerY);
-                    transform.scale(0.5,0.5);
-                    transform.rotate(object.getAxisAngle(), object.getWidth()/2, object.getHeight()/2 );
+                    
+                    transform.rotate(-object.getAxisAngle(), object.getWidth()/2, object.getHeight()/2 );
                     //DEBUG OVERLAY
                     g2d.drawImage(image,transform, null);
                 }
