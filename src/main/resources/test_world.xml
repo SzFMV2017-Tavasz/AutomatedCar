@@ -65,13 +65,7 @@
       <Parameter name="roadpainting_2" value="1"/>
       <Parameter name="roadpainting_3" value="1"/>
     </Object>
-    <Object type="road_2lane_straight">
-      <Position x="650" y="144"/>
-      <Transform m11="0" m12="1" m21="-1" m22="0"/>
-      <Parameter name="roadpainting_1" value="1"/>
-      <Parameter name="roadpainting_2" value="1"/>
-      <Parameter name="roadpainting_3" value="1"/>
-    </Object>
+
    <Object type="road_2lane_straight">
       <Position x="1000" y="144"/>
       <Transform m11="0" m12="1" m21="-1" m22="0"/>
