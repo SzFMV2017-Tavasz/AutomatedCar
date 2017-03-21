@@ -94,25 +94,25 @@ public class XmlParser {
                     mapObjects.add(new Road(posX,posY,350,350,axisAngle,0,"road_2lane_straight.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "road_2lane_90right":
-                    mapObjects.add(new Turn(posX,posY,527,527,axisAngle,0,"road_2lane_90right.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,525,525,axisAngle,0,"road_2lane_90right.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 case "road_2lane_90left":
-                    mapObjects.add(new Turn(posX,posY,527,527,axisAngle,0,"road_2lane_90left.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,525,525,axisAngle,0,"road_2lane_90left.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "road_2lane_tjunctionleft":
-                    mapObjects.add(new Turn(posX,posY,877,1402,axisAngle,0,"road_2lane_tjunctionleft.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,875,1400,axisAngle,0,"road_2lane_tjunctionleft.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 case "road_2lane_tjunctionright":   
-                    mapObjects.add(new Turn(posX,posY,877,1402,axisAngle,0,"road_2lane_tjunctionright.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,875,1400,axisAngle,0,"road_2lane_tjunctionright.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "road_2lane_45right":
-                    mapObjects.add(new Turn(posX,posY,403,373,axisAngle,0,"road_2lane_45right.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,401,371,axisAngle,0,"road_2lane_45right.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 case "road_2lane_45left":
-                    mapObjects.add(new Turn(posX,posY,403,373,axisAngle,0,"road_2lane_45left.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
+                    mapObjects.add(new Turn(posX,posY,401,371,axisAngle,0,"road_2lane_45left.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 
                 case "parking_space_parallel":
-                    mapObjects.add(new ParkingLot(posX,posY,141,624,axisAngle,0,"parking_space_parallel.png",axisAngle)); break;
+                    mapObjects.add(new ParkingLot(posX,posY,138,621,axisAngle,0,"parking_space_parallel.png",axisAngle)); break;
                 
                 case "crosswalk":
-                    mapObjects.add(new ZebraCrossing(posX,posY,338,199,axisAngle,1,"crosswalk.png",axisAngle)); break;
+                    mapObjects.add(new ZebraCrossing(posX,posY,336,197,axisAngle,1,"crosswalk.png",axisAngle)); break;
                 
                 case "roadsign_parking_right":
                     mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_parking_right.png",10,0,axisAngle)); break;
@@ -126,7 +126,7 @@ public class XmlParser {
                     mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_60.png",10,0,axisAngle)); break;
                 
                 case "tree":
-                mapObjects.add(new Tree(posX,posY,80,80,axisAngle,2,"tree.png",20,0,axisAngle)); break;
+                mapObjects.add(new Tree(posX,posY,142,160,axisAngle,2,"tree.png",20,0,axisAngle)); break;
             }
     }
     
@@ -152,7 +152,7 @@ public class XmlParser {
             angleInRad = 2*Math.PI - angleInRad;
         }
         //If angle is NaN as a result of transformedVectorLength=0, Math.round() returns 0. It is correct in our cases.
-        angleInRad = Math.round(angleInRad * 100.0) / 100.0;     
+        angleInRad = Math.round(angleInRad * 100.0) / 100.0;   
         return angleInRad;
 
     }
