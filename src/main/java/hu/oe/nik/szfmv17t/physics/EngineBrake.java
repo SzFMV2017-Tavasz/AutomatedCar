@@ -9,7 +9,7 @@ public class EngineBrake {
 		if (gear >0 && gasPedalPercentage == 0 && actualVelocity>0) {
 
 			double startInterval = SpeedControl.GEAR_MAX_VELOCITY[gear];
-			double endInterval = SpeedControl.GEAR_MAX_VELOCITY[gear+1];
+			double endInterval = gear == SpeedControl.GEAR_MAX_VELOCITY.length-1 ? SpeedControl.GEAR_MAX_VELOCITY[gear] : SpeedControl.GEAR_MAX_VELOCITY[gear+1];
 			double gearVelocityInterval = endInterval - startInterval;
 			
 			int ratio=(gear+1)*4;
