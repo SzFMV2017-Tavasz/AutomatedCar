@@ -92,14 +92,21 @@ public class Drawer implements IWorldVisualization {
                                 drawCornerX = (int) (object.getCenterX() - (object.getWidth()/2 + (object.getWidth() - 350))) / SCALE;
                                 break;
                             case "road_2lane_90right.png":
-                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350)) / SCALE;;
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350)) / SCALE;
                                 break;
                             case "road_2lane_45left.png":
                                 drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350))) / SCALE;
                                 break;
                             case "road_2lane_45right.png":
                                 drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350)) / SCALE;
+                                drawCornerY=(int)(object.getCenterY() + (object.getHeight() /2 )) / SCALE;
                                 break;
+
+                            case "road_2lane_tjunctionright.png":
+                            case "road_2lane_tjunctionleft.png":
+                                drawCornerX=(int)(object.getCenterX()+(object.getWidth()/2)) / SCALE;
+                                drawCornerY=(int)(object.getCenterY() - (object.getHeight() /2)) / SCALE;
+                            break;
                         }
                     }
                     else {
