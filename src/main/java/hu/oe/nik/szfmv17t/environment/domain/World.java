@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv17t.environment.domain;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import hu.oe.nik.szfmv17t.environment.utils.XmlParser;
+import hu.oe.nik.szfmv17t.environment.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,13 @@ public class World implements IWorldVisualisation {
             if (object instanceof CollidableBase) {
                 ///TODO call collisiondetection
                 ((CollidableBase) object).updateWorldObject();
+                for(IWorldObject bObject : worldObjects)
+                {
+                    if (bObject instanceof CollidableBase&& CollisionDetector.collide((CollidableBase)object,(CollidableBase) bObject))
+                    {
+                        System.out.println("Ütközés: "+object+" "+bObject+"-vel ");//Need logic behind this
+                    }
+                }
             }
         }
     }

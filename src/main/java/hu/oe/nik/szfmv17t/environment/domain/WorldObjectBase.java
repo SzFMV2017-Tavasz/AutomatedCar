@@ -3,8 +3,6 @@ package hu.oe.nik.szfmv17t.environment.domain;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.utils.Position;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by Bábel Gellért, Budai Krisztián, Molnár Attila on 2017. 03. 04..
