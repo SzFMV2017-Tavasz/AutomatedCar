@@ -48,10 +48,10 @@ public class CollidableBase extends WorldObjectBase implements ICollidableObject
         double vectorLength = vectorLength(new double[]{intValue(this.getCenterX()), intValue(this.getCenterY()), way.get(0)[0], way.get(0)[1]});
 
         double[] oneStep = oneStepLenght(vectorLength, directionVector);
-        //irányba kell állítani az elemet
-//        if (getSpeed()==0) {
-//            return;
-//        }
+//        irányba kell állítani az elemet
+        if (getSpeed()==0) {
+            return;
+        }
         position.setPositionX(position.getMinimumX()+ oneStep[0] * getSpeed());
         position.setPositionY(position.getMinimumY() + oneStep[1] * getSpeed());
     }
