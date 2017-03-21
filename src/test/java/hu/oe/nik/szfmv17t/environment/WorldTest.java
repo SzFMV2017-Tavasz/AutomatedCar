@@ -1,20 +1,27 @@
 package hu.oe.nik.szfmv17t.environment;
 
+import hu.oe.nik.szfmv17t.automatedcar.ISystemComponent;
+import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.environment.domain.CollidableBase;
+import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class WorldTest {
 
-	private World world;
+    private World world;
+    private World world2;
 
 	@org.junit.Before
 	public void setUp() throws Exception {
 		/* stuff written here runs before the tests */
 		world = new World("src/main/resources/test_world.xml");
+                world2 = new World("");
 	}
 
 	@Test
@@ -68,6 +75,59 @@ public class WorldTest {
 		world.addObjectToWorld(new CollidableBase(21d,42d,0d,0d,0d,1,"test.jpg",100d,10d,10d));
 		assertEquals(world.getWorld().size(), 47);
 	}
-        
+        @Test
+	public void emptyWorldNoException() throws Exception {
+        boolean helps=false;
+            try
+            {
+                world2.updateWorld();
+            }
+            catch(Exception e)
+            {
+                helps=true;
+            }
+            assertEquals(false, helps);
+	}
+        @Test
+	public void nonEmptyWorldNoException() throws Exception {
+            world2.addObjectToWorld(new Sign(0, 0, 0, 0, 0, 0, "", 0, 0, 0));
+        boolean helps=false;
+            try
+            {
+                world2.updateWorld();
+            }
+            catch(Exception e)
+            {
+                helps=true;
+            }
+            assertEquals(false, helps);
+	}        
+
+        @Test
+	public void signalCheck() throws Exception {
+            boolean helps=false;
+            try{
+            world2.addObjectToWorld(new Sign(0, 0, 0, 0, 0, 0, "", 0, 0, 0));
+            world2.addObjectToWorld(new Sign(0, 0, 0, 0, 0, 0, "", 0, 0, 0));
+            VirtualFunctionBus.registerComponent(new ISystemComponent(){
+                @Override
+                public void loop() {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void receiveSignal(Signal s) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+                
+            } );
+            world2.updateWorld();
+            }
+            catch(Exception e)
+            {
+                helps=true;
+            }
+            assertEquals(false, helps);
+	}
 }
 
