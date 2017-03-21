@@ -51,7 +51,7 @@ public class GearControlTest {
 	}
 
 	@Test
-	public void actualGearStateTestNReturn2() {
+	public void actualGearStateTestNReturn1() {
 		// arrange
 		AutoGearStates autoGearState = AutoGearStates.N;
 		int gearShift = 0;
@@ -61,7 +61,7 @@ public class GearControlTest {
 		int result = this.gearControl.actualGearState(autoGearState, gearShift, actualVelocity);
 
 		// assert
-		Assert.assertEquals(2, result);
+		Assert.assertEquals(1, result);
 	}
 
 	@Test
