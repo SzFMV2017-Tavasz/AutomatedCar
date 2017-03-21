@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
-import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.Turn;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
@@ -67,7 +66,7 @@ public class Drawer implements IWorldVisualization {
         fc.setCameraSize(worldObjectsPanel.getWidth(),worldObjectsPanel.getHeight());
         List<IWorldObject> toDraw=fc.composeFrame();
 
-        int SCALE = 4;
+        double SCALE = 3.5;
         double SCALENUM = 1d / SCALE;
 
         worldObjectsPanel = new JPanel() {
@@ -116,7 +115,6 @@ public class Drawer implements IWorldVisualization {
                                 }
                                 break;
                             case "road_2lane_90right.png":
-
                                 if (Math.round(Math.toDegrees(object.getAxisAngle()))==0)
                                 {
                                     drawCornerX = (baseX-350)/SCALE;
@@ -142,7 +140,7 @@ public class Drawer implements IWorldVisualization {
                             case "road_2lane_45right.png":
                                 if (Math.round(Math.toDegrees(object.getAxisAngle()))==0)
                                 {
-                                    drawCornerX = (baseX)/SCALE;
+                                    drawCornerX = (baseX-350)/SCALE;
                                     drawCornerY = (baseY-object.getHeight()) / SCALE;
                                 }
 
@@ -162,6 +160,8 @@ public class Drawer implements IWorldVisualization {
                                 {
                                     drawCornerX=(baseX - object.getWidth())/SCALE;
                                     drawCornerY=(baseY + (object.getHeight()))/SCALE;
+                                    drawCornerX=2000/SCALE;
+                                    drawCornerY=2000/SCALE;
                                 }
                                 else if (Math.round(Math.toDegrees(object.getAxisAngle()))==180)
                                 {
