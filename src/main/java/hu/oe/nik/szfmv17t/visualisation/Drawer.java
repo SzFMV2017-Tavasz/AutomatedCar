@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
-import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.Turn;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
@@ -67,7 +66,7 @@ public class Drawer implements IWorldVisualization {
         fc.setCameraSize(worldObjectsPanel.getWidth(),worldObjectsPanel.getHeight());
         List<IWorldObject> toDraw=fc.composeFrame();
 
-        int SCALE = 4;
+        double SCALE = 3.7;
         double SCALENUM = 1d / SCALE;
 
         worldObjectsPanel = new JPanel() {
