@@ -66,6 +66,9 @@ public class Drawer implements IWorldVisualization {
         fc.setCameraSize(worldObjectsPanel.getWidth(),worldObjectsPanel.getHeight());
         List<IWorldObject> toDraw=fc.composeFrame();
 
+        int SCALE = 4;
+        double SCALENUM = 1d / SCALE;
+
         worldObjectsPanel = new JPanel() {
             private static final long serialVersionUID = 1L;
             public void paintComponent(Graphics g) {
@@ -78,50 +81,38 @@ public class Drawer implements IWorldVisualization {
                     image = worldImages.get(t2++);
 
                     double drawCornerX=0;
-                    double drawCornerY=(int)(object.getCenterY()-object.getHeight()/2);
+                    double drawCornerY=(int)(object.getCenterY()-object.getHeight()/2) / SCALE;
                     if (Turn.class.isInstance(object))
                     {
-                        drawCornerY=(int)(object.getCenterY()-object.getHeight()*1.5);
-                        switch (object.getImageName()) {
+                        drawCornerY=(int)(object.getCenterY()-object.getHeight()*1.5) / SCALE;
+                        switch (object.getImageName())
+                        {
                             case "road_2lane_90left.png":
                                 //drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350)));
-                                drawCornerX = (int) (object.getCenterX() - (object.getWidth()/2 + (object.getWidth() - 350)));
+                                drawCornerX = (int) (object.getCenterX() - (object.getWidth()/2 + (object.getWidth() - 350))) / SCALE;
                                 break;
                             case "road_2lane_90right.png":
-                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350));
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350)) / SCALE;;
                                 break;
                             case "road_2lane_45left.png":
-                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350)));
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()+(object.getWidth()-350))) / SCALE;
                                 break;
                             case "road_2lane_45right.png":
-                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350));
+                                drawCornerX=(int)(object.getCenterX()-(object.getWidth()/2+350)) / SCALE;
                                 break;
                         }
                     }
                     else {
-                        drawCornerX = ((int) (object.getCenterX() - object.getWidth() / 2)) ;
+                        drawCornerX = ((int) (object.getCenterX() - object.getWidth() / 2)) / SCALE;
                         //drawCornerY = ((int) (object.getCenterY() - object.getHeight() / 2)) ;
                     }
+
+                    AffineTransform transform=AffineTransform.getTranslateInstance(drawCornerX,drawCornerY);
+                    transform.rotate(-object.getAxisAngle());
                     PutDebugInformationOnImage(image, object);
-                    //AffineTransform transform = new AffineTransform();
-                    //drawCornerX=drawCornerX/(1d/t);
-                    //drawCornerY=drawCornerY/(1d/t);
-                    AffineTransform fullTransForm=new AffineTransform();
-                    fullTransForm.rotate(-object.getAxisAngle());
+                    transform.scale(SCALENUM, SCALENUM);
+                    g2d.drawImage(image,transform, null);
 
-                    double[] pt = {drawCornerX, drawCornerY};
-                    AffineTransform.getRotateInstance(object.getAxisAngle(), drawCornerX+object.getWidth()/2, drawCornerY+object.getHeight()/2)
-                            .transform(pt, 0, pt, 0, 1); // specifying to use this double[] to hold coords
-                    drawCornerX = pt[0];
-                    drawCornerY = pt[1];
-                    fullTransForm.translate(drawCornerX,drawCornerY);
-
-                    //AffineTransform tr=fullTransForm.getTranslateInstance(drawCornerX,drawCornerY);
-                    //AffineTransform transform = AffineTransform.getTranslateInstance(drawCornerX, drawCornerY);
-                    //transform.rotate(-object.getAxisAngle());
-                    //AffineTransform transform2 = AffineTransform.getTranslateInstance(drawCornerX, drawCornerY);
-                    g2d.drawImage(image,fullTransForm, null);
-                    //DEBUG OVERLAY
                 }
                 t+=5;
             }
