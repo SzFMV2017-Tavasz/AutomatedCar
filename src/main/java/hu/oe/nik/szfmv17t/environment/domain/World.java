@@ -1,13 +1,17 @@
 package hu.oe.nik.szfmv17t.environment.domain;
 
+import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import hu.oe.nik.szfmv17t.environment.utils.XmlParser;
+import hu.oe.nik.szfmv17t.environment.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class World implements IWorldVisualisation {
 
+    private VirtualFunctionBus busz;
     private int width = 0;
     private int height = 0;
     private List<IWorldObject> worldObjects = new ArrayList<>();
@@ -18,11 +22,21 @@ public class World implements IWorldVisualisation {
             if (object instanceof CollidableBase) {
                 ///TODO call collisiondetection
                 ((CollidableBase) object).updateWorldObject();
+                for(IWorldObject bObject : worldObjects)
+                {
+                    if (bObject instanceof CollidableBase&& CollisionDetector.collide((CollidableBase)object,(CollidableBase) bObject))
+                    {
+                        if (object!=bObject) {
+                            busz.sendSignal(new Signal(0, worldObjects.indexOf(object)));   
+                        }
+                    }
+                }
             }
         }
     }
 
     public World(String pathToXml) {
+        busz= VirtualFunctionBus.getInstance();
         xmlParser = new XmlParser(pathToXml);
         width = xmlParser.getMapWidth();
         height = xmlParser.getMapHeight();
