@@ -7,7 +7,7 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
 
 public class SpeedControl {
 	/* m/s^2, R, P, 1, 2... */
-	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 3, 0, 5, 3, 2.25, 1.3, 0.8 };
+	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 3, 0, 8, 6, 4.55, 2.6, 1.6 };
 	/* m/s, km/h: 0, 20, 45, 75, 110, 200 */
 	public static final double[] GEAR_MAX_VELOCITY = new double[] { 4, 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
 
@@ -39,6 +39,7 @@ public class SpeedControl {
 		this.carWeight = carWeight;
 		this.maxGasPedal = GasPedal.MAX_STATE;
 		this.maxBrakePedal = BrakePedal.MAX_STATE;
+		this.gearShift = 1;
 	}
 
 	public double calculateVelocity() {
@@ -46,23 +47,57 @@ public class SpeedControl {
 			this.gearShift = this.gearControl.actualGearState(this.autoGearState, this.gearShift, this.actualVelocity);
 		}
 		double sumAcceleration = sumAcceleration();
-		actualVelocity += sumAcceleration * Main.CYCLE_PERIOD/1000 * SECOND_MULTIPLIER;
+		
+		double calculatedVelocity = actualVelocity + (sumAcceleration * Main.CYCLE_PERIOD / 1000 * SECOND_MULTIPLIER);
 
-		//Preventing going backwards by braking
-		if(this.autoGearState != AutoGearStates.R && actualVelocity < 0){
-			actualVelocity = 0;
-		}
+		calculatedVelocity = preventNegativeVelocity(calculatedVelocity);
 		
-		//Preventing going forwards while in reverse
-		if(this.autoGearState == AutoGearStates.R && this.brakePedal != 0 && actualVelocity > 0){
-			actualVelocity = 0;
-		}
+		calculatedVelocity = preventPositiveVelocityInReverse(calculatedVelocity);
 		
-		//reaching max speed
-		if(actualVelocity > this.GEAR_MAX_VELOCITY[this.GEAR_MAX_VELOCITY.length-1]){
-			actualVelocity = this.GEAR_MAX_VELOCITY[this.GEAR_MAX_VELOCITY.length-1];
-		}
+		calculatedVelocity = minOrMaxSpeed(calculatedVelocity);
+		
+		actualVelocity = checkCalculatedVelocity(calculatedVelocity);
+		
+		System.out.println("Gear: " + (this.gearShift - 1));
+		
 		return actualVelocity;
+	}
+
+	private double minOrMaxSpeed(double velocity) {
+		if(velocity > SpeedControl.GEAR_MAX_VELOCITY[SpeedControl.GEAR_MAX_VELOCITY.length-1]){
+			return SpeedControl.GEAR_MAX_VELOCITY[SpeedControl.GEAR_MAX_VELOCITY.length-1];
+		}
+		else if(velocity < -SpeedControl.GEAR_MAX_VELOCITY[0]){
+			return -SpeedControl.GEAR_MAX_VELOCITY[0];
+		}
+		return velocity;
+	}
+
+	private double preventPositiveVelocityInReverse(double velocity) {
+		if(this.gearShift == 0 && this.brakePedal != 0 && velocity > 0){
+			return 0;
+		}
+		else{
+			return velocity;
+		}
+	}
+
+	private double preventNegativeVelocity(double velocity) {
+		if(this.gearShift != 0 && velocity < 0){
+			return 0;
+		}
+		else{
+			return velocity;
+		}
+	}
+
+	private double checkCalculatedVelocity(double velocity) {
+		if(velocity > SpeedControl.GEAR_MAX_VELOCITY[this.gearShift]){
+			return SpeedControl.GEAR_MAX_VELOCITY[this.gearShift];
+		}
+		else{
+			return velocity;
+		}
 	}
 
 	public void setCarWeight(double carWeight) {
@@ -111,18 +146,18 @@ public class SpeedControl {
 				(float) gasPedalPercentage,
 				this.actualVelocity);
 
-		double externalForcesAcceleration = this.externalForces.calculateAcceleration(this.carWeight,
-				this.actualVelocity);
+		double externalForces = this.externalForces.calculateAcceleration(this.carWeight,this.actualVelocity);
+		double externalAcceleration = (double)externalForces / this.carWeight; 
 		
 		//reverting accelerations while in reverse
-		if(this.autoGearState == AutoGearStates.R){
+		if(this.gearShift == 0){
 			gasPedalAccelerationByGear *= -1;
 			brakeAcceleration *= -1;
 			engineBrakeAcceleration *= -1;
+			externalAcceleration *= -1;
 		}
 
-		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration;
-				//+ externalForcesAcceleration;
+		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration + externalAcceleration;
 
 		return summedAcceleration;
 	}

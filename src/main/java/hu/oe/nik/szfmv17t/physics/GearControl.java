@@ -26,24 +26,10 @@ public class GearControl {
 	}
 
 	private int switchGearDependOnSpeed(int actualGear, double actualVelocity) {
-		/*if (actualGear > 1) {
-			if (actualGear < this.gearMaxVelocity.length - 1
-					&& Math.abs(actualVelocity - this.gearMaxVelocity[actualGear]) <= this.SHIFT_THRESHOLD) {
-				return ++actualGear;
-			} else if (actualVelocity != 0
-					&& Math.abs(actualVelocity - this.gearMaxVelocity[actualGear - 1]) <= this.SHIFT_THRESHOLD) {
-				return --actualGear;
-			}
-			return actualGear;
-		}
-
-		return 2;*/
 		if (actualGear > 1) {
-			if (actualGear < this.gearMaxVelocity.length - 1
-					&& actualVelocity > this.gearMaxVelocity[actualGear]) {
+			if (actualGear < this.gearMaxVelocity.length - 1 && actualVelocity >= this.gearMaxVelocity[actualGear]) {
 				return ++actualGear;
-			} else if (actualVelocity != 0
-					&& actualVelocity < this.gearMaxVelocity[actualGear - 1]) {
+			} else if (actualVelocity != 0 && actualVelocity <= this.gearMaxVelocity[actualGear - 1]) {
 				return --actualGear;
 			}
 			return actualGear;
