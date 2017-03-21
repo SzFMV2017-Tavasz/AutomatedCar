@@ -7,7 +7,7 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
 
 public class SpeedControl {
 	/* m/s^2, R, P, 1, 2... */
-	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 6, 0, 10, 6, 4.5, 2.65, 1.6 };
+	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 3, 0, 5, 3, 2.25, 1.3, 0.8 };
 	/* m/s, km/h: 0, 20, 45, 75, 110, 200 */
 	public static final double[] GEAR_MAX_VELOCITY = new double[] { 4, 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
 
@@ -46,7 +46,22 @@ public class SpeedControl {
 			this.gearShift = this.gearControl.actualGearState(this.autoGearState, this.gearShift, this.actualVelocity);
 		}
 		double sumAcceleration = sumAcceleration();
-		actualVelocity += sumAcceleration * Main.CYCLE_PERIOD * SECOND_MULTIPLIER;
+		actualVelocity += sumAcceleration * Main.CYCLE_PERIOD/1000 * SECOND_MULTIPLIER;
+
+		//Preventing going backwards by braking
+		if(this.autoGearState != AutoGearStates.R && actualVelocity < 0){
+			actualVelocity = 0;
+		}
+		
+		//Preventing going forwards while in reverse
+		if(this.autoGearState == AutoGearStates.R && this.brakePedal != 0 && actualVelocity > 0){
+			actualVelocity = 0;
+		}
+		
+		//reaching max speed
+		if(actualVelocity > this.GEAR_MAX_VELOCITY[this.GEAR_MAX_VELOCITY.length-1]){
+			actualVelocity = this.GEAR_MAX_VELOCITY[this.GEAR_MAX_VELOCITY.length-1];
+		}
 		return actualVelocity;
 	}
 
@@ -86,6 +101,11 @@ public class SpeedControl {
 		double gasPedalAccelerationByGear = Acceleration.calculateAcceleration(this.gearShift, gasPedalPercentage);
 
 		double brakeAcceleration = this.brake.calculateAcceleration(brakePedalPercentage);
+		
+		//either brake or gas
+		if(brakeAcceleration < 0){
+			gasPedalAccelerationByGear = 0;
+		}
 
 		double engineBrakeAcceleration = this.engineBrake.calculateAcceleration(this.gearShift,
 				(float) gasPedalPercentage,
@@ -93,9 +113,16 @@ public class SpeedControl {
 
 		double externalForcesAcceleration = this.externalForces.calculateAcceleration(this.carWeight,
 				this.actualVelocity);
+		
+		//reverting accelerations while in reverse
+		if(this.autoGearState == AutoGearStates.R){
+			gasPedalAccelerationByGear *= -1;
+			brakeAcceleration *= -1;
+			engineBrakeAcceleration *= -1;
+		}
 
-		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration
-				+ externalForcesAcceleration;
+		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration;
+				//+ externalForcesAcceleration;
 
 		return summedAcceleration;
 	}

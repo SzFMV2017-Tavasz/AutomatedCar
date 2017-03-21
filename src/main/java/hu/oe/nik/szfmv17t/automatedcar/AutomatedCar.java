@@ -33,5 +33,6 @@ public class AutomatedCar extends Car{
 		wheelAngle = (float)powertrainSystem.getWheelAngle();
 
 		this.speed = this.powertrainSystem.getVelocity();
+		System.out.println(speed);
 	}
 }

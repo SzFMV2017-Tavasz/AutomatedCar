@@ -5,10 +5,10 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 public class GearControl {
 	public static final double SHIFT_THRESHOLD = 5;
 
-	private double[] gearMaxValocity;
+	private double[] gearMaxVelocity;
 
 	public GearControl(double[] gearMaxVelocity) {
-		this.gearMaxValocity = gearMaxVelocity;
+		this.gearMaxVelocity = gearMaxVelocity;
 	}
 
 	public int actualGearState(AutoGearStates autoGearState, int actualGear, double actualVelocity) {
@@ -26,12 +26,24 @@ public class GearControl {
 	}
 
 	private int switchGearDependOnSpeed(int actualGear, double actualVelocity) {
-		if (actualGear > 1) {
-			if (actualGear < this.gearMaxValocity.length - 1
-					&& Math.abs(actualVelocity - this.gearMaxValocity[actualGear]) <= this.SHIFT_THRESHOLD) {
+		/*if (actualGear > 1) {
+			if (actualGear < this.gearMaxVelocity.length - 1
+					&& Math.abs(actualVelocity - this.gearMaxVelocity[actualGear]) <= this.SHIFT_THRESHOLD) {
 				return ++actualGear;
 			} else if (actualVelocity != 0
-					&& Math.abs(actualVelocity - this.gearMaxValocity[actualGear - 1]) <= this.SHIFT_THRESHOLD) {
+					&& Math.abs(actualVelocity - this.gearMaxVelocity[actualGear - 1]) <= this.SHIFT_THRESHOLD) {
+				return --actualGear;
+			}
+			return actualGear;
+		}
+
+		return 2;*/
+		if (actualGear > 1) {
+			if (actualGear < this.gearMaxVelocity.length - 1
+					&& actualVelocity > this.gearMaxVelocity[actualGear]) {
+				return ++actualGear;
+			} else if (actualVelocity != 0
+					&& actualVelocity < this.gearMaxVelocity[actualGear - 1]) {
 				return --actualGear;
 			}
 			return actualGear;
