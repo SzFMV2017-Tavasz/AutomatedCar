@@ -49,7 +49,9 @@ public class CollidableBase extends WorldObjectBase implements ICollidableObject
 
         Vector2d oneStep = way.get(0).unitDirection(directionVector,vectorLength);
         //irányba kell állítani az elemet
-
+        if (getSpeed()==0) {
+            return;
+        }
         position.setPositionX(getCenterX() + oneStep.getX() * getSpeed());
         position.setPositionY(getCenterY() + oneStep.getY() * getSpeed());
     }
