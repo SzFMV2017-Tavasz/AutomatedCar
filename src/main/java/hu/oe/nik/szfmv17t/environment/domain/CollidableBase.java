@@ -52,8 +52,8 @@ public class CollidableBase extends WorldObjectBase implements ICollidableObject
         if (getSpeed()==0) {
             return;
         }
-        position.setPositionX(getCenterX() + oneStep.getX() * getSpeed());
-        position.setPositionY(getCenterY() + oneStep.getY() * getSpeed());
+        position.setPositionX(position.getMinimumX()+ oneStep.getX() * getSpeed());
+        position.setPositionY(position.getMinimumY() + oneStep.getY() * getSpeed());
     }
 
     public void updateWorldObject() {
