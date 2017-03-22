@@ -22,7 +22,8 @@ public class Main {
 		// create the world
 		World w = new World("src/main/resources/test_world.xml");
 		// create an automated car NEW signature
-		AutomatedCar car = new AutomatedCar(20d,20d,10d,10d,0d,0,"bosch1.png",100d,0d,0d);
+
+		AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
 
 		// create an automated car
 
@@ -36,11 +37,13 @@ public class Main {
 
 		// init visualisation module with the world
 		vis.init(w);
-
+		Thread drawThread=new Thread(vis);
+		drawThread.start();
 		while(true) {
 			try {
 				car.drive();
 				vis.refreshFrame();
+				w.updateWorld();
 				Thread.sleep(CYCLE_PERIOD);
 			} catch (InterruptedException e) {
 				logger.error(e.getMessage());

@@ -22,6 +22,8 @@ public class PowertrainSystem extends SystemComponent {
 	private SpeedControl speedControl;
 
 	// input signals
+	private int gasPedal = 0;
+	private int brakePedal = 0;
 
 	// Output signals
 	// Only these are available trough getters
@@ -44,8 +46,12 @@ public class PowertrainSystem extends SystemComponent {
 	@Override
 	public void receiveSignal(Signal s) {
 		switch(s.getId()) {
+		// Handle demo signal
+		case DEMO:
+			x += (int) s.getData();
+			break;
 		case SMI_BrakePedal:
-			int brakePedal = (int) s.getData();
+			brakePedal = (int) s.getData();
 			this.speedControl.setBrakePedal(brakePedal);
 			break;
 		case SMI_Gaspedal:
@@ -57,7 +63,6 @@ public class PowertrainSystem extends SystemComponent {
 			this.speedControl.setGearShift(gear);
 			break;
 		default:
-			break;
 			// ignore other signals
 		}
 	}
@@ -72,6 +77,10 @@ public class PowertrainSystem extends SystemComponent {
 
 	public double getWheelAngle() {
 		return wheelAngle;
+	}
+
+	public int getGasPedal() {
+		return gasPedal;
 	}
 
 	public double getVelocity() {
