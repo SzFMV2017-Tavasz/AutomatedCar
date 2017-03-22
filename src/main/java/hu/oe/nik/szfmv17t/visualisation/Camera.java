@@ -76,6 +76,7 @@ public class Camera {
         Rectangle cameraRectangle = new Rectangle();
         cameraRectangle.width = getWidth();
         cameraRectangle.height = getHeight();
+        cameraRectangle.x = (int) getX();
         cameraRectangle.y = (int) getY();
         return cameraRectangle;
     }
