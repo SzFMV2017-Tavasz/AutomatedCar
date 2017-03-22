@@ -27,7 +27,9 @@ public class World implements IWorldVisualisation {
                     if (bObject instanceof CollidableBase&& CollisionDetector.collide((CollidableBase)object,(CollidableBase) bObject))
                     {
                         if (object!=bObject) {
-                            busz.sendSignal(new Signal(0, worldObjects.indexOf(object)));   
+                            //busz.sendSignal(new Signal(0, worldObjects.indexOf(object)));
+                            ///TODO: Use interface instead
+                            
                         }
                     }
                 }
