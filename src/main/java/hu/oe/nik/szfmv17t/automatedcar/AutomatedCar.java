@@ -32,8 +32,8 @@ public class AutomatedCar extends Car{
 		// call components
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
-		x = powertrainSystem.getX();
-		y = powertrainSystem.getY();
+		position.getCenter().setX(powertrainSystem.getX());
+		position.getCenter().setX(powertrainSystem.getY());
 		wheelAngle = (float)powertrainSystem.getWheelAngle();
 
 		this.speed = this.powertrainSystem.getVelocity();
