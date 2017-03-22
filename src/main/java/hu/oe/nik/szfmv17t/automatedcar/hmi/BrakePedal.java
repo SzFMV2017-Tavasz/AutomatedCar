@@ -12,11 +12,11 @@ public class BrakePedal{
     private int amount;
     private int state;
     
-    public BrakePedal(){
+    public BrakePedal(DirectionIndicator directionIndicator){
         state = START_STATE;
         amount = DEFAULT_AMOUNT;
         timer = new HmiTimer();
-        directionIndicator = new DirectionIndicator();
+        this.directionIndicator = directionIndicator;
     }
     
     public void braking(){

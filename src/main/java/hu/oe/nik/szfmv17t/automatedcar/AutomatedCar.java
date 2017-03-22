@@ -20,7 +20,7 @@ public class AutomatedCar extends Car{
 		// TODO use 'mass' from constructor parameters
 		double carWeight = 2000;
 
-		powertrainSystem = new PowertrainSystem(x, y, carWeight);
+		powertrainSystem = new PowertrainSystem((int)positionX, (int)positionY, carWeight);
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
 

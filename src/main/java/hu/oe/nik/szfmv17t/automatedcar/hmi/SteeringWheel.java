@@ -13,10 +13,10 @@ public class SteeringWheel {
     public static int maxLeft = -100;
     public static int maxRight = 100;
 
-    public SteeringWheel() {
+    public SteeringWheel(DirectionIndicator directionIndicator) {
         this.state = 0;
         this.timer = new HmiTimer();
-        this.directionIndicator = new DirectionIndicator();
+        this.directionIndicator = directionIndicator;
     }
 
     public void steerLeft() {
