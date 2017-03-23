@@ -47,7 +47,7 @@ public final class CollisionDetector {
         worldCoords[3] = new Vector2d(collidableObjectPosition.getMinimumX(),
                  collidableObjectPosition.getMinimumY() + collidableObjectPosition.getHeight()
         );
-        return worldCoords; 
+        return worldCoords;
     }
 
     private static Vector2d[] getAxis(Vector2d[] c1, Vector2d[] c2) {
@@ -71,25 +71,29 @@ public final class CollisionDetector {
         c2 = getCorners(obj2.getPositionObj());
 
         Vector2d[] axis = getAxis(c1, c2);
-        double[] scalars1;
-        double[] scalars2;
 
         for (int i = 0; i <= 3; i++)
         {
-            scalars1 = getScalars(axis[i], c1);
-            scalars2 = getScalars(axis[i], c2);
-
-            double s1max = getMax(scalars1);
-            double s1min = getMin(scalars1);
-
-            double s2max = getMax(scalars2);
-            double s2min = getMin(scalars2);
-
-            if (s2min > s1max || s2max < s1min) {
+            if (compareScalars(c1, c2, axis[i]))
                 return false;
-            }
         }
         return true;
+    }
+
+    private static boolean compareScalars(Vector2d[] c1, Vector2d[] c2, Vector2d axis) {
+        double[] scalars1;
+        double[] scalars2;
+
+        scalars1 = getScalars(axis, c1);
+        scalars2 = getScalars(axis, c2);
+
+        double s1max = getMax(scalars1);
+        double s1min = getMin(scalars1);
+
+        double s2max = getMax(scalars2);
+        double s2min = getMin(scalars2);
+
+        return s2min > s1max || s2max < s1min;
     }
 
     private static double[] getScalars (Vector2d axis, Vector2d[] corners)
