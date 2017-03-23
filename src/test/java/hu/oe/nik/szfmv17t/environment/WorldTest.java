@@ -101,33 +101,6 @@ public class WorldTest {
                 helps=true;
             }
             assertEquals(false, helps);
-	}        
-
-        @Test
-	public void signalCheck() throws Exception {
-            boolean helps=false;
-            try{
-            world2.addObjectToWorld(new Sign(0, 0, 0, 0, 0, 0, "", 0, 0, 0));
-            world2.addObjectToWorld(new Sign(0, 0, 0, 0, 0, 0, "", 0, 0, 0));
-            VirtualFunctionBus.registerComponent(new ISystemComponent(){
-                @Override
-                public void loop() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-
-                @Override
-                public void receiveSignal(Signal s) {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-                
-            } );
-            world2.updateWorld();
-            }
-            catch(Exception e)
-            {
-                helps=true;
-            }
-            assertEquals(false, helps);
 	}
 }
 
