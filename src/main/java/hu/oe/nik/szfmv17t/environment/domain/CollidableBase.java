@@ -3,10 +3,10 @@ package hu.oe.nik.szfmv17t.environment.domain;
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
 import hu.oe.nik.szfmv17t.environment.utils.Position;
+import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import static oracle.jrockit.jfr.events.Bits.intValue;
 
 /**
  * Created by Bábel Gellért, Budai Krisztián, Molnár Attila on 2017. 03. 04..
@@ -30,28 +30,30 @@ public class CollidableBase extends WorldObjectBase implements ICollidableObject
 
         this.mass = mass;
         this.speed = speed;
-        way = new ArrayList<int[]>();
+        way = new ArrayList<Vector2d>();
         wayGenerator();
     }
 
-    List<int[]> way;
+    List<Vector2d> way;
     Random random = new Random();
 
     private void step() {
-        if (inTarget(new int[]{intValue(this.getCenterX()), intValue(this.getCenterY()), way.get(0)[0], way.get(0)[1]})) {
-            int[] temp = way.get(0);
+        if (inTarget(new double[]{Math.round(this.getCenterX()),Math.round(this.getCenterY()), way.get(0).getX(), way.get(0).getY()})) {
+            Vector2d temp = way.get(0);
             way.remove(0);
             way.add(way.size() - 1, temp);
         }
-        double[] directionVector = new double[]{(way.get(0)[0] - getCenterX()), (way.get(0)[1] - getCenterY())};
+        Vector2d directionVector = way.get(0).substract(new Vector2d(this.getCenterX(), this.getCenterY())); //new double[]{(way.get(0)[0] - getCenterX()), (way.get(0)[1] - getCenterY())};
 
-        double vectorLength = vectorLength(new double[]{intValue(this.getCenterX()), intValue(this.getCenterY()), way.get(0)[0], way.get(0)[1]});
+        double vectorLength =way.get(0).length(new Vector2d(this.getCenterX(), this.getCenterY())); //vectorLength(new double[]{(int)Math.round(this.getCenterX()), (int)Math.round(this.getCenterY()), way.get(0)[0], way.get(0)[1]});
 
-        double[] oneStep = oneStepLenght(vectorLength, directionVector);
+        Vector2d oneStep = way.get(0).unitDirection(directionVector,vectorLength);
         //irányba kell állítani az elemet
-
-        position.setPositionX(getCenterX() + oneStep[0] * getSpeed());
-        position.setPositionY(getCenterY() + oneStep[1] * getSpeed());
+        if (getSpeed()==0) {
+            return;
+        }
+        position.setPositionX(position.getMinimumX()+ oneStep.getX() * getSpeed());
+        position.setPositionY(position.getMinimumY() + oneStep.getY() * getSpeed());
     }
 
     public void updateWorldObject() {
@@ -63,29 +65,17 @@ public class CollidableBase extends WorldObjectBase implements ICollidableObject
     //-----
     private void wayGenerator() {
         for (int i = 0; i < 10; i++) {
-            way.add(new int[]{random.nextInt(4820), random.nextInt(2700)});
+            way.add(new Vector2d(random.nextInt(4820), random.nextInt(2700)));
         }
     }
 
-    private /*public*/ boolean inTarget(int[] xy) {
+    private /*public*/ boolean inTarget(double[] xy) {
         if (xy[0] >= xy[2] && xy[1] >= xy[3]) {
             return true;
         }
         return false;
     }
-
-
-    /* public*/ private double vectorLength(double[] v) {
-        return Math.sqrt(Math.pow((v[2] - v[0]), 2) + Math.pow((v[3] - v[1]), 2));
-    }
-
-    private double[] oneStepLenght(double vL, double[] dV) {
-
-        return new double[]{dV[0] / vL, dV[1] / vL};
-
-    }
-
-    //--------
+ 
     public double getMass() {
         return this.mass;
     }

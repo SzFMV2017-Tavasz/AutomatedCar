@@ -16,9 +16,4 @@ public class Tree extends CollidableBase{
             , double directionAngle) {
         super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, mass, speed, directionAngle);
     }
-        @Override
-    public void updateWorldObject()
-    {
-        //Do stuff
-    }
 }
