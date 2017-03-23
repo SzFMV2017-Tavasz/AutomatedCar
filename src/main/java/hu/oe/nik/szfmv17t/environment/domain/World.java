@@ -23,7 +23,7 @@ public class World implements IWorldVisualisation {
                 {
                     if (bObject instanceof CollidableBase&& CollisionDetector.collide((CollidableBase)object,(CollidableBase) bObject))
                     {
-                        System.out.println("Ütközés: "+object+" "+bObject+"-vel ");//Need logic behind this
+                        //System.out.println("Ütközés: "+object+" "+bObject+"-vel ");//Need logic behind this
                     }
                 }
             }

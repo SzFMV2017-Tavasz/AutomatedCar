@@ -42,6 +42,7 @@ public class Main {
 		while(true) {
 			try {
 				car.drive();
+				hmi.setCarspeed(car.getSpeed());
 				vis.refreshFrame();
 				w.updateWorld();
 				Thread.sleep(CYCLE_PERIOD);
