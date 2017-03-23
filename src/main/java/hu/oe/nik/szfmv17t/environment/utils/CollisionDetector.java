@@ -14,8 +14,7 @@ public final class CollisionDetector {
         double rot = collidableObjectPosition.getAxisAngle();
         Vector2d center = collidableObjectPosition.getCenter();
         Vector2d[] worldCoords = generateWorldCoords(collidableObjectPosition);
-        Vector2d[] corners = rotateWorldCoords(rot, center, worldCoords);
-        return corners;
+        return rotateWorldCoords(rot, center, worldCoords);
     }
 
     private static Vector2d[] rotateWorldCoords(double rot, Vector2d center, Vector2d[] worldCoords) {
@@ -72,25 +71,35 @@ public final class CollisionDetector {
         c2 = getCorners(obj2.getPositionObj());
 
         Vector2d[] axis = getAxis(c1, c2);
-        double[] scalars1 = new double[4];
-        double[] scalars2 = new double[4];
+        double[] scalars1;
+        double[] scalars2;
 
-        for (int i = 0; i <= 3; i++) {
-            scalars1[i] = Vector2d.dot(axis[0], c1[i]);
-            scalars2[i] = Vector2d.dot(axis[0], c2[i]);
+        for (int i = 0; i <= 3; i++)
+        {
+            scalars1 = getScalars(axis[i], c1);
+            scalars2 = getScalars(axis[i], c2);
+
+            double s1max = getMax(scalars1);
+            double s1min = getMin(scalars1);
+
+            double s2max = getMax(scalars2);
+            double s2min = getMin(scalars2);
+
+            if (s2min > s1max || s2max < s1min) {
+                return false;
+            }
         }
+        return true;
+    }
 
-        double s1max = getMax(scalars1);
-        double s1min = getMin(scalars1);
+    private static double[] getScalars (Vector2d axis, Vector2d[] corners)
+    {
+        double[] scalars = new double[4];
 
-        double s2max = getMax(scalars2);
-        double s2min = getMin(scalars2);
-
-        if (s2min > s1max || s2max < s1min) {
-            return false;
-        } else {
-            return true;
+        for (int k = 0; k <= 3; k++) {
+            scalars[k] = Vector2d.dot(axis, corners[k]);
         }
+        return scalars;
     }
 
     private static double getMax(double[] values) {
