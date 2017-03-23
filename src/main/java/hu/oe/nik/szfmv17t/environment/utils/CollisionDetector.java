@@ -47,7 +47,7 @@ public final class CollisionDetector {
         worldCoords[3] = new Vector2d(collidableObjectPosition.getMinimumX(),
                  collidableObjectPosition.getMinimumY() + collidableObjectPosition.getHeight()
         );
-        return worldCoords;
+        return worldCoords; 
     }
 
     private static Vector2d[] getAxis(Vector2d[] c1, Vector2d[] c2) {
