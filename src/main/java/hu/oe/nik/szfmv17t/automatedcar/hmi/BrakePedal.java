@@ -6,15 +6,17 @@ public class BrakePedal{
     public static final int START_STATE = 0;
     public static final int DEFAULT_AMOUNT = 10;
     public static final int LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN = 1000; // milisecond
+    private DirectionIndicator directionIndicator;
     
     public HmiTimer timer;
     private int amount;
     private int state;
     
-    public BrakePedal(){
+    public BrakePedal(DirectionIndicator directionIndicator){
         state = START_STATE;
         amount = DEFAULT_AMOUNT;
         timer = new HmiTimer();
+        this.directionIndicator = directionIndicator;
     }
     
     public void braking(){
@@ -50,6 +52,7 @@ public class BrakePedal{
     
     private void emergencyBrake(){
         state = MAX_STATE;
+        directionIndicator.IndicatingBreakdown();
     }
     
     private void releaseBrake(){

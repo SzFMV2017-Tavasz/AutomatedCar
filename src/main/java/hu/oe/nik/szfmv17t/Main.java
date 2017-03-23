@@ -1,5 +1,8 @@
 package hu.oe.nik.szfmv17t;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
 import hu.oe.nik.szfmv17t.environment.domain.World;
@@ -39,6 +42,7 @@ public class Main {
 		while(true) {
 			try {
 				car.drive();
+				hmi.setCarspeed(car.getSpeed());
 				vis.refreshFrame();
 				w.updateWorld();
 				Thread.sleep(CYCLE_PERIOD);

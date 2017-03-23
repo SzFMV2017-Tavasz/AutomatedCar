@@ -14,7 +14,8 @@ public class SteeringWheelTest {
     SteeringWheel steeringWheel;
     @Before
     public void setUp() throws Exception {
-        steeringWheel = new SteeringWheel();
+        DirectionIndicator indicator = new DirectionIndicator();
+        steeringWheel = new SteeringWheel(indicator);
     }
 
     @After
