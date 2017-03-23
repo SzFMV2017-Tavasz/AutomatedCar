@@ -87,6 +87,9 @@ public class HmiJPanel extends JPanel {
 		if(indicationValue != null){
 			indicationValue.setText(String.valueOf(hmi.getDirectionIndicatorState()));
 		}
+		if(speed != null){
+			speed.setText(String.valueOf(Math.round(hmi.getSpeed())+" km/h"));
+		}
 	}
 
 	public static HMI getHmi() {

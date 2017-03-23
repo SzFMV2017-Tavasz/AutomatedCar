@@ -16,8 +16,8 @@ public class GearControl {
 		case R:
 			return 0;
 		case P:
-			return 1;
 		case N:
+			return 1;
 		case D:
 			return switchGearDependOnSpeed(actualGear, actualVelocity);
 		default:
