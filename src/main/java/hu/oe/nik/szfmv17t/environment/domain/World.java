@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv17t.environment.domain;
 
-import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
@@ -24,12 +23,11 @@ public class World implements IWorldVisualisation {
             if (object instanceof CollidableBase) {
                 ///TODO call collisiondetection
                 ((CollidableBase) object).updateWorldObject();
-                for(IWorldObject bObject : worldObjects)
-                {
-                    if (bObject instanceof CollidableBase&& CollisionDetector.collide((CollidableBase)object,(CollidableBase) bObject))
-                    {
-                        if (object!=bObject) {
-                            collisionHandler.handleCollision((CollidableBase)object,(CollidableBase)bObject);
+                for (IWorldObject bObject : worldObjects) {
+                    if (bObject instanceof CollidableBase && CollisionDetector.collide((CollidableBase) object, (CollidableBase) bObject)) {
+                        if (object != bObject) {
+                            //Uncomment when physics team ready
+                            //collisionHandler.handleCollision((CollidableBase) object, (CollidableBase) bObject);
                         }
                     }
                 }
@@ -38,7 +36,7 @@ public class World implements IWorldVisualisation {
     }
 
     public World(String pathToXml) {
-        busz= VirtualFunctionBus.getInstance();
+        busz = VirtualFunctionBus.getInstance();
         xmlParser = new XmlParser(pathToXml);
         width = xmlParser.getMapWidth();
         height = xmlParser.getMapHeight();
