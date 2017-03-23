@@ -2,9 +2,7 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
-import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
 public class PowertrainSystem extends SystemComponent {
 
@@ -22,9 +20,10 @@ public class PowertrainSystem extends SystemComponent {
 
 	// physics
 	private SpeedControl speedControl;
-	private SteeringControl steeringControl;
 
 	// input signals
+	private int gasPedal = 0;
+	private int brakePedal = 0;
 
 	// Output signals
 	// Only these are available trough getters
@@ -37,7 +36,6 @@ public class PowertrainSystem extends SystemComponent {
 		this.x = x;
 		this.y = y;
 		this.speedControl = new SpeedControl(carWeight);
-		this.steeringControl = new SteeringControl();
 	}
 
 	@Override
@@ -48,8 +46,12 @@ public class PowertrainSystem extends SystemComponent {
 	@Override
 	public void receiveSignal(Signal s) {
 		switch(s.getId()) {
+		// Handle demo signal
+		case DEMO:
+			x += (int) s.getData();
+			break;
 		case SMI_BrakePedal:
-			int brakePedal = (int) s.getData();
+			brakePedal = (int) s.getData();
 			this.speedControl.setBrakePedal(brakePedal);
 			break;
 		case SMI_Gaspedal:
@@ -57,14 +59,10 @@ public class PowertrainSystem extends SystemComponent {
 			this.speedControl.setGasPedal(gasPedal);
 			break;
 		case SMI_Gear:
-			AutoGearStates gear = AutoGearStates.values()[(int) s.getData()];
-			this.speedControl.setAutoGearState(gear);
-			break;
-		case SMI_SteeringWheel:
-			this.wheelAngle = this.steeringControl.calculateWheelAngle((int)s.getData());
+			int gear = (int) s.getData();
+			this.speedControl.setGearShift(gear);
 			break;
 		default:
-			break;
 			// ignore other signals
 		}
 	}
@@ -79,6 +77,10 @@ public class PowertrainSystem extends SystemComponent {
 
 	public double getWheelAngle() {
 		return wheelAngle;
+	}
+
+	public int getGasPedal() {
+		return gasPedal;
 	}
 
 	public double getVelocity() {

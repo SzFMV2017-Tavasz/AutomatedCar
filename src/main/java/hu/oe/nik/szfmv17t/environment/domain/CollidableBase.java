@@ -57,9 +57,9 @@ public class CollidableBase extends WorldObjectBase implements ICollidableObject
     }
 
     public void updateWorldObject() {
-        if (!(this instanceof AutomatedCar)) {
+
             step();
-        }
+
     }
 
     //-----
