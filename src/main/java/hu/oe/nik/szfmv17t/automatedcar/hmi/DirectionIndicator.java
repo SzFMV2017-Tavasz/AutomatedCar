@@ -44,4 +44,8 @@ public class DirectionIndicator {
             directionIndicatorState = DirectionIndicatorStates.Default;
     }
 
+    public void IndicationReset(){
+        directionIndicatorState = DirectionIndicatorStates.Default;
+    }
+
 }

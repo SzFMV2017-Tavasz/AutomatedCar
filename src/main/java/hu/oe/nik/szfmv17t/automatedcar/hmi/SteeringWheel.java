@@ -22,17 +22,31 @@ public class SteeringWheel {
     public void steerLeft() {
         if(state >= maxLeft + steeringStep) {
             state -= steeringStep;
-            if (state <= steeringStateForIndicationLeft)
-                directionIndicator.IndicatingLeft();
+            automaticIndicationLeft();
         }
+    }
+
+    private void automaticIndicationLeft(){
+        if (state <= steeringStateForIndicationLeft)
+            directionIndicator.IndicatingLeft();
+        if(state == steeringStateForIndicationRight)
+            if (directionIndicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Right)
+                directionIndicator.IndicationReset();
     }
 
     public void steerRight() {
         if(state <= maxRight - steeringStep) {
             state += steeringStep;
-            if (state >= steeringStateForIndicationRight)
-                directionIndicator.IndicatingRight();
+            automaticIndicationRight();
         }
+    }
+
+    private void automaticIndicationRight() {
+        if (state >= steeringStateForIndicationRight)
+            directionIndicator.IndicatingRight();
+        if (state == steeringStateForIndicationLeft)
+            if(directionIndicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Left)
+                directionIndicator.IndicationReset();
     }
 
     public void steerRelease() {
@@ -69,6 +83,8 @@ public class SteeringWheel {
     public int getState(){
         return this.state;
     }
+    public int getSteeringStateForIndicationLeft(){return this.steeringStateForIndicationLeft;}
+    public int getSteeringStateForIndicationRight() {return this.steeringStateForIndicationRight;}
 
     public boolean isSteeringWheelCentered() {
         if(this.state == 0){
