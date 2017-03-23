@@ -32,8 +32,8 @@ public class Position {
 
     private void calculateCenter ()
     {
-        this.centerX = this.minimumX + this.width / 2;
-        this.centerY = this.minimumY + this.height / 2;
+        this.centerX = this.minimumX + (this.width / 2);
+        this.centerY = this.minimumY + (this.height / 2);
     }
 
     public double getMinimumX ()

@@ -54,9 +54,7 @@ public class SpeedControl {
 		
 		calculatedVelocity = preventPositiveVelocityInReverse(calculatedVelocity);
 		
-		calculatedVelocity = minOrMaxSpeed(calculatedVelocity);
-		
-		actualVelocity = checkCalculatedVelocity(calculatedVelocity);
+		actualVelocity = minOrMaxSpeed(calculatedVelocity);
 		
 		System.out.println("Gear: " + (this.gearShift - 1));
 		
@@ -85,15 +83,6 @@ public class SpeedControl {
 	private double preventNegativeVelocity(double velocity) {
 		if(this.gearShift != 0 && velocity < 0){
 			return 0;
-		}
-		else{
-			return velocity;
-		}
-	}
-
-	private double checkCalculatedVelocity(double velocity) {
-		if(velocity > SpeedControl.GEAR_MAX_VELOCITY[this.gearShift]){
-			return SpeedControl.GEAR_MAX_VELOCITY[this.gearShift];
 		}
 		else{
 			return velocity;
