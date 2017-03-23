@@ -42,9 +42,19 @@ public class Vector2d {
         double length = this.length();
         return new Vector2d(this.x/length, this.y/length);
     }
+    public Vector2d unitDirection (Vector2d v2, double length)
+    {
+        return new Vector2d(v2.getX()/length, v2.getY()/length);
+    }
 
     public double length () {
         return Math.sqrt(Math.pow(this.x,2) + Math.pow(this.y,2));
+        
+    }
+    
+    public double length(Vector2d v2)
+    {
+        return Math.sqrt(Math.pow(this.x-v2.getX(),2) + Math.pow(this.y-v2.getY(),2));
     }
 
     public Vector2d add (Vector2d v2)
@@ -52,7 +62,7 @@ public class Vector2d {
         return  new Vector2d(this.x + v2.x, this.y + v2.y);
     }
 
-    public Vector2d substract (Vector2d v2)
+    public Vector2d substract (Vector2d v2)// irányvektro is lehet this-V2
     {
         return  new Vector2d(this.x - v2.x, this.y - v2.y);
     }

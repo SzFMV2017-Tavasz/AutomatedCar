@@ -41,15 +41,20 @@ public class HMI extends SystemComponent implements KeyListener {
     GearStick gearStick;
     private boolean keyPressHandled;
     DirectionIndicator directionIndicator;
+    double carspeed;
+
+    public void setCarspeed(double carspeed) {
+        this.carspeed = carspeed * 3.6;
+    }
 
     public HMI() {
         super();
         keyPressHandled = false;
-        steeringWheel = new SteeringWheel();
         gasPedal = new GasPedal();
-        brakePedal = new BrakePedal();
         gearStick = new GearStick();
         directionIndicator = new DirectionIndicator();
+        brakePedal = new BrakePedal(directionIndicator);
+        steeringWheel = new SteeringWheel(directionIndicator);
     }
 
     @Override
@@ -192,5 +197,9 @@ public class HMI extends SystemComponent implements KeyListener {
 
     public DirectionIndicatorStates getDirectionIndicatorState() {
         return directionIndicator.GetDirectionIndicatorState();
+    }
+
+    public double getSpeed() {
+        return carspeed;
     }
 }
