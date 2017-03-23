@@ -8,10 +8,13 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 public class SteeringControlTest {
+	
+	private int height = 100;
+	private int width = 200;
 
 	@Test
 	public void CalculateWheelAngleReturnsZero(){
-		SteeringControl steeringControl = new SteeringControl();
+		SteeringControl steeringControl = new SteeringControl(height,width);
 		double expected = 0;
 		double result;
 		int wheelState = 0;
@@ -23,20 +26,9 @@ public class SteeringControlTest {
 	
 	@Test
 	public void CalculateWheelAngleRightTurn(){
-		SteeringControl steeringControl = new SteeringControl();
+		SteeringControl steeringControl = new SteeringControl(height,width);
 		double result;
 		int wheelState = 50;
-		
-		result = steeringControl.calculateWheelAngle(wheelState);
-	
-		assertTrue(result > 0);
-	}
-	
-	@Test
-	public void CalculateWheelAngleLeftTurn(){
-		SteeringControl steeringControl = new SteeringControl();
-		double result;
-		int wheelState = -50;
 		
 		result = steeringControl.calculateWheelAngle(wheelState);
 	
@@ -44,11 +36,22 @@ public class SteeringControlTest {
 	}
 	
 	@Test
+	public void CalculateWheelAngleLeftTurn(){
+		SteeringControl steeringControl = new SteeringControl(height,width);
+		double result;
+		int wheelState = -50;
+		
+		result = steeringControl.calculateWheelAngle(wheelState);
+	
+		assertTrue(result > 0);
+	}
+	
+	@Test
 	public void CalculateWheelAngleReturnsCorrectValue(){
-		SteeringControl steeringControl = new SteeringControl();
+		SteeringControl steeringControl = new SteeringControl(height,width);
 		double result;
 		double expected = 0;
-		int wheelState = 50;
+		int wheelState = -50;
 		Field maxAngle = null;
 		try {
 			maxAngle = SteeringControl.class.getDeclaredField("MAX_STEERING_ANGLE");
@@ -61,7 +64,7 @@ public class SteeringControlTest {
 			e.printStackTrace();
 		}
 
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = Math.toDegrees(steeringControl.calculateWheelAngle(wheelState));
 		try {
 			expected = maxAngle.getDouble(steeringControl) * 0.5;
 		} catch (IllegalArgumentException e) {

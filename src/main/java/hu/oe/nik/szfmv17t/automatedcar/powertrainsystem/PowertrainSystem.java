@@ -28,16 +28,13 @@ public class PowertrainSystem extends SystemComponent {
 
 	// Output signals
 	// Only these are available trough getters
-	private int x = 0;
-	private int y = 0;
-	private double wheelAngle = 0;
+	private double axisAngle = 0;
 
-	public PowertrainSystem(int x, int y, double carWeight) {
+	public PowertrainSystem(double height, double width, double carWeight) {
 		super();
-		this.x = x;
-		this.y = y;
+
 		this.speedControl = new SpeedControl(carWeight);
-		this.steeringControl = new SteeringControl();
+		this.steeringControl = new SteeringControl(width,height);
 	}
 
 	@Override
@@ -62,23 +59,16 @@ public class PowertrainSystem extends SystemComponent {
 			this.speedControl.setAutoGearState(gear);
 			break;
 		case SMI_SteeringWheel:
-			this.wheelAngle = this.steeringControl.calculateWheelAngle((int) s.getData());
+			this.axisAngle = this.steeringControl.calculateWheelAngle((int) s.getData());
 			break;
 		default:
 			// ignore other signals
 		}
 	}
 
-	public int getX() {
-		return x;
-	}
 
-	public int getY() {
-		return y;
-	}
-
-	public double getWheelAngle() {
-		return wheelAngle;
+	public double getAxisAngle() {
+		return axisAngle;
 	}
 
 	public double getVelocity() {
