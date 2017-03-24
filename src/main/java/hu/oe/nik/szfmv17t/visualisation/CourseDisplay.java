@@ -10,13 +10,15 @@ import org.apache.logging.log4j.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 
-public class CourseDisplay implements Runnable{
+public class CourseDisplay implements Runnable, ActionListener{
 
 	private static final Logger logger = LogManager.getLogger();
 	private JFrame frame = new JFrame("OE NIK Automated Car Project");
@@ -26,6 +28,7 @@ public class CourseDisplay implements Runnable{
 	//private Drawer drawer;
 	private IWorldVisualisation world;
 	private BufferStrategy strategy;
+	Timer timer=new Timer(1000/Config.FPS, this);
 
 	public void refreshFrame() {
 		frame.invalidate();
@@ -56,6 +59,7 @@ public class CourseDisplay implements Runnable{
 		frame.validate();
 		//frame.setVisible(true);
 		frame.setResizable(false);
+		timer.start();
 	}
 
 	public JPanel getSmiJPanel() {
@@ -91,20 +95,26 @@ public class CourseDisplay implements Runnable{
 	}
 	@Override
 	public void run() {
-		int refreshRate = 1000 / Config.FPS;
-		while (true)
-		{
-			try {
-				Thread.sleep(refreshRate);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		/*int refreshRate = 1000 / Config.FPS;
+
+
 			try {
 				Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel,world,mainPanel);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			refreshFrame();
+			*/
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel,world,mainPanel);
+		} catch (IOException er) {
+			er.printStackTrace();
 		}
+		refreshFrame();
 	}
 }
