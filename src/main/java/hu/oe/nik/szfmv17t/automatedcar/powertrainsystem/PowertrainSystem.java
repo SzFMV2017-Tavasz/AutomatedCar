@@ -3,6 +3,8 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
+import hu.oe.nik.szfmv17t.environment.utils.Position;
+import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
@@ -28,14 +30,11 @@ public class PowertrainSystem extends SystemComponent {
 
 	// Output signals
 	// Only these are available trough getters
-	private int x = 0;
-	private int y = 0;
-	private double wheelAngle = 0;
+	private double axisAngle = 0;
 
-	public PowertrainSystem(int x, int y, double carWeight) {
+	public PowertrainSystem(double height, double width, double carWeight) {
 		super();
-		this.x = x;
-		this.y = y;
+
 		this.speedControl = new SpeedControl(carWeight);
 		this.steeringControl = new SteeringControl();
 	}
@@ -62,23 +61,19 @@ public class PowertrainSystem extends SystemComponent {
 			this.speedControl.setAutoGearState(gear);
 			break;
 		case SMI_SteeringWheel:
-			this.wheelAngle = this.steeringControl.calculateWheelAngle((int) s.getData());
+			this.axisAngle = this.steeringControl.calculateWheelAngle((int) s.getData());
 			break;
 		default:
 			// ignore other signals
 		}
 	}
 
-	public int getX() {
-		return x;
+	public Vector2d calculateDirectionVector(Position carPosition){
+		return this.steeringControl.calculateDirectionVector(carPosition);
 	}
 
-	public int getY() {
-		return y;
-	}
-
-	public double getWheelAngle() {
-		return wheelAngle;
+	public double getAxisAngle() {
+		return axisAngle;
 	}
 
 	public double getVelocity() {
