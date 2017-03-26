@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +7,11 @@ import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
 import hu.oe.nik.szfmv17t.environment.domain.World;
+<<<<<<< HEAD
 import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 =======
-import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
-import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
->>>>>>> Ultrasonic sensor skeleton classes added
+>>>>>>> Ultrasonic constructor added
 
 /**
  * Created by SebestyenMiklos on 2017. 03. 26..
@@ -36,7 +34,12 @@ public class UltrasonicController extends SystemComponent {
 		
 	}
 =======
->>>>>>> Ultrasonic sensor skeleton classes added
+
+    public UltrasonicController(IUltrasonicSensorController hmi, World w) {
+
+    }
+
+>>>>>>> Ultrasonic constructor added
     @Override
     public void loop() {
 
