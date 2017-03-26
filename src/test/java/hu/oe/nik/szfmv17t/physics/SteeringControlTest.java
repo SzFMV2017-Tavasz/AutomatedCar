@@ -14,7 +14,7 @@ public class SteeringControlTest {
 
 	@Test
 	public void CalculateWheelAngleReturnsZero(){
-		SteeringControl steeringControl = new SteeringControl(height,width);
+		SteeringControl steeringControl = new SteeringControl();
 		double expected = 0;
 		double result;
 		int wheelState = 0;
@@ -26,7 +26,7 @@ public class SteeringControlTest {
 	
 	@Test
 	public void CalculateWheelAngleRightTurn(){
-		SteeringControl steeringControl = new SteeringControl(height,width);
+		SteeringControl steeringControl = new SteeringControl();
 		double result;
 		int wheelState = 50;
 		
@@ -37,7 +37,7 @@ public class SteeringControlTest {
 	
 	@Test
 	public void CalculateWheelAngleLeftTurn(){
-		SteeringControl steeringControl = new SteeringControl(height,width);
+		SteeringControl steeringControl = new SteeringControl();
 		double result;
 		int wheelState = -50;
 		
@@ -48,7 +48,7 @@ public class SteeringControlTest {
 	
 	@Test
 	public void CalculateWheelAngleReturnsCorrectValue(){
-		SteeringControl steeringControl = new SteeringControl(height,width);
+		SteeringControl steeringControl = new SteeringControl();
 		double result;
 		double expected = 0;
 		int wheelState = -50;

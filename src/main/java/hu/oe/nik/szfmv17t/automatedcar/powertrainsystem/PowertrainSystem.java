@@ -3,6 +3,8 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
+import hu.oe.nik.szfmv17t.environment.utils.Position;
+import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
@@ -34,7 +36,7 @@ public class PowertrainSystem extends SystemComponent {
 		super();
 
 		this.speedControl = new SpeedControl(carWeight);
-		this.steeringControl = new SteeringControl(width,height);
+		this.steeringControl = new SteeringControl();
 	}
 
 	@Override
@@ -66,6 +68,9 @@ public class PowertrainSystem extends SystemComponent {
 		}
 	}
 
+	public Vector2d calculateDirectionVector(Position carPosition){
+		return this.steeringControl.calculateDirectionVector(carPosition);
+	}
 
 	public double getAxisAngle() {
 		return axisAngle;
