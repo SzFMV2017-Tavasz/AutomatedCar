@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t;
 
+import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,16 +20,16 @@ public class Main {
 
 		// create the world
 		World w = new World("src/main/resources/test_world.xml");
+
 		// create an automated car NEW signature
-
 		AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
-
-		// create an automated car
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
 		HmiJPanel.setHmi(hmi);
 
+		//init Ultrasonic sensor system
+		UltrasonicController usController = new UltrasonicController(hmi, w);
 
 		// add car to the world
 		w.addObjectToWorld(car);
