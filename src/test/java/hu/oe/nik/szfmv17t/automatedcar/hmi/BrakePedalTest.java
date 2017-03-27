@@ -9,8 +9,9 @@ import org.junit.Test;
 public class BrakePedalTest {
 	BrakePedal brakePedal;	
 	@Before
-	public void setUp() {
-        brakePedal = new BrakePedal();
+	public void setUp()
+    {
+        brakePedal = new BrakePedal(new DirectionIndicator());
 	}
         
 	@Test

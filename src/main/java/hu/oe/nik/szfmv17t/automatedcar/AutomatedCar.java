@@ -16,7 +16,9 @@ public class AutomatedCar extends Car{
 
 		// Compose our car from brand new system components
 		// The car has to know its PowertrainSystem, to get its coordinates
-		powertrainSystem = new PowertrainSystem(((int)(positionX+0.5d)),((int)(positionY+0.5d)), mass);
+
+
+	   	powertrainSystem = new PowertrainSystem(((int)(positionX)),((int)(positionY)), mass);
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
 
