@@ -14,7 +14,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -149,7 +148,7 @@ public class Drawer implements IWorldVisualization {
             if (worldObject.getImageName()=="road_2lane_tjunctionright.png" || worldObject.getImageName()=="road_2lane_tjunctionleft.png")
                 drawCornerX = (baseX - worldObject.getWidth());
             else
-                drawCornerX = (baseX - 350) ;
+                drawCornerX = (baseX - Config.roadWidth) ;
         }
         else
             drawCornerX = ((int) (cameraObject.getX() - worldObject.getWidth() / 2)) ;

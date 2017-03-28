@@ -61,8 +61,8 @@ public class FrameComposer {
     }
     private void setCameraPosition(IWorldObject carObject)
     {
-        camera.setX(carObject.getCenterX() - (carObject.getWidth()/2));
-        camera.setY(carObject.getCenterY() - (carObject.getHeight()/2));
+        camera.setX(carObject.getCenterX());
+        camera.setY(carObject.getCenterY());
     }
 
     public void setCameraSize(int width, int height)
