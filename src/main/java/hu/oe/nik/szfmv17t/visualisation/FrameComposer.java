@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv17t.visualisation;
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
+import hu.oe.nik.szfmv17t.environment.utils.Config;
 import hu.oe.nik.szfmv17t.visualisation.viewmodels.CameraObject;
 
 import java.awt.*;
@@ -61,8 +62,8 @@ public class FrameComposer {
     }
     private void setCameraPosition(IWorldObject carObject)
     {
-        camera.setX(carObject.getCenterX());
-        camera.setY(carObject.getCenterY());
+        camera.setX(Config.getScreenWidth/2);
+        camera.setY(Config.getScreenHeight/2);
     }
 
     public void setCameraSize(int width, int height)
@@ -79,7 +80,7 @@ public class FrameComposer {
         for (IWorldObject object: worldObjects)
         {
             Rectangle objectRectangle = getRectangleFromWorldObject(object);
-            if (objectRectangle != null && rectangleOverlaps(cameraRectangle,objectRectangle))
+            //if (objectRectangle != null && rectangleOverlaps(cameraRectangle,objectRectangle))
                 visibleObjects.add(object);
         }
         return visibleObjects;
