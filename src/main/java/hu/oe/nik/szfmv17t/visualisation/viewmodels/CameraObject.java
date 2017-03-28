@@ -62,6 +62,6 @@ public class CameraObject
     {
         setWorldObject(car);
         setX((camera.getWidth() / 2)* Config.SCALE);
-        setY((camera.getHeight() / 2)*Config.SCALE);//multiplier, so id doesn't get down/upscaled at positioning, since center is always center regardless of scaling
+        setY(54 + (camera.getHeight() / 2)*Config.SCALE);//multiplier, so id doesn't get down/upscaled at positioning, since center is always center regardless of scaling
     }
 }
