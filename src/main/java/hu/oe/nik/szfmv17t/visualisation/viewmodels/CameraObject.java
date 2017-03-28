@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv17t.visualisation.viewmodels;
+
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
+import hu.oe.nik.szfmv17t.environment.utils.Config;
 import hu.oe.nik.szfmv17t.visualisation.Camera;
 
 /**
@@ -59,7 +61,7 @@ public class CameraObject
     public CameraObject(IWorldObject car, Camera camera)
     {
         setWorldObject(car);
-        setX(camera.getWidth() / 2);
-        setX(camera.getHeight() / 2);
+        setX((camera.getWidth() / 2)*Config.SCALE);
+        setY((camera.getHeight() / 2)* Config.SCALE);//multiplier, so id doesn't get down/upscaled at positioning, since center is always center regardless of scaling
     }
 }
