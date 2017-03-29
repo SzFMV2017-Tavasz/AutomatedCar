@@ -43,10 +43,10 @@ public class Main {
 			try {
 				car.drive();
 				hmi.setCarspeed(car.getSpeed());
-				vis.refreshFrame();
+				//vis.refreshFrame();
 				w.updateWorld();
-				Thread.sleep(CYCLE_PERIOD);
-			} catch (InterruptedException e) {
+				//Thread.sleep(CYCLE_PERIOD);
+			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
 		}
