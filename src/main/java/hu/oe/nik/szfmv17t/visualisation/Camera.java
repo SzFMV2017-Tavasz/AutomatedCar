@@ -18,8 +18,8 @@ public class Camera {
 
     private double x;
     private double y;
-    private int width = 800; //TEMP
-    private int height = 600; //TEMP
+    private int width; //TEMP
+    private int height; //TEMP
     private float scale;
 
     public double getX() {
