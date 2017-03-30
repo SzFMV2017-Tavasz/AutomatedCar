@@ -30,9 +30,17 @@ public class AutomatedCar extends Car{
 		// call components
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
-		//this.setAxisAngle(powertrainSystem.getAxisAngle());
-		Vector2d newTopLeftPosition = this.powertrainSystem.calculateDirectionVector(this.position);
+
+		this.setDirectionAngle(powertrainSystem.getSteeringAngle());
 		this.speed = this.powertrainSystem.getVelocity();
 		System.out.println("Speed: " + speed + "m/s");
+	}
+
+	@Override
+	public void updateWorldObject() {
+		Vector2d direction = new Vector2d(Math.cos(this.getDirectionAngle()), Math.sin(this.getDirectionAngle ()));
+
+		position.setPositionX(position.getMinimumX() + direction.getX() * getSpeed());
+		position.setPositionY(position.getMinimumY() + direction.getY() * getSpeed());
 	}
 }

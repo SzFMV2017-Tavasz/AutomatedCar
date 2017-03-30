@@ -30,7 +30,7 @@ public class PowertrainSystem extends SystemComponent {
 
 	// Output signals
 	// Only these are available trough getters
-	private double axisAngle = 0;
+	private double steeringAngle = 0;
 
 	public PowertrainSystem(double height, double width, double carWeight) {
 		super();
@@ -61,7 +61,7 @@ public class PowertrainSystem extends SystemComponent {
 			this.speedControl.setAutoGearState(gear);
 			break;
 		case SMI_SteeringWheel:
-			this.axisAngle = this.steeringControl.calculateWheelAngle((int) s.getData());
+			this.steeringAngle = this.steeringControl.calculateWheelAngle((int) s.getData());
 			break;
 		default:
 			// ignore other signals
@@ -72,8 +72,8 @@ public class PowertrainSystem extends SystemComponent {
 		return this.steeringControl.calculateDirectionVector(carPosition);
 	}
 
-	public double getAxisAngle() {
-		return axisAngle;
+	public double getSteeringAngle() {
+		return steeringAngle;
 	}
 
 	public double getVelocity() {

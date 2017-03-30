@@ -3,7 +3,8 @@ package hu.oe.nik.szfmv17t.visualisation;
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
-import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
+import hu.oe.nik.szfmv17t.environment.utils.Config;
+import hu.oe.nik.szfmv17t.visualisation.viewmodels.CameraObject;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class FrameComposer {
         return instance;
     }
 
-    public List<IWorldObject> composeFrame()
+    public List<CameraObject> composeFrame()
     {
         try
         {
@@ -37,8 +38,11 @@ public class FrameComposer {
                 if (car == null) throw new Exception("Car not found");
             setCameraPosition(car);
             List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
-            //return getVisibleObjects(worldObjects); //uncomment when appropriate
-            return world.getWorld();
+            List<CameraObject> cameraObjects = calculateRelateivePosition(car, visibleObjects);
+
+            return cameraObjects;
+            //return visibleObjects;
+            //return world.getWorld();
         }
         catch (Exception e)
         {
@@ -58,8 +62,8 @@ public class FrameComposer {
     }
     private void setCameraPosition(IWorldObject carObject)
     {
-        camera.setX(carObject.getCenterX());
-        camera.setY(carObject.getCenterY());
+        camera.setX(Config.getScreenWidth/2);
+        camera.setY(Config.getScreenHeight/2);
     }
 
     public void setCameraSize(int width, int height)
@@ -75,14 +79,14 @@ public class FrameComposer {
 
         for (IWorldObject object: worldObjects)
         {
-            Rectangle objectRectangle = composeRectangleFromWorldObject(object);
-            if (objectRectangle != null && rectangleOverlaps(cameraRectangle,objectRectangle))
+            Rectangle objectRectangle = getRectangleFromWorldObject(object);
+            //if (objectRectangle != null && rectangleOverlaps(cameraRectangle,objectRectangle))
                 visibleObjects.add(object);
         }
         return visibleObjects;
     }
 
-    Rectangle composeRectangleFromWorldObject(IWorldObject object)
+    private Rectangle getRectangleFromWorldObject(IWorldObject object)
     {
         if (object == null)
             return null;
@@ -90,8 +94,8 @@ public class FrameComposer {
         Rectangle objectRectangle = new Rectangle();
         objectRectangle.width = (int)object.getWidth();
         objectRectangle.height = (int)object.getHeight();
-        objectRectangle.x = (int)object.getCenterX();
-        objectRectangle.y = (int)object.getCenterY();
+        objectRectangle.x = (int)object.getCenterX() - (objectRectangle.width / 2);
+        objectRectangle.y = (int)object.getCenterY() - (objectRectangle.height / 2);
 
         return objectRectangle;
     }
@@ -102,8 +106,26 @@ public class FrameComposer {
                 object.x + object.width < camera.x ||
                 object.y> camera.y + camera.height ||
                 object.y + object.height< camera.y);
-
     }
 
+    private List<CameraObject> calculateRelateivePosition(IWorldObject car, List<IWorldObject> visibleObjects)
+    {
+        if (car == null || visibleObjects == null)
+            return null;
+
+        List<CameraObject> visibleObjectsWithRelativePosition = new ArrayList<>();
+        for (IWorldObject object: visibleObjects)
+        {
+            CameraObject relativeObject;
+
+            if(AutomatedCar.class.isInstance(object))
+                relativeObject = new CameraObject(car,camera);
+            else
+                relativeObject = new CameraObject(object,car,camera);
+
+            visibleObjectsWithRelativePosition.add(relativeObject);
+        }
+        return visibleObjectsWithRelativePosition;
+    }
 }
 
