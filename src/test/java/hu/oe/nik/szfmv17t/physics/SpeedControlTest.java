@@ -102,9 +102,10 @@ public class SpeedControlTest {
 	public void sumAccelerationTestGear0NegativAcceleration() {
 		// arrange
 		double carWeight = 2000;
+		int gasPedalValue = 20;
 		SpeedControl speedControl = new SpeedControl(carWeight);
 		speedControl.setGearShift(0);
-		speedControl.setGasPedal(20);
+		speedControl.setGasPedal(gasPedalValue);
 
 		Method method = null;
 		try {
@@ -200,6 +201,7 @@ public class SpeedControlTest {
 	@Test 
 	public void minOrMaxSpeedTestVelocity250ReturnMaxVelocityDefinedInSpeedControl() {
 		// arrange
+		double velocityValue = 250;
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
@@ -216,7 +218,7 @@ public class SpeedControlTest {
 		// act
 		double result = 0;
 		try {
-			result = (double) method.invoke(speedControl, 250);
+			result = (double) method.invoke(speedControl, velocityValue);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -232,6 +234,7 @@ public class SpeedControlTest {
 	@Test
 	public void minOrMaxSpeedTestVelocityNegative250ReturnMinVelocityDefinedInSpeedControl() {
 		// arrange
+		double velocityValue = 250;
 		double carWeight = 2000;
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
@@ -248,7 +251,7 @@ public class SpeedControlTest {
 		// act
 		double result = 0;
 		try {
-			result = (double) method.invoke(speedControl, -250);
+			result = (double) method.invoke(speedControl, -velocityValue);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
