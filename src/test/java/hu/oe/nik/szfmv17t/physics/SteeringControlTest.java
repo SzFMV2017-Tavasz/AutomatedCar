@@ -1,17 +1,14 @@
 package hu.oe.nik.szfmv17t.physics;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+
 import org.junit.Test;
 
 public class SteeringControlTest {
 	
-	private int height = 100;
-	private int width = 200;
-
 	@Test
 	public void CalculateWheelAngleReturnsZero(){
 		SteeringControl steeringControl = new SteeringControl();
