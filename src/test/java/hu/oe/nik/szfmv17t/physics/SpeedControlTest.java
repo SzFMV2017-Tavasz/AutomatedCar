@@ -2,10 +2,14 @@ package hu.oe.nik.szfmv17t.physics;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.junit.Assert;
 import org.junit.Test;
+
+import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 
 public class SpeedControlTest {
 	private final String calculatePedalPercentageMethodName = "calculatePedalPercentage";
@@ -24,6 +28,39 @@ public class SpeedControlTest {
 		
 		// assert
 		assertEquals(0, result, 0);
+	}
+
+	// TODO mock private method call (sumAcceleration) in calculateVelocity
+	@Test
+	public void calculateVelocityTestAutoGear() {
+		// arrange
+		double carWeight = 2000;
+		SpeedControl speedControl = new SpeedControl(carWeight);
+		speedControl.setAutoGearState(AutoGearStates.D);
+
+		// act
+		speedControl.calculateVelocity();
+		Field gearField = null;
+		try {
+			gearField = speedControl.getClass().getDeclaredField("gearShift");
+			gearField.setAccessible(true);
+		} catch (NoSuchFieldException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		int result = 0;
+		if (gearField != null) {
+			try {
+				result = (int) gearField.get(speedControl);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		// assert
+		assertEquals(2, result);
 	}
 
 	// TODO mock methods called in SumAcceleration
@@ -57,6 +94,40 @@ public class SpeedControlTest {
 
 		// assert
 		assertEquals(0, result, 0);
+	}
+
+	@Test
+	public void sumAccelerationTestGear0NegativAcceleration() {
+		// arrange
+		double carWeight = 2000;
+		SpeedControl speedControl = new SpeedControl(carWeight);
+		speedControl.setGearShift(0);
+		speedControl.setGasPedal(20);
+
+		Method method = null;
+		try {
+			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName);
+			method.setAccessible(true);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+
+		// act
+		double result = -1;
+		try {
+			result = (double) method.invoke(speedControl);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+		// assert
+		Assert.assertTrue(result < 0);
 	}
 
 	@Test
