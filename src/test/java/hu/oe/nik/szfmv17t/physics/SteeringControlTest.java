@@ -19,7 +19,7 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = 0;
 		
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState);
 	
 		assertEquals(expected, result, 0);
 	}
@@ -30,7 +30,7 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = 50;
 		
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState);
 	
 		assertTrue(result < 0);
 	}
@@ -41,7 +41,7 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = -50;
 		
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState);
 	
 		assertTrue(result > 0);
 	}
@@ -64,7 +64,7 @@ public class SteeringControlTest {
 			e.printStackTrace();
 		}
 
-		result = Math.toDegrees(steeringControl.calculateWheelAngle(wheelState));
+		result = Math.toDegrees(steeringControl.calculateSteeringAngle(wheelState));
 		try {
 			expected = maxAngle.getDouble(steeringControl) * 0.5;
 		} catch (IllegalArgumentException e) {
