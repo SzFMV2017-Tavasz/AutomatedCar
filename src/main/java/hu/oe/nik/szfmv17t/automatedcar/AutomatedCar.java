@@ -4,6 +4,7 @@ package hu.oe.nik.szfmv17t.automatedcar;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv17t.environment.domain.Car;
+import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 
 public class AutomatedCar extends Car{
 
@@ -29,13 +30,19 @@ public class AutomatedCar extends Car{
 	public void drive() {
 		// call components
 		VirtualFunctionBus.loop();
-		// Update the position and orientation of the car
-		position.getCenter().setX(powertrainSystem.getX());
-		position.getCenter().setX(powertrainSystem.getY());
-		wheelAngle = (float)powertrainSystem.getWheelAngle();
+
+		this.setDirectionAngle(powertrainSystem.getWheelAngle());
 
 		this.speed = this.powertrainSystem.getVelocity();
 		System.out.println("Speed: " + speed + "m/s");
 		System.out.println("Wheel angle: " + wheelAngle);
+	}
+
+	@Override
+	public void updateWorldObject() {
+		Vector2d direction = new Vector2d(Math.cos(this.getDirectionAngle()), Math.sin(this.getDirectionAngle ()));
+
+		position.setPositionX(position.getMinimumX() + direction.getX() * getSpeed());
+		position.setPositionY(position.getMinimumY() + direction.getY() * getSpeed());
 	}
 }
