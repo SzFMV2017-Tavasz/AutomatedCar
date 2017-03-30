@@ -14,6 +14,8 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 public class SpeedControlTest {
 	private final String calculatePedalPercentageMethodName = "calculatePedalPercentage";
 	private final String sumAccelerationMethodName = "sumAcceleration";
+	private final String minOrMaxSpeedMetHodName = "minOrMaxSpeed";
+	private final String gearShiftFieldName = "gearShift";
 
 	// TODO mock private method call (sumAcceleration) in calculateVelocity
 	@Test
@@ -42,7 +44,7 @@ public class SpeedControlTest {
 		speedControl.calculateVelocity();
 		Field gearField = null;
 		try {
-			gearField = speedControl.getClass().getDeclaredField("gearShift");
+			gearField = speedControl.getClass().getDeclaredField(gearShiftFieldName);
 			gearField.setAccessible(true);
 		} catch (NoSuchFieldException | SecurityException e) {
 			// TODO Auto-generated catch block
@@ -193,5 +195,69 @@ public class SpeedControlTest {
 
 		// assert
 		assertEquals(true, illegelArgumentExceptionThrown);
+	}
+
+	@Test 
+	public void minOrMaxSpeedTestVelocity250ReturnMaxVelocityDefinedInSpeedControl() {
+		// arrange
+		double carWeight = 2000;
+		SpeedControl speedControl = new SpeedControl(carWeight);
+
+		Method method = null;
+		try {
+			method = SpeedControl.class.getDeclaredMethod(minOrMaxSpeedMetHodName, double.class);
+			method.setAccessible(true);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+
+		// act
+		double result = 0;
+		try {
+			result = (double) method.invoke(speedControl, 250);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+		// assert
+		assertEquals(SpeedControl.GEAR_MAX_VELOCITY[SpeedControl.GEAR_MAX_VELOCITY.length - 1], result, 0);
+	}
+
+	@Test
+	public void minOrMaxSpeedTestVelocityNegative250ReturnMinVelocityDefinedInSpeedControl() {
+		// arrange
+		double carWeight = 2000;
+		SpeedControl speedControl = new SpeedControl(carWeight);
+
+		Method method = null;
+		try {
+			method = SpeedControl.class.getDeclaredMethod(minOrMaxSpeedMetHodName, double.class);
+			method.setAccessible(true);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+
+		// act
+		double result = 0;
+		try {
+			result = (double) method.invoke(speedControl, -250);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+
+		// assert
+		assertEquals(-SpeedControl.GEAR_MAX_VELOCITY[0], result, 0);
 	}
 }
