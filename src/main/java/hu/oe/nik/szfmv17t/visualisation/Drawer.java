@@ -102,7 +102,7 @@ public class Drawer implements IWorldVisualization {
                         image = worldImages.get(strippedImageName+"_"+state.toString()+".png");
                     }
                     else {
-                        image = worldImages.get(wobject.getImageName());
+                        image = worldImages.get(imageName);
                     }
                     g2d.drawImage(image, getObjectTransformation(calculateDrawCornerX(object), calculateDrawCornerY(object), object.getWorldObject()), null);
                 }
@@ -179,7 +179,7 @@ public class Drawer implements IWorldVisualization {
         transform.scale(Config.SCALENUM, Config.SCALENUM);
         return transform;
     }
-    private void PutDebugInformationOnImage (Image image, IWorldObject object) {
+    private void putDebugInformationOnImage(Image image, IWorldObject object) {
         Graphics2D g = (Graphics2D) image.getGraphics();
 
         String loc = String.format ("x: %.0f, y:%.0f", object.getCenterX(), object.getCenterY(), object.getAxisAngle());
