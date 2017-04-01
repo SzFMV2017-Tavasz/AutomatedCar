@@ -9,14 +9,11 @@ public class UltrasonicSensor {
 	private UltrasonicSensorCoordinates coordinates;
 	private int viewLength;
 	private int viewAngle;
-	
+
 	public UltrasonicSensor(int sensorNumber,UltrasonicController controller){
-		
+		calculateCoordinates(sensorNumber);
 	}
-	public ICollidableObject getClosestWorldObject(){
-		return null;
-	}
-	private void calculateCoordinates(){
-		
+	private void calculateCoordinates(int sensorNumber){
+
 	}
 }
