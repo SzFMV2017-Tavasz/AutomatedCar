@@ -39,7 +39,7 @@ public class FrameComposer {
                 if (car == null) throw new Exception("Car not found");
             setCameraPosition(car);
             List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
-            List<CameraObject> cameraObjects = calculateRelateivePosition(car, visibleObjects);
+            List<CameraObject> cameraObjects = calculateRelativePosition(car, visibleObjects);
 
             return cameraObjects;
             //return visibleObjects;
@@ -112,7 +112,7 @@ public class FrameComposer {
                 object.y + object.height< camera.y);
     }
 
-    private List<CameraObject> calculateRelateivePosition(IWorldObject car, List<IWorldObject> visibleObjects)
+    private List<CameraObject> calculateRelativePosition(IWorldObject car, List<IWorldObject> visibleObjects)
     {
         if (car == null || visibleObjects == null)
             return null;
