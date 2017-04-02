@@ -1,4 +1,5 @@
 package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
+import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
 import hu.oe.nik.szfmv17t.environment.utils.Position;
 import hu.oe.nik.szfmv17t.environment.utils.Resizer;
@@ -62,6 +63,10 @@ public class UltrasonicSensor {
 
 	public UltrasonicSensorCoordinates getCoordinates(){
 		return coordinates;
+	}
+
+	public void setNewCoordinates(AutomatedCar auto){
+		
 	}
 
 }
