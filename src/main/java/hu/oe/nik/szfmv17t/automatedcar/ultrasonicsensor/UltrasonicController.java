@@ -3,12 +3,10 @@ package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
-import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
-import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 
 /**
  * Created by SebestyenMiklos on 2017. 03. 26..
@@ -16,13 +14,11 @@ import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 public class UltrasonicController extends SystemComponent {
 	
 	private List<UltrasonicSensor> ultrasonicSensors;
-	private IUltrasonicSensorController hmi;
-	private IWorldVisualisation world;
+	private AutomatedCar automatedCar;
 	private List<ICollidableObject> allSeenObjectsBuffer;
     
-	public UltrasonicController(IUltrasonicSensorController hmi, World w) {
-		world = w;
-		this.hmi = hmi;
+	public UltrasonicController(AutomatedCar auto) {
+		this.automatedCar = auto;
 		initSensors();
 	}
 	private void initSensors(){

@@ -7,13 +7,12 @@ import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
-import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.IUltrasonicSensorController;
 
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
  */
 
-public class HMI extends SystemComponent implements KeyListener, IUltrasonicSensorController {
+public class HMI extends SystemComponent implements KeyListener {
 
     public static final char STEER_LEFT_KEY = 'a';
     public static final char STEER_RIGHT_KEY = 'd';
@@ -202,35 +201,5 @@ public class HMI extends SystemComponent implements KeyListener, IUltrasonicSens
 
     public double getSpeed() {
         return carspeed;
-    }
-
-    @Override
-    public void increaseBrake(int value) {
-
-    }
-
-    @Override
-    public void decreaseBrake(int value) {
-
-    }
-
-    @Override
-    public void increaseGas(int value) {
-
-    }
-
-    @Override
-    public void decreaseGas(int value) {
-
-    }
-
-    @Override
-    public void steerLeft(int value) {
-
-    }
-
-    @Override
-    public void steerRight(int value) {
-
     }
 }
