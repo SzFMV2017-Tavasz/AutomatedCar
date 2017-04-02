@@ -29,7 +29,7 @@ public class Main {
 		HmiJPanel.setHmi(hmi);
 
 		//init Ultrasonic sensor system
-		UltrasonicController usController = new UltrasonicController(hmi, w);
+		UltrasonicController usController = new UltrasonicController(car);
 
 		// add car to the world
 		w.addObjectToWorld(car);
