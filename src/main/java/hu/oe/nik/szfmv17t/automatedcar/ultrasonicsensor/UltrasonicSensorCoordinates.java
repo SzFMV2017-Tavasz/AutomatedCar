@@ -4,43 +4,43 @@ package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
  * Created by NyiroGabor on 2017.04.01..
  */
 public class UltrasonicSensorCoordinates {
-        private int mainX;
-        private int mainY;
-        private int leftX;
-        private int leftY;
-        private int rightX;
-        private int rightY;
+        private double mainX;
+        private double mainY;
+        private double leftX;
+        private double leftY;
+        private double rightX;
+        private double rightY;
 
         public UltrasonicSensorCoordinates(){}
 
-        public int getMainX() {
+        public double getMainX() {
                 return mainX;
         }
-        public int getMainY() {
+        public double getMainY() {
                 return mainY;
         }
-        public int getLeftX() {
+        public double getLeftX() {
                 return leftX;
         }
-        public int getLeftY() {
+        public double getLeftY() {
                 return leftY;
         }
-        public int getRightX() {
+        public double getRightX() {
                 return rightX;
         }
-        public int getRightY() {
+        public double getRightY() {
                 return rightY;
         }
 
-        public void setMainCoordinates(int x, int y) {
+        public void setMainCoordinates(double x, double y) {
                 mainX = x;
                 mainY = y;
         }
-        public void setLeftCoordinates(int x, int y) {
+        public void setLeftCoordinates(double x, double y) {
                 leftX = x;
                 leftY = y;
         }
-        public void setRightCoordinates(int x, int y) {
+        public void setRightCoordinates(double x, double y) {
                 rightX = x;
                 rightY = y;
         }
