@@ -8,49 +8,45 @@ import hu.oe.nik.szfmv17t.visualisation.viewmodels.CameraObject;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Mariusz on 2017.03.15..
  */
 public class FrameComposer {
-    private Camera camera = new Camera();
+    private Camera camera;
     private IWorldVisualisation world;
     private static FrameComposer instance=null;
-    private FrameComposer(IWorldVisualisation world)
+
+    FrameComposer(IWorldVisualisation world, Camera camera)
     {
-        this.world=world;
+        this.world = world;
+        this.camera = camera;
     }
 
     public static FrameComposer getComposer(IWorldVisualisation world)
     {
         if (instance==null)
-            instance=new FrameComposer(world);
+            instance=new FrameComposer(world, new Camera());
         return instance;
     }
 
-    public List<CameraObject> composeFrame()
-    {
-        try
-        {
-            List<IWorldObject> worldObjects = world.getWorld();
-            IWorldObject car = getCar(worldObjects);
-                if (car == null) throw new Exception("Car not found");
-            setCameraPosition(car);
-            List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
-            List<CameraObject> cameraObjects = calculateRelativePosition(car, visibleObjects);
 
-            return cameraObjects;
-            //return visibleObjects;
-            //return world.getWorld();
-        }
-        catch (Exception e)
-        {
-            System.err.println(e.toString());
-        }
-        return null;
-        //return world.getWorld();
+    public List<CameraObject> composeFrame() {
+        List<IWorldObject> worldObjects = world.getWorld();
+
+        IWorldObject car = getCar(worldObjects);
+        if (car == null)
+            throw new CarNotFoundException();
+
+        setCameraPosition();
+        List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
+        List<CameraObject> cameraObjects = calculateRelateivePosition(car, visibleObjects);
+
+        return cameraObjects;
     }
+
     private IWorldObject getCar(List<IWorldObject> objects)
     {
         for (IWorldObject element: objects)
@@ -60,7 +56,7 @@ public class FrameComposer {
         }
         return null;
     }
-    private void setCameraPosition(IWorldObject carObject)
+    private void setCameraPosition()
     {
         camera.setX(Config.getScreenWidth/2);
         camera.setY(Config.getScreenHeight/2);
@@ -83,6 +79,9 @@ public class FrameComposer {
             //if (objectRectangle != null && rectangleOverlaps(cameraRectangle,objectRectangle))
                 visibleObjects.add(object);
         }
+
+        Collections.sort(visibleObjects, new ZIndexComparator());
+
         return visibleObjects;
     }
 
