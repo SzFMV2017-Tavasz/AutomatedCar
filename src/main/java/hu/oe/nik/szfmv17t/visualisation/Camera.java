@@ -63,7 +63,7 @@ public class Camera {
     }
 
 
-    protected Camera() {
+    public Camera() {
     }
 
     public static Camera getCamera() {
