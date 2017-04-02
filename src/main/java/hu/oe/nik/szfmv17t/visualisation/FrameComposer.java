@@ -8,6 +8,7 @@ import hu.oe.nik.szfmv17t.visualisation.viewmodels.CameraObject;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -77,6 +78,9 @@ public class FrameComposer {
             //if (objectRectangle != null && rectangleOverlaps(cameraRectangle,objectRectangle))
                 visibleObjects.add(object);
         }
+
+        Collections.sort(visibleObjects, new ZIndexComparator());
+
         return visibleObjects;
     }
 
