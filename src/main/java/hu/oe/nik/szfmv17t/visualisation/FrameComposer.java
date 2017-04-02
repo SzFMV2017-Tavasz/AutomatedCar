@@ -42,7 +42,7 @@ public class FrameComposer {
 
         setCameraPosition();
         List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
-        List<CameraObject> cameraObjects = calculateRelateivePosition(car, visibleObjects);
+        List<CameraObject> cameraObjects = calculateRelativePosition(car, visibleObjects);
 
         return cameraObjects;
     }
