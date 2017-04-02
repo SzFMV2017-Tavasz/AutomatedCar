@@ -19,6 +19,8 @@ public class UltrasonicSensor {
 	private double additionsToLength;
 
 	public UltrasonicSensor(int sensorNumber,double mainX, double mainY) {
+		resizer = Resizer.getResizer();
+		coordinates = new UltrasonicSensorCoordinates();
 		viewLength = 3;
 		viewAngle = 100;
 		this.mainX = mainX;

@@ -18,6 +18,7 @@ public class UltrasonicSensorTest {
         double mainX = 44;
         double mainY = 2;
         sensor = new UltrasonicSensor(sensorNumber,mainX,mainY);
+
     }
 
     @Test
