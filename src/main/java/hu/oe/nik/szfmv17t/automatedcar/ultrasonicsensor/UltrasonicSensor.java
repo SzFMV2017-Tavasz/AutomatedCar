@@ -65,8 +65,14 @@ public class UltrasonicSensor {
 		return coordinates;
 	}
 
-	public void setNewCoordinates(AutomatedCar auto){
-		
+    public double getViewAngle() { return viewAngle; }
+
+    public double getViewLength() { return viewLength; }
+
+    public double getAdditionsToSidesInMeter() { return additionsToSidesInMeter; }
+
+    public void setNewCoordinates(AutomatedCar auto){
+
 	}
 
 }
