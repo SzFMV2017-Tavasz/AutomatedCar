@@ -8,6 +8,7 @@ import hu.oe.nik.szfmv17t.visualisation.viewmodels.CameraObject;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class FrameComposer {
             instance=new FrameComposer(world, new Camera());
         return instance;
     }
+
 
     public List<CameraObject> composeFrame() {
         List<IWorldObject> worldObjects = world.getWorld();
@@ -77,6 +79,9 @@ public class FrameComposer {
             //if (objectRectangle != null && rectangleOverlaps(cameraRectangle,objectRectangle))
                 visibleObjects.add(object);
         }
+
+        Collections.sort(visibleObjects, new ZIndexComparator());
+
         return visibleObjects;
     }
 
@@ -102,7 +107,7 @@ public class FrameComposer {
                 object.y + object.height< camera.y);
     }
 
-    private List<CameraObject> calculateRelateivePosition(IWorldObject car, List<IWorldObject> visibleObjects)
+    private List<CameraObject> calculateRelativePosition(IWorldObject car, List<IWorldObject> visibleObjects)
     {
         if (car == null || visibleObjects == null)
             return null;
