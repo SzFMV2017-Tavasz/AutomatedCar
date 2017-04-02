@@ -3,8 +3,6 @@ package hu.oe.nik.szfmv17t.physics;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 
 public class GearControl {
-	public static final double SHIFT_THRESHOLD = 5;
-
 	private double[] gearMaxVelocity;
 
 	public GearControl(double[] gearMaxVelocity) {

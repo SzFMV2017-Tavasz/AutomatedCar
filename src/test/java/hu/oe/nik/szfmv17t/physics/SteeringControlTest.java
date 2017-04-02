@@ -1,14 +1,14 @@
 package hu.oe.nik.szfmv17t.physics;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+
 import org.junit.Test;
 
 public class SteeringControlTest {
-
+	
 	@Test
 	public void CalculateWheelAngleReturnsZero(){
 		SteeringControl steeringControl = new SteeringControl();
@@ -16,7 +16,7 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = 0;
 		
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState);
 	
 		assertEquals(expected, result, 0);
 	}
@@ -27,9 +27,9 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = 50;
 		
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState);
 	
-		assertTrue(result > 0);
+		assertTrue(result < 0);
 	}
 	
 	@Test
@@ -38,9 +38,9 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = -50;
 		
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState);
 	
-		assertTrue(result < 0);
+		assertTrue(result > 0);
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class SteeringControlTest {
 		SteeringControl steeringControl = new SteeringControl();
 		double result;
 		double expected = 0;
-		int wheelState = 50;
+		int wheelState = -50;
 		Field maxAngle = null;
 		try {
 			maxAngle = SteeringControl.class.getDeclaredField("MAX_STEERING_ANGLE");
@@ -61,7 +61,7 @@ public class SteeringControlTest {
 			e.printStackTrace();
 		}
 
-		result = steeringControl.calculateWheelAngle(wheelState);
+		result = Math.toDegrees(steeringControl.calculateSteeringAngle(wheelState));
 		try {
 			expected = maxAngle.getDouble(steeringControl) * 0.5;
 		} catch (IllegalArgumentException e) {
