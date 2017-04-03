@@ -26,6 +26,8 @@ public class PowertrainSystem extends SystemComponent {
 	private SpeedControl speedControl;
 	private SteeringControl steeringControl;
 
+
+
 	// input signals
 	private int gasPedal = 0;
 	private int brakePedal = 0;
