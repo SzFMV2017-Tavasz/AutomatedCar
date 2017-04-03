@@ -43,6 +43,20 @@ public class World implements IWorldVisualisation {
         worldObjects = xmlParser.getWorldObjects();
     }
 
+    public List<IWorldObject> checkSensorField(double aX, double aY, double bX, double bY, double cX, double cY)
+    {
+        List<IWorldObject> detectedObjects = new ArrayList<IWorldObject>();
+        Triangle sensorArea = new Triangle(aX,aY,bX,bY,cX,cY);
+        
+        for(IWorldObject object : worldObjects)
+        {
+            if (sensorArea.contains(object.getCenterX(), object.getCenterY())) {
+                detectedObjects.add(object);
+            }
+        }
+        return detectedObjects;
+    }
+
     public int getWidth() {
         return width;
     }
