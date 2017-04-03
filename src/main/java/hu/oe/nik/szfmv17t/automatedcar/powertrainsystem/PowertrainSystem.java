@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 
 public class PowertrainSystem extends SystemComponent {
@@ -12,6 +13,7 @@ public class PowertrainSystem extends SystemComponent {
 	public static final int SMI_Gaspedal = 11;
 	public static final int SMI_Gear =  12;
 	public static final int SMI_SteeringWheel =  13;
+	public static final int ULTRASONIC_SENSOR_ID = 14;
 	public static final int Modelling = 20;
 	public static final int Physics = 30;
 	public static final int Physics_Speed =31;
@@ -20,6 +22,8 @@ public class PowertrainSystem extends SystemComponent {
 
 	// physics
 	private SpeedControl speedControl;
+
+
 
 	// input signals
 	private int gasPedal = 0;
@@ -62,6 +66,9 @@ public class PowertrainSystem extends SystemComponent {
 			int gear = (int) s.getData();
 			this.speedControl.setGearShift(gear);
 			break;
+			case ULTRASONIC_SENSOR_ID:
+				System.out.println("Ultrasonic sensor: " + s.getData());
+				break;
 		default:
 			// ignore other signals
 		}
