@@ -28,6 +28,8 @@ public class SpeedControl {
 	private int maxGasPedal;
 	private int maxBrakePedal;
 	private double actualVelocity;
+	
+	private long previousTime;
 
 	public SpeedControl(double carWeight) {
 		this.autoGear = false;
@@ -40,6 +42,7 @@ public class SpeedControl {
 		this.maxGasPedal = GasPedal.MAX_STATE;
 		this.maxBrakePedal = BrakePedal.MAX_STATE;
 		this.gearShift = 1;
+		this.previousTime = System.currentTimeMillis();
 	}
 
 	public double calculateVelocity() {
@@ -48,7 +51,9 @@ public class SpeedControl {
 		}
 		double sumAcceleration = sumAcceleration();
 		
-		double calculatedVelocity = actualVelocity + (sumAcceleration * Main.CYCLE_PERIOD / 1000);
+		long deltaTime = System.currentTimeMillis() - this.previousTime;		
+		double calculatedVelocity = actualVelocity + (sumAcceleration * (deltaTime) / 1000);
+		this.previousTime += deltaTime;;
 
 		calculatedVelocity = preventNegativeVelocity(calculatedVelocity);
 		
