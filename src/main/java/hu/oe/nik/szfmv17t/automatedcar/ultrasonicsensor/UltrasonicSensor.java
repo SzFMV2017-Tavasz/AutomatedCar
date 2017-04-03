@@ -8,6 +8,7 @@ import hu.oe.nik.szfmv17t.environment.utils.Resizer;
  * Created by SebestyenMiklos on 2017. 03. 26..
  */
 public class UltrasonicSensor {
+	private int sensorNumber;
 	private UltrasonicSensorCoordinates coordinates;
 	private double viewLength;
 	private double viewAngle;
@@ -19,6 +20,7 @@ public class UltrasonicSensor {
 	private double additionsToLength;
 
 	public UltrasonicSensor(int sensorNumber,double mainX, double mainY) {
+		this.sensorNumber = sensorNumber;
 		resizer = Resizer.getResizer();
 		coordinates = new UltrasonicSensorCoordinates();
 		viewLength = 3;
@@ -77,4 +79,7 @@ public class UltrasonicSensor {
 
 	}
 
+	public Object getSensorNumber() {
+		return this.sensorNumber ;
+	}
 }
