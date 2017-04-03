@@ -98,6 +98,6 @@ public class WorldTest {
     public void sensorTriangleTest() throws Exception {
         Sign testSign = new Sign(2, 3, 0, 0, 0, 0, "", 0, 0, 0); 
         world.addObjectToWorld(testSign);  
-        assertEquals(testSign, world.checkSensorSight(-6, 3, 10, -10, 10, 11).get(0));
+        assertEquals(testSign, world.checkSensorField(-6, 3, 10, -10, 10, 11).get(0));
     }
 }
