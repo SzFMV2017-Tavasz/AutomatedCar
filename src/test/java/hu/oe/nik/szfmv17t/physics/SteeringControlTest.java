@@ -29,7 +29,7 @@ public class SteeringControlTest {
 		
 		result = steeringControl.calculateSteeringAngle(wheelState);
 	
-		assertTrue(result < 0);
+		assertTrue(result > 0);
 	}
 	
 	@Test
@@ -40,7 +40,7 @@ public class SteeringControlTest {
 		
 		result = steeringControl.calculateSteeringAngle(wheelState);
 	
-		assertTrue(result > 0);
+		assertTrue(result < 0);
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class SteeringControlTest {
 		SteeringControl steeringControl = new SteeringControl();
 		double result;
 		double expected = 0;
-		int wheelState = -50;
+		int wheelState = 50;
 		Field maxAngle = null;
 		try {
 			maxAngle = SteeringControl.class.getDeclaredField("MAX_STEERING_ANGLE");

@@ -10,7 +10,7 @@ public class SteeringControl {
 	private double steerAngle;
 	
 	public SteeringControl(){
-		this.max = SteeringWheel.maxLeft;
+		this.max = SteeringWheel.maxRight;
 	}
 
 	public double calculateSteeringAngle(int wheelState){
