@@ -8,8 +8,6 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.visualisation.CourseDisplay;
 import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Main {
 
@@ -45,7 +43,7 @@ public class Main {
 				hmi.setCarspeed(car.getSpeed());
 				//vis.refreshFrame();
 				w.updateWorld();
-				//Thread.sleep(CYCLE_PERIOD);
+				Thread.sleep(CYCLE_PERIOD);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
