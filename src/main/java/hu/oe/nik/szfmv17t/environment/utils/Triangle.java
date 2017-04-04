@@ -1,5 +1,5 @@
 package hu.oe.nik.szfmv17t.environment.utils;
-
+import java.awt.Point;
 /**
  *
  * @author Krisztian Juhasz
@@ -9,14 +9,14 @@ public class Triangle {
     double bX, bY;
     double cX, cY;
     
-    public Triangle(double aX, double aY, double bX, double bY, double cX, double cY)
+    public Triangle(Point a, Point b, Point c)
     {
-        this.aX = aX;
-        this.aY = aY;
-        this.bX = bX;
-        this.bY = bY;
-        this.cX = cX;
-        this.cY = cY;
+        this.aX = a.x;
+        this.aY = a.y;
+        this.bX = b.x;
+        this.bY = b.y;
+        this.cX = c.x;
+        this.cY = c.y;
     }
     
     public boolean contains(double objectX, double objectY)

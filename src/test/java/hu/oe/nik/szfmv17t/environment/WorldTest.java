@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 import org.junit.Test;
+import java.awt.Point;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -93,11 +94,14 @@ public class WorldTest {
         }
         assertEquals(false, helps);
     }
-    
+        
     @Test
-    public void sensorTriangleTest() throws Exception {
-        Sign testSign = new Sign(2, 3, 0, 0, 0, 0, "", 0, 0, 0); 
-        world.addObjectToWorld(testSign);  
-        assertEquals(testSign, world.checkSensorField(-6, 3, 10, -10, 10, 11).get(0));
+    public void sensorTriangleWithPointsTest() throws Exception {
+        Sign testSign2 = new Sign(2, 3, 0, 0, 0, 0, "", 0, 0, 0); 
+        world.addObjectToWorld(testSign2);  
+        Point a = new Point(-6,3);
+        Point b = new Point(10,-10);
+        Point c = new Point(10,11);
+        assertEquals(testSign2, world.checkSensorArea(a, b, c).get(0));
     }
 }

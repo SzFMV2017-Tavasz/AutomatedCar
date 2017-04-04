@@ -8,6 +8,7 @@ import hu.oe.nik.szfmv17t.environment.utils.*;
 import hu.oe.nik.szfmv17t.physics.interfaces.ICollisionHandler;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Point;
 
 public class World implements IWorldVisualisation {
 
@@ -42,11 +43,11 @@ public class World implements IWorldVisualisation {
         height = xmlParser.getMapHeight();
         worldObjects = xmlParser.getWorldObjects();
     }
-
-    public List<IWorldObject> checkSensorField(double aX, double aY, double bX, double bY, double cX, double cY)
+    
+    public List<IWorldObject> checkSensorArea(Point a, Point b, Point c)
     {
         List<IWorldObject> detectedObjects = new ArrayList<IWorldObject>();
-        Triangle sensorArea = new Triangle(aX,aY,bX,bY,cX,cY);
+        Triangle sensorArea = new Triangle(a,b,c);
         
         for(IWorldObject object : worldObjects)
         {
