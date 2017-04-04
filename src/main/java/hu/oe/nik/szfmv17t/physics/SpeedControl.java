@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv17t.physics;
 
-import hu.oe.nik.szfmv17t.Main;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
@@ -10,8 +9,7 @@ public class SpeedControl {
 	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 3, 0, 8, 6, 4.55, 2.6, 1.6 };
 	/* m/s, km/h: 0, 20, 45, 75, 110, 200 */
 	public static final double[] GEAR_MAX_VELOCITY = new double[] { 4, 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
-
-	private final int SECOND_MULTIPLIER = 5;
+	private static final int MILLISECONDSTOSECONDS = 1000;
 
 	private GearControl gearControl;
 	private Brake brake;
@@ -33,7 +31,7 @@ public class SpeedControl {
 
 	public SpeedControl(double carWeight) {
 		this.autoGear = false;
-		this.gearControl = new GearControl(this.GEAR_MAX_VELOCITY);
+		this.gearControl = new GearControl(GEAR_MAX_VELOCITY);
 		this.brake = new Brake();
 		this.engineBrake = new EngineBrake();
 		this.externalForces = new ExternalForces();
@@ -52,8 +50,8 @@ public class SpeedControl {
 		double sumAcceleration = sumAcceleration();
 		
 		long deltaTime = System.currentTimeMillis() - this.previousTime;		
-		double calculatedVelocity = actualVelocity + (sumAcceleration * (deltaTime) / 1000);
-		this.previousTime += deltaTime;;
+		double calculatedVelocity = actualVelocity + sumAcceleration * deltaTime / MILLISECONDSTOSECONDS;
+		this.previousTime += deltaTime;
 
 		calculatedVelocity = preventNegativeVelocity(calculatedVelocity);
 		
@@ -141,7 +139,7 @@ public class SpeedControl {
 				this.actualVelocity);
 
 		double externalForces = this.externalForces.calculateAcceleration(this.carWeight,this.actualVelocity);
-		double externalAcceleration = (double)externalForces / this.carWeight; 
+		double externalAcceleration = externalForces / this.carWeight;
 		
 		//reverting accelerations while in reverse
 		if(this.gearShift == 0){
@@ -151,9 +149,7 @@ public class SpeedControl {
 			externalAcceleration *= -1;
 		}
 
-		double summedAcceleration = gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration + externalAcceleration;
-
-		return summedAcceleration;
+		return gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration + externalAcceleration;
 	}
 	
 	private double calculatePedalPercentage(int actualValue, int maxValue) throws IllegalArgumentException {

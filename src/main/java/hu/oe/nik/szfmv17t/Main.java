@@ -12,7 +12,6 @@ import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
 public class Main {
 
 	private static final Logger logger = LogManager.getLogger();
-	//public static final int CYCLE_PERIOD = 200;
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
