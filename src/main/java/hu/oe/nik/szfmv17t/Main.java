@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t;
 
+import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,22 +13,23 @@ import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
 public class Main {
 
 	private static final Logger logger = LogManager.getLogger();
+	public static final int CYCLE_PERIOD = 200;
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
 
 		// create the world
 		World w = new World("src/main/resources/test_world.xml");
+
 		// create an automated car NEW signature
-
 		AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
-
-		// create an automated car
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
 		HmiJPanel.setHmi(hmi);
 
+		//init Ultrasonic sensor system
+		UltrasonicController usController = new UltrasonicController(car);
 
 		// add car to the world
 		w.addObjectToWorld(car);
@@ -42,7 +44,7 @@ public class Main {
 				hmi.setCarspeed(car.getSpeed());
 				//vis.refreshFrame();
 				w.updateWorld();
-				//Thread.sleep(CYCLE_PERIOD);
+				Thread.sleep(CYCLE_PERIOD);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
