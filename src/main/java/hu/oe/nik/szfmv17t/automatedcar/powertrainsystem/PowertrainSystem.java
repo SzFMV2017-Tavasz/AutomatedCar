@@ -3,6 +3,8 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
+import hu.oe.nik.szfmv17t.environment.utils.Position;
+import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
@@ -59,7 +61,7 @@ public class PowertrainSystem extends SystemComponent {
 			this.speedControl.setAutoGearState(gear);
 			break;
 		case SMI_SteeringWheel:
-			this.steeringAngle = this.steeringControl.calculateSteeringAngle((int) s.getData());
+			this.steeringAngle = this.steeringControl.calculateWheelAngle((int)s.getData());
 			break;
 		default:
 			// ignore other signals
@@ -68,6 +70,10 @@ public class PowertrainSystem extends SystemComponent {
 
 	public double getSteeringAngle() {
 		return steeringAngle;
+	}
+
+	public double calculateDirectionVector(Position carPosition){
+			return this.steeringControl.calculateDirectionVector(carPosition);
 	}
 
 	public double getVelocity() {

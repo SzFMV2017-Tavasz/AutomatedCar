@@ -42,7 +42,6 @@ public class Main {
 				hmi.setCarspeed(car.getSpeed());
 				//vis.refreshFrame();
 				w.updateWorld();
-				//Thread.sleep(CYCLE_PERIOD);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
