@@ -1,11 +1,11 @@
 package hu.oe.nik.szfmv17t;
 
-//import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
+import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.visualisation.CourseDisplay;
 import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
@@ -29,7 +29,7 @@ public class Main {
 		HmiJPanel.setHmi(hmi);
 
 		//init Ultrasonic sensor system
-		// UltrasonicController usController = new UltrasonicController(car);
+		UltrasonicController usController = new UltrasonicController(car);
 
 		// add car to the world
 		w.addObjectToWorld(car);
