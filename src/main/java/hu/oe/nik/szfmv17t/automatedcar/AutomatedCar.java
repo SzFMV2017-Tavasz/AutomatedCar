@@ -32,9 +32,17 @@ public class AutomatedCar extends Car{
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
 
-		this.setDirectionAngle(this.getDirectionAngle() + powertrainSystem.calculateDirectionVector(this.position));
-		System.out.println(this.getDirectionAngle());
-		this.speed = this.powertrainSystem.getVelocity();
+		if(this.speed != 0) {
+			double newDirection = powertrainSystem.calculateDirectionVector(this.position);
+
+			double currentDirection = this.getDirectionAngle();
+			double inDegreeCurrent = Math.toDegrees(currentDirection);
+			double normalizeDegreeCurrent = ((inDegreeCurrent/360)-(int)(inDegreeCurrent/360))*360;
+			this.setDirectionAngle(Math.toRadians(-20));
+		}
+		this.setAxisAngle(this.getDirectionAngle());
+		System.out.println(Math.toDegrees(this.getDirectionAngle()));
+		this.speed = this.powertrainSystem.getVelocity()/50;
 		//System.out.println("Speed: " + speed + "m/s");
 	}
 

@@ -25,10 +25,11 @@ public class SteeringControl {
 
 			Vector2d newCenter = rotatePointAroundTurnPoint(thirdPointOfTriangle, this.steerAngle, new Vector2d(carPosition.getCenter().getX(), carPosition.getCenter().getY()));
 
-			double lengthOfSide = Math.abs(newCenter.getX() - carPosition.getCenter().getX());
-			double lengthOfAtfogo = Math.sqrt(Math.pow((newCenter.getX() - carPosition.getCenter().getX()), 2) + Math.pow(newCenter.getY() - carPosition.getCenter().getY(), 2));
-
-			return Math.acos(lengthOfSide / lengthOfAtfogo);
+			if(!(newCenter.getX() == carPosition.getCenter().getX() || newCenter.getY() == carPosition.getCenter().getY())) {
+				return Math.toRadians(90) - Math.atan2(Math.abs(newCenter.getY() - carPosition.getCenter().getY()), Math.abs(newCenter.getX() - carPosition.getCenter().getX()));
+			}
+			else
+				return 0;
 		}
 		else
 			return 0;
