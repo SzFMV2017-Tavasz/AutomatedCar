@@ -44,16 +44,34 @@ public class World implements IWorldVisualisation {
         worldObjects = xmlParser.getWorldObjects();
     }
     
-    public List<IWorldObject> checkSensorArea(Point a, Point b, Point c)
+    public List<IWorldObject> checkSensorArea(Triangle sensorArea)
     {
         List<IWorldObject> detectedObjects = new ArrayList<IWorldObject>();
-        Triangle sensorArea = new Triangle(a,b,c);
-        
-        for(IWorldObject object : worldObjects)
+        switch(sensorArea.getSensor())
         {
-            if (sensorArea.contains(object.getCenterX(), object.getCenterY())) {
-                detectedObjects.add(object);
-            }
+            case Camera: 
+                for(IWorldObject object : worldObjects)
+                {
+                    if (sensorArea.contains(object.getCenterX(), object.getCenterY())) {
+                    detectedObjects.add(object);
+                    }
+                }
+                break;
+            case Radar: 
+                for(IWorldObject object : worldObjects)
+                {
+                    if (object instanceof CollidableBase &&  sensorArea.contains(object.getCenterX(), object.getCenterY())) {
+                    detectedObjects.add(object);
+                    }
+                }
+                break;
+            case UltraSonic: //Maybe later will be difference between Radar and UltraSonic
+                for(IWorldObject object : worldObjects)
+                {
+                    if (object instanceof CollidableBase &&  sensorArea.contains(object.getCenterX(), object.getCenterY())) {
+                    detectedObjects.add(object);
+                    }                
+                }
         }
         return detectedObjects;
     }
