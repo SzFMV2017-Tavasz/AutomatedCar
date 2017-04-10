@@ -11,14 +11,15 @@ import static org.junit.Assert.*;
  */
 public class SteeringWheelTest {
 
-    private int timeStep = 5;
-
+    private int timeStep;
     SteeringWheel steeringWheel;
     DirectionIndicator indicator;
+
     @Before
     public void setUp() throws Exception {
         indicator = new DirectionIndicator();
         steeringWheel = new SteeringWheel(indicator);
+        timeStep = steeringWheel.getTimeStep();
     }
 
     @After
