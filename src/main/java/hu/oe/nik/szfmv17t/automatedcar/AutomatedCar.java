@@ -15,7 +15,7 @@ public class AutomatedCar extends Car{
 
    public AutomatedCar(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double mass, double speed, double directionAngle) {
         super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, mass, speed, directionAngle);
-    
+
 
 		// Compose our car from brand new system components
 		// The car has to know its PowertrainSystem, to get its coordinates
@@ -38,16 +38,17 @@ public class AutomatedCar extends Car{
 		// Update the position and orientation of the car
 
 		this.setDirectionAngle(powertrainSystem.getSteeringAngle());
+		this.setAxisAngle((-1)*powertrainSystem.getSteeringAngle());
 		this.speed = this.powertrainSystem.getVelocity();
-		System.out.println("Speed: " + speed + "m/s");
-		System.out.println("Wheel angle: " + wheelAngle);
+		//System.out.println("Speed: " + speed + "m/s");
+		//System.out.println("Wheel angle: " + wheelAngle);
 	}
 
 	@Override
 	public void updateWorldObject() {
 		Vector2d direction = new Vector2d(Math.cos(this.getDirectionAngle()), Math.sin(this.getDirectionAngle ()));
 
-		position.setPositionX(position.getMinimumX() + direction.getX() * getSpeed());
-		position.setPositionY(position.getMinimumY() + direction.getY() * getSpeed());
+		position.setPositionX(position.getMinimumX() + direction.getY() * getSpeed());
+		position.setPositionY(position.getMinimumY() - direction.getX() * getSpeed());
 	}
 }

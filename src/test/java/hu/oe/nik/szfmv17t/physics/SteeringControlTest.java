@@ -1,14 +1,14 @@
 package hu.oe.nik.szfmv17t.physics;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SteeringControlTest {
-	
+	private double speed = 0;
 	@Test
 	public void CalculateWheelAngleReturnsZero(){
 		SteeringControl steeringControl = new SteeringControl();
@@ -16,7 +16,7 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = 0;
 		
-		result = steeringControl.calculateSteeringAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState, speed);
 	
 		assertEquals(expected, result, 0);
 	}
@@ -27,9 +27,9 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = 50;
 		
-		result = steeringControl.calculateSteeringAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState, speed);
 	
-		assertTrue(result < 0);
+		assertTrue(result > 0);
 	}
 	
 	@Test
@@ -38,9 +38,9 @@ public class SteeringControlTest {
 		double result;
 		int wheelState = -50;
 		
-		result = steeringControl.calculateSteeringAngle(wheelState);
+		result = steeringControl.calculateSteeringAngle(wheelState, speed);
 	
-		assertTrue(result > 0);
+		assertTrue(result < 0);
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class SteeringControlTest {
 		SteeringControl steeringControl = new SteeringControl();
 		double result;
 		double expected = 0;
-		int wheelState = -50;
+		int wheelState = 50;
 		Field maxAngle = null;
 		try {
 			maxAngle = SteeringControl.class.getDeclaredField("MAX_STEERING_ANGLE");
@@ -61,7 +61,7 @@ public class SteeringControlTest {
 			e.printStackTrace();
 		}
 
-		result = Math.toDegrees(steeringControl.calculateSteeringAngle(wheelState));
+		result = Math.toDegrees(steeringControl.calculateSteeringAngle(wheelState,speed));
 		try {
 			expected = maxAngle.getDouble(steeringControl) * 0.5;
 		} catch (IllegalArgumentException e) {

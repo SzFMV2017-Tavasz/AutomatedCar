@@ -8,20 +8,34 @@ public class SteeringControl {
 	
 	private int max;
 	private double steerAngle;
-	
+	private final double wheelBase = 5.3;
+    private long previousTime;
+
 	public SteeringControl(){
-		this.max = SteeringWheel.maxLeft;
+		this.max = SteeringWheel.maxRight;
+		previousTime = System.currentTimeMillis();
 	}
 
-	public double calculateSteeringAngle(int wheelState){
-		if(wheelState != 0){
-			this.steerAngle = Math.toRadians(steer(wheelState));
-			return this.steerAngle;
-		}
-		return 0;
+	public double calculateSteeringAngle(int wheelState, double velocity){
+		this.steerAngle += steer(wheelState,velocity);
+		return this.steerAngle;
 	}
-	
-	private double steer(int wheelState){
-		return ((double)wheelState/max)*MAX_STEERING_ANGLE;
+
+	private double steer(int wheelState, double speed){
+
+        long deltaTime = System.currentTimeMillis() - this.previousTime;
+
+		double wheelAngle = ((double)wheelState/max)*MAX_STEERING_ANGLE;
+
+		double turningCircleRadius = wheelBase/Math.sin(Math.toRadians(wheelAngle));
+
+		double angularSpeedinRadPerSec = speed/turningCircleRadius;
+
+        double timeInSec = (deltaTime/1000.0);
+        double turningAngleInCycle = (angularSpeedinRadPerSec * timeInSec);
+
+        this.previousTime += deltaTime;
+        return turningAngleInCycle;
+
 	}
 }
