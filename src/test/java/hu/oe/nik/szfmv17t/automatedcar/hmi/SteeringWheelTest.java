@@ -11,6 +11,8 @@ import static org.junit.Assert.*;
  */
 public class SteeringWheelTest {
 
+    private int timeStep = 5;
+
     SteeringWheel steeringWheel;
     DirectionIndicator indicator;
     @Before
@@ -44,12 +46,16 @@ public class SteeringWheelTest {
     @Test
     public void steerLeft() throws Exception {
         steeringWheel.steerLeft();
+        Thread.sleep(timeStep+1);
+        steeringWheel.steerLeft();
         assertTrue( steeringWheel.isSteeringWheelLeftToCenter() );
         steeringWheel.steerRight();
     }
 
     @Test
     public void steerRight() throws Exception {
+        steeringWheel.steerRight();
+        Thread.sleep(timeStep+1);
         steeringWheel.steerRight();
         assertTrue( steeringWheel.isSteeringWheelRightToCenter() );
         steeringWheel.steerLeft();
@@ -69,7 +75,9 @@ public class SteeringWheelTest {
         while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationLeft()) {
             steeringWheel.steerLeft();
         }
+        Thread.sleep(timeStep+1);
         steeringWheel.steerLeft();
+        Thread.sleep(timeStep+1);
         steeringWheel.steerRight();
         assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Default );
         steeringWheel.steerRelease();
@@ -102,7 +110,9 @@ public class SteeringWheelTest {
         while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationRight()) {
             steeringWheel.steerRight();
         }
+        Thread.sleep(timeStep+1);
         steeringWheel.steerRight();
+        Thread.sleep(timeStep+1);
         steeringWheel.steerLeft();
         assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Default );
         steeringWheel.steerRelease();

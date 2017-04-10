@@ -109,17 +109,23 @@ public class HMI extends SystemComponent implements KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
 
-        if (keyPressHandled) {
+/*        if (keyPressHandled) {
             return;
-        }
+        }*/
         System.out.println("keyPressed:" + keyEvent.getKeyChar());
         char key = keyEvent.getKeyChar();
         switch (key) {
             case STEER_LEFT_KEY:
-                steeringWheel.start();
+                if (!keyPressHandled) {
+                    steeringWheel.start();
+                }
+                steeringWheel.steerLeft();
                 break;
             case STEER_RIGHT_KEY:
-                steeringWheel.start();
+                if (!keyPressHandled) {
+                    steeringWheel.start();
+                }
+                steeringWheel.steerRight();
                 break;
             case INCRASE_GAS_KEY:
                 gasPedal.start();
