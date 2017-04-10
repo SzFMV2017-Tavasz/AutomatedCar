@@ -7,11 +7,13 @@ public class SteeringWheel {
     private int state;
     private HmiTimer timer;
     private int steeringStep = 5;
+    private int timeStep = 100;
     private int steeringStateForIndicationLeft = -30;
     private int steeringStateForIndicationRight = 30;
     private DirectionIndicator directionIndicator;
     public static int maxLeft = -100;
     public static int maxRight = 100;
+    private boolean timerStarted = false;
 
     public SteeringWheel(DirectionIndicator directionIndicator) {
         this.state = 0;
@@ -19,10 +21,18 @@ public class SteeringWheel {
         this.directionIndicator = directionIndicator;
     }
 
+    public int getTimeStep() {
+        return timeStep;
+    }
+
     public void steerLeft() {
-        if(state >= maxLeft + steeringStep) {
-            state -= steeringStep;
-            automaticIndicationLeft();
+        startTimerIfNotStarted();
+        if(timer.getDuration() > timeStep) {
+            if (state >= maxLeft + steeringStep) {
+                state -= steeringStep;
+                automaticIndicationLeft();
+            }
+            this.start();
         }
     }
 
@@ -35,9 +45,13 @@ public class SteeringWheel {
     }
 
     public void steerRight() {
-        if(state <= maxRight - steeringStep) {
-            state += steeringStep;
-            automaticIndicationRight();
+        startTimerIfNotStarted();
+        if(timer.getDuration() > timeStep){
+            if (state <= maxRight - steeringStep) {
+                state += steeringStep;
+                automaticIndicationRight();
+            }
+            this.start();
         }
     }
 
@@ -49,23 +63,29 @@ public class SteeringWheel {
                 directionIndicator.IndicationReset();
     }
 
-    public void steerRelease() {
+    public boolean steerRelease() {
         if(isSteeringWheelLeftToCenter()){
-            wheelToCenterFromLeft();
+            return wheelToCenterFromLeft();
         }else if(isSteeringWheelRightToCenter()) {
-            wheelToCenterFromRight();
+            return wheelToCenterFromRight();
+        }else{
+            return false;
         }
     }
 
-    private void wheelToCenterFromLeft() {
-        while(!isSteeringWheelCentered()){
+    private boolean wheelToCenterFromLeft() {
+        if(!isSteeringWheelCentered()){
             steerRight();
+            return true;
         }
+        return false;
     }
-    private void wheelToCenterFromRight() {
-        while(!isSteeringWheelCentered()){
+    private boolean wheelToCenterFromRight() {
+        if(!isSteeringWheelCentered()){
             steerLeft();
+            return true;
         }
+        return false;
     }
 
     public void quickLeft() {
@@ -111,6 +131,13 @@ public class SteeringWheel {
     }
     public void start() {
         timer.Start();
+        timerStarted = true;
+    }
+
+    public void startTimerIfNotStarted(){
+        if(!this.timerStarted){
+            this.start();
+        }
     }
 
 
