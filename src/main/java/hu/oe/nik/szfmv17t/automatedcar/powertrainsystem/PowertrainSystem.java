@@ -67,7 +67,7 @@ public class PowertrainSystem extends SystemComponent {
                 this.steeringAngle = this.steeringControl.calculateSteeringAngle((int) s.getData());
                 break;
             case ULTRASONIC_SENSOR_ID:
-                System.out.println("Ultrasonic sensor: " + s.getData());
+                //System.out.println("Ultrasonic sensor: " + s.getData());
                 break;
             default:
                 // ignore other signals
