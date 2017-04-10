@@ -38,7 +38,7 @@ public class AutomatedCar extends Car{
 			double currentDirection = this.getDirectionAngle();
 			double inDegreeCurrent = Math.toDegrees(currentDirection);
 			double normalizeDegreeCurrent = ((inDegreeCurrent/360)-(int)(inDegreeCurrent/360))*360;
-			this.setDirectionAngle(Math.toRadians(-20));
+			this.setDirectionAngle(Math.toRadians(normalizeDegreeCurrent) + newDirection);
 		}
 		this.setAxisAngle(this.getDirectionAngle());
 		System.out.println(Math.toDegrees(this.getDirectionAngle()));

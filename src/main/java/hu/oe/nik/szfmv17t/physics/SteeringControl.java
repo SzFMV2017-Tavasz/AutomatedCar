@@ -26,10 +26,10 @@ public class SteeringControl {
 			Vector2d newCenter = rotatePointAroundTurnPoint(thirdPointOfTriangle, this.steerAngle, new Vector2d(carPosition.getCenter().getX(), carPosition.getCenter().getY()));
 
 			if(!(newCenter.getX() == carPosition.getCenter().getX() || newCenter.getY() == carPosition.getCenter().getY())) {
-				return Math.toRadians(90) - Math.atan2(Math.abs(newCenter.getY() - carPosition.getCenter().getY()), Math.abs(newCenter.getX() - carPosition.getCenter().getX()));
+				return Math.atan2(Math.abs(newCenter.getY() - carPosition.getCenter().getY()), Math.abs(newCenter.getX() - carPosition.getCenter().getX()));
 			}
 			else
-				return 0;
+				return carPosition.getDirectionAngle();
 		}
 		else
 			return 0;
@@ -43,10 +43,9 @@ public class SteeringControl {
 
 	private Vector2d calculateThirdPointOfTriangle(double lengthOfAdjacentSide, int wheelState, Position carPosition) {
 		if(wheelState > 0){
-			Vector2d newThirdPointOfTriangle = new Vector2d(carPosition.getCenter().getX()+lengthOfAdjacentSide, carPosition.getMaximumY());
-			Vector2d bottomCenterPoint = rotatePointAroundTurnPoint(new Vector2d(carPosition.getCenter().getX(),carPosition.getCenter().getY()),carPosition.getDirectionAngle(),new Vector2d(carPosition.getCenter().getX(), carPosition.getMaximumY()));
+			Vector2d bottomCenterPoint = rotatePointAroundTurnPoint(new Vector2d(carPosition.getCenter().getX(),carPosition.getCenter().getY()),carPosition.getDirectionAngle(),new Vector2d(carPosition.getCenter().getX(), carPosition.getCenter().getY() + carPosition.getHeight()/2));
 
-			return rotatePointAroundTurnPoint(bottomCenterPoint, carPosition.getDirectionAngle(), newThirdPointOfTriangle);
+			return new Vector2d(bottomCenterPoint.getX() + lengthOfAdjacentSide * Math.cos(carPosition.getDirectionAngle()),bottomCenterPoint.getY() + lengthOfAdjacentSide * Math.sin(carPosition.getDirectionAngle()));
 		}
 		return new Vector2d(carPosition.getCenter().getX() - lengthOfAdjacentSide, carPosition.getMaximumY());
 	}
