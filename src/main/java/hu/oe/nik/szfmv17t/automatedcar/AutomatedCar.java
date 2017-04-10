@@ -7,6 +7,8 @@ import hu.oe.nik.szfmv17t.environment.domain.Car;
 import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 import hu.oe.nik.szfmv17t.environment.utils.Position;
 
+import java.util.Vector;
+
 public class AutomatedCar extends Car{
 
 	private PowertrainSystem powertrainSystem;
@@ -31,26 +33,17 @@ public class AutomatedCar extends Car{
 		// call components
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
-
-		if(this.speed != 0) {
-			double newDirection = powertrainSystem.calculateDirectionVector(this.position);
-
-			double currentDirection = this.getDirectionAngle();
-			double inDegreeCurrent = Math.toDegrees(currentDirection);
-			double normalizeDegreeCurrent = ((inDegreeCurrent/360)-(int)(inDegreeCurrent/360))*360;
-			this.setDirectionAngle(Math.toRadians(normalizeDegreeCurrent) + newDirection);
-		}
+		this.setDirectionAngle(powertrainSystem.getSteeringAngle(this.position));
 		this.setAxisAngle(this.getDirectionAngle());
+		this.speed = this.powertrainSystem.getVelocity();
 		System.out.println(Math.toDegrees(this.getDirectionAngle()));
-		this.speed = this.powertrainSystem.getVelocity()/50;
-		//System.out.println("Speed: " + speed + "m/s");
 	}
 
 	@Override
 	public void updateWorldObject() {
-		Vector2d direction = new Vector2d(Math.cos(this.getDirectionAngle()), Math.sin(this.getDirectionAngle ()));
+		Vector2d direction = new Vector2d(Math.cos(this.getDirectionAngle()), Math.sin(this.getDirectionAngle()));
 
-		position.setPositionX(position.getMinimumX() + direction.getX() * getSpeed());
-		position.setPositionY(position.getMinimumY() + direction.getY() * getSpeed());
+		position.setPositionX(position.getMinimumX() + direction.getY() * getSpeed());
+		position.setPositionY(position.getMinimumY() - direction.getX() * getSpeed());
 	}
 }

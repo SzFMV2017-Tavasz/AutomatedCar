@@ -8,57 +8,31 @@ import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 public class SteeringControl {
 
 	private final double MAX_STEERING_ANGLE = 45;
+	private static final int MILLISECONDSTOSECONDS = 1000;
 
 	private int max;
 	private double steerAngle;
-	private int wheelState;
+	private long previousTime;
 
 	public SteeringControl(){
 		this.max = SteeringWheel.maxRight;
+		this.previousTime = System.currentTimeMillis();
 	}
 
-	public double calculateDirectionVector(Position carPosition){
-		if(wheelState != 0) {
-			double lengthOfAdjacentSide = calculateLengthOfAdjacentSide(this.steerAngle, carPosition);
+	public double calculateAngle(Position carPosition, double speed, int wheelState){
+			double wheelAngle = calculateSteerAngle(wheelState);
+			long deltaTime = System.currentTimeMillis() - this.previousTime;
+			this.previousTime += deltaTime;
+			double omega = speed / (carPosition.getHeight() / Math.sin(wheelAngle)) * (deltaTime/ MILLISECONDSTOSECONDS);
 
-			Vector2d thirdPointOfTriangle = calculateThirdPointOfTriangle(lengthOfAdjacentSide, this.wheelState, carPosition);
+			this.steerAngle += omega;
 
-			Vector2d newCenter = rotatePointAroundTurnPoint(thirdPointOfTriangle, this.steerAngle, new Vector2d(carPosition.getCenter().getX(), carPosition.getCenter().getY()));
-
-			if(!(newCenter.getX() == carPosition.getCenter().getX() || newCenter.getY() == carPosition.getCenter().getY())) {
-				return Math.atan2(Math.abs(newCenter.getY() - carPosition.getCenter().getY()), Math.abs(newCenter.getX() - carPosition.getCenter().getX()));
-			}
-			else
-				return carPosition.getDirectionAngle();
-		}
-		else
-			return 0;
-	}
-
-	private Vector2d rotatePointAroundTurnPoint(Vector2d turnPoint,double delta, Vector2d pointToTurn) {
-		double newX = Math.cos(delta) * (pointToTurn.getX()-turnPoint.getX()) - Math.sin(delta) * (pointToTurn.getY()-turnPoint.getY()) + turnPoint.getX();
-		double newY = Math.sin(delta) * (pointToTurn.getX()-turnPoint.getX()) + Math.cos(delta) * (pointToTurn.getY()-turnPoint.getY()) + turnPoint.getY();
-		return new Vector2d(newX, newY);
-	}
-
-	private Vector2d calculateThirdPointOfTriangle(double lengthOfAdjacentSide, int wheelState, Position carPosition) {
-		if(wheelState > 0){
-			Vector2d bottomCenterPoint = rotatePointAroundTurnPoint(new Vector2d(carPosition.getCenter().getX(),carPosition.getCenter().getY()),carPosition.getDirectionAngle(),new Vector2d(carPosition.getCenter().getX(), carPosition.getCenter().getY() + carPosition.getHeight()/2));
-
-			return new Vector2d(bottomCenterPoint.getX() + lengthOfAdjacentSide * Math.cos(carPosition.getDirectionAngle()),bottomCenterPoint.getY() + lengthOfAdjacentSide * Math.sin(carPosition.getDirectionAngle()));
-		}
-		return new Vector2d(carPosition.getCenter().getX() - lengthOfAdjacentSide, carPosition.getMaximumY());
-	}
-
-	private double calculateLengthOfAdjacentSide(double delta, Position carPosition) {
-		return carPosition.getHeight() / Math.tan(delta);
-	}
-
-	public double calculateWheelAngle(int wheelState){
-		this.wheelState = wheelState;
-		if(wheelState != 0){
-			this.steerAngle = Math.toRadians(steer(wheelState));
 			return this.steerAngle;
+	}
+
+	private double calculateSteerAngle(int wheelState){
+		if(wheelState != 0){
+			return Math.toRadians(steer(wheelState));
 		}
 		return 0;
 	}

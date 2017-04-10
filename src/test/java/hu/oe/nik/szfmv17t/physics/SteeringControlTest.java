@@ -9,8 +9,8 @@ import org.junit.Test;
 
 public class SteeringControlTest {
 	
-	@Test
-	public void CalculateWheelAngleReturnsZero(){
+	/*@Test
+	/*public void CalculateWheelAngleReturnsZero(){
 		SteeringControl steeringControl = new SteeringControl();
 		double expected = 0;
 		double result;
@@ -73,5 +73,5 @@ public class SteeringControlTest {
 		}
 	
 		assertEquals(expected, result, 0);
-	}
+	}*/
 }
