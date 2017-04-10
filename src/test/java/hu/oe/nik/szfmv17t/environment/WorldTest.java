@@ -4,7 +4,10 @@ import hu.oe.nik.szfmv17t.environment.domain.CollidableBase;
 import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
+import hu.oe.nik.szfmv17t.environment.utils.SensorType;
 import org.junit.Test;
+import java.awt.Point;
+import hu.oe.nik.szfmv17t.environment.utils.Triangle;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -92,5 +95,16 @@ public class WorldTest {
             helps = true;
         }
         assertEquals(false, helps);
+    }
+        
+    @Test
+    public void sensorTriangleWithPointsTest() throws Exception {
+        Sign testSign2 = new Sign(2, 3, 0, 0, 0, 0, "", 0, 0, 0); 
+        world.addObjectToWorld(testSign2);  
+        Point a = new Point(-6,3);
+        Point b = new Point(10,-10);
+        Point c = new Point(10,11);
+        Triangle sensorArea = new Triangle(a,b,c,SensorType.Camera);
+        assertEquals(testSign2, world.checkSensorArea(sensorArea).get(0));
     }
 }
