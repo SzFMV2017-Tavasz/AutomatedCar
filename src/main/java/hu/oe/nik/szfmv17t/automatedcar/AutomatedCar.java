@@ -5,9 +5,6 @@ import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv17t.environment.domain.Car;
 import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
-import hu.oe.nik.szfmv17t.environment.utils.Position;
-
-import java.util.Vector;
 
 public class AutomatedCar extends Car{
 

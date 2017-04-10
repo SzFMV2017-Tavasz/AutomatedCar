@@ -2,16 +2,14 @@ package hu.oe.nik.szfmv17t.physics;
 
 import hu.oe.nik.szfmv17t.automatedcar.hmi.SteeringWheel;
 import hu.oe.nik.szfmv17t.environment.utils.Position;
-import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 
 //Right is positive, left is negative
 public class SteeringControl {
-
 	private final double MAX_STEERING_ANGLE = 45;
-	private static final int MILLISECONDSTOSECONDS = 1000;
+	private final int MILLISECONDS_TO_SECONDS = 1000;
+	private final double WHEELBASE = 5.3;
 
 	private int max;
-	private double steerAngle;
 	private long previousTime;
 
 	public SteeringControl(){
@@ -20,14 +18,18 @@ public class SteeringControl {
 	}
 
 	public double calculateAngle(Position carPosition, double speed, int wheelState){
-			double wheelAngle = calculateSteerAngle(wheelState);
-			long deltaTime = System.currentTimeMillis() - this.previousTime;
-			this.previousTime += deltaTime;
-			double omega = speed / (carPosition.getHeight() / Math.sin(wheelAngle)) * (deltaTime/ MILLISECONDSTOSECONDS);
+		long deltaTime = System.currentTimeMillis() - this.previousTime;
+		this.previousTime += deltaTime;
 
-			this.steerAngle += omega;
+		double wheelAngle = calculateSteerAngle(wheelState);
 
-			return this.steerAngle;
+		double turningCircleRadius = (WHEELBASE / Math.sin(wheelAngle));
+
+		double angularSpeed = speed / turningCircleRadius;
+
+		double timeInSec = (double) deltaTime / MILLISECONDS_TO_SECONDS;
+
+		return angularSpeed * timeInSec;
 	}
 
 	private double calculateSteerAngle(int wheelState){
