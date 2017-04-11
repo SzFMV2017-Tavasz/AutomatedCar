@@ -36,7 +36,7 @@ public class FrameComposerTest {
 
         List<CameraObject> ret = fc.composeFrame();
     }
-
+/*
     @Test
     public void nonVisibleTest () {
         Camera camera = new Camera();
@@ -55,7 +55,7 @@ public class FrameComposerTest {
 
         assertEquals (1, ret.size());
     }
-
+*/
     @Test
     public void visibleTest () {
         Camera camera = new Camera();
@@ -74,7 +74,7 @@ public class FrameComposerTest {
 
         assertEquals (2, ret.size());
     }
-
+/*
     @Test
     public void mixedVisibleTest () {
         Camera camera = new Camera();
@@ -101,6 +101,7 @@ public class FrameComposerTest {
 
         assertEquals (3, ret.size());
     }
+    */
 
     private AutomatedCar createCarAt (int x, int y) {
         return new AutomatedCar(x, y,108,240,0d,0,"car_1_white.png",200d,0d,0d);
