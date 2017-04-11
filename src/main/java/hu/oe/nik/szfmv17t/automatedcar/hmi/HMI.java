@@ -1,12 +1,12 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
@@ -42,6 +42,8 @@ public class HMI extends SystemComponent implements KeyListener {
     private boolean keyPressHandled;
     DirectionIndicator directionIndicator;
     double carspeed;
+    private boolean steerLeftReleased;
+    private boolean steerRightReleased;
 
     public void setCarspeed(double carspeed) {
         this.carspeed = carspeed * 3.6;
@@ -63,6 +65,10 @@ public class HMI extends SystemComponent implements KeyListener {
         sendGasPedalSignal();
         sendBrakePedalSignal();
         sendGearStickSignal();
+        if((steeringWheel.isSteeringWheelLeftToCenter() && steerLeftReleased)
+        || (steeringWheel.isSteeringWheelRightToCenter() && steerRightReleased)){
+            steeringWheel.steerRelease();
+        }
     }
 
     private void sendSteeringWheelSignal() {
@@ -109,18 +115,23 @@ public class HMI extends SystemComponent implements KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
 
-        if (keyPressHandled) {
-            return;
-        }
+
         System.out.println("keyPressed:" + keyEvent.getKeyChar());
         char key = keyEvent.getKeyChar();
         switch (key) {
             case STEER_LEFT_KEY:
-                steeringWheel.start();
+                steeringWheel.steerLeft();
+                steerLeftReleased = false;
                 break;
             case STEER_RIGHT_KEY:
-                steeringWheel.start();
+                steeringWheel.steerRight();
+                steerRightReleased = false;
                 break;
+        }
+        if (keyPressHandled) {
+            return;
+        }
+        switch (key) {
             case INCRASE_GAS_KEY:
                 gasPedal.start();
                 break;
@@ -144,10 +155,12 @@ public class HMI extends SystemComponent implements KeyListener {
         char key = keyEvent.getKeyChar();
         switch (key) {
             case STEER_LEFT_KEY:
-                steeringWheel.steerLeft();
+                steeringWheel.steerRelease();
+                steerLeftReleased = true;
                 break;
             case STEER_RIGHT_KEY:
-                steeringWheel.steerRight();
+                steeringWheel.steerRelease();
+                steerRightReleased = true;
                 break;
             case INCRASE_GAS_KEY:
                 gasPedal.acceleration();
