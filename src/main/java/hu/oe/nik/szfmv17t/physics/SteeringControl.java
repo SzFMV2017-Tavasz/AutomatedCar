@@ -5,7 +5,7 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.SteeringWheel;
 //Right is positive, left is negative
 public class SteeringControl {
 	private final double MAX_STEERING_ANGLE = 45;
-	private final int MILLISECONDS_TO_SECONDS = 1000;
+	private final int MILLISECONDSTOSECONDS = 1000;
 	private final double WHEELBASE = 5.3;
 
 	private int max;
@@ -27,7 +27,7 @@ public class SteeringControl {
 
 		double angularSpeed = speed / turningCircleRadius;
 
-		double timeInSec = deltaTime / (double) MILLISECONDS_TO_SECONDS;
+		double timeInSec = deltaTime / (double) MILLISECONDSTOSECONDS;
 
 		this.steerAngle += angularSpeed * timeInSec;
 

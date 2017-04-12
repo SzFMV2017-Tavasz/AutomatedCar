@@ -47,7 +47,7 @@ public class SpeedControl {
 		}
 		double sumAcceleration = sumAcceleration();
 
-		double calculatedVelocity = actualVelocity + (sumAcceleration * Main.CYCLE_PERIOD / 1000);
+		double calculatedVelocity = actualVelocity + (sumAcceleration * Main.CYCLE_PERIOD / MILLISECONDSTOSECONDS);
 
 		calculatedVelocity = preventNegativeVelocity(calculatedVelocity);
 		
