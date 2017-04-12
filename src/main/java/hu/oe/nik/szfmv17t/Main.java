@@ -12,6 +12,7 @@ import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
 public class Main {
 
 	private static final Logger logger = LogManager.getLogger();
+	public static final int CYCLE_PERIOD = 20;
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
@@ -42,6 +43,7 @@ public class Main {
 				hmi.setCarspeed(car.getSpeed());
 				//vis.refreshFrame();
 				w.updateWorld();
+				Thread.sleep(CYCLE_PERIOD);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}

@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t.physics;
 
+import hu.oe.nik.szfmv17t.Main;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
@@ -26,8 +27,6 @@ public class SpeedControl {
 	private int maxGasPedal;
 	private int maxBrakePedal;
 	private double actualVelocity;
-	
-	private long previousTime;
 
 	public SpeedControl(double carWeight) {
 		this.autoGear = false;
@@ -40,7 +39,6 @@ public class SpeedControl {
 		this.maxGasPedal = GasPedal.MAX_STATE;
 		this.maxBrakePedal = BrakePedal.MAX_STATE;
 		this.gearShift = 1;
-		this.previousTime = System.currentTimeMillis();
 	}
 
 	public double calculateVelocity() {
@@ -48,10 +46,8 @@ public class SpeedControl {
 			this.gearShift = this.gearControl.actualGearState(this.autoGearState, this.gearShift, this.actualVelocity);
 		}
 		double sumAcceleration = sumAcceleration();
-		
-		long deltaTime = System.currentTimeMillis() - this.previousTime;		
-		double calculatedVelocity = actualVelocity + sumAcceleration * deltaTime / MILLISECONDSTOSECONDS;
-		this.previousTime += deltaTime;
+
+		double calculatedVelocity = actualVelocity + (sumAcceleration * Main.CYCLE_PERIOD / 1000);
 
 		calculatedVelocity = preventNegativeVelocity(calculatedVelocity);
 		

@@ -3,7 +3,6 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
-import hu.oe.nik.szfmv17t.environment.utils.Position;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
@@ -67,8 +66,8 @@ public class PowertrainSystem extends SystemComponent {
 		}
 	}
 
-	public double getSteeringAngle(Position carPosition){
-		return steeringControl.calculateAngle(carPosition, this.getVelocity(), this.wheelState);
+	public double getSteeringAngle(double carVelocity) {
+		return steeringControl.calculateAngle(carVelocity, this.wheelState);
 	}
 
 	public double getVelocity() {
