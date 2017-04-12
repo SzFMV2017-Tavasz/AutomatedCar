@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
+import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.visualisation.CourseDisplay;
 import hu.oe.nik.szfmv17t.visualisation.HmiJPanel;
@@ -29,6 +30,7 @@ public class Main {
 		HMI hmi = new HMI();
 		HmiJPanel.setHmi(hmi);
 
+		UltrasonicController usController = new UltrasonicController(car);
 
 		// add car to the world
 		w.addObjectToWorld(car);
