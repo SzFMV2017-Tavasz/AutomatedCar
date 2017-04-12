@@ -10,7 +10,6 @@ import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 public class AutomatedCar extends Car{
 
 	private PowertrainSystem powertrainSystem;
-	private double wheelAngle = 0;
 	private UltrasonicController ultrasonicController;
 
    public AutomatedCar(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double mass, double speed, double directionAngle) {
@@ -29,25 +28,23 @@ public class AutomatedCar extends Car{
 		new Driver();
 
 		this.ultrasonicController = new UltrasonicController(this);
-
 	}
 
 	public void drive() {
 		// call components
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
-
-		this.setDirectionAngle(powertrainSystem.getSteeringAngle());
 		this.speed = this.powertrainSystem.getVelocity();
-		System.out.println("Speed: " + speed + "m/s");
-		System.out.println("Wheel angle: " + wheelAngle);
+		this.setDirectionAngle(powertrainSystem.getSteeringAngle(this.speed));
+		this.setAxisAngle((-1) * this.getDirectionAngle());
+		System.out.println(Math.toDegrees(this.getDirectionAngle()));
 	}
 
 	@Override
 	public void updateWorldObject() {
-		Vector2d direction = new Vector2d(Math.cos(this.getDirectionAngle()), Math.sin(this.getDirectionAngle ()));
+		Vector2d direction = new Vector2d(Math.cos(this.getDirectionAngle()), Math.sin(this.getDirectionAngle()));
 
-		position.setPositionX(position.getMinimumX() + direction.getX() * getSpeed());
-		position.setPositionY(position.getMinimumY() + direction.getY() * getSpeed());
+		position.setPositionX(position.getMinimumX() + direction.getY() * getSpeed());
+		position.setPositionY(position.getMinimumY() - direction.getX() * getSpeed());
 	}
 }
