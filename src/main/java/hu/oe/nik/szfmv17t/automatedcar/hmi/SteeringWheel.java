@@ -6,8 +6,8 @@ package hu.oe.nik.szfmv17t.automatedcar.hmi;
 public class SteeringWheel {
     private int state;
     private HmiTimer timer;
-    private int steeringStep = 5;
-    private int timeStep = 100;
+    private int steeringStep = 10;
+    private int timeStep = 50;
     private int steeringStateForIndicationLeft = -30;
     private int steeringStateForIndicationRight = 30;
     private DirectionIndicator directionIndicator;
