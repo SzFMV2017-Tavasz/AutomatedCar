@@ -63,7 +63,7 @@ public class HMI extends SystemComponent implements KeyListener {
         sendGasPedalSignal();
         sendBrakePedalSignal();
         sendGearStickSignal();
-        if(steeringWheel.steerRelease()){
+        if(carspeed > 0 && steeringWheel.isSteerReleased()){
             steeringWheel.steerRelease();
         }
     }
@@ -150,10 +150,10 @@ public class HMI extends SystemComponent implements KeyListener {
         char key = keyEvent.getKeyChar();
         switch (key) {
             case STEER_LEFT_KEY:
-                steeringWheel.steerRelease();
+                steeringWheel.setSteerReleased(true);
                 break;
             case STEER_RIGHT_KEY:
-                steeringWheel.steerRelease();
+                steeringWheel.setSteerReleased(true);
                 break;
             case INCRASE_GAS_KEY:
                 gasPedal.acceleration();

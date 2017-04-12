@@ -1,8 +1,13 @@
 package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
+
+import java.awt.Point;
+
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
 import hu.oe.nik.szfmv17t.environment.utils.Position;
 import hu.oe.nik.szfmv17t.environment.utils.Resizer;
+import hu.oe.nik.szfmv17t.environment.utils.SensorType;
+import hu.oe.nik.szfmv17t.environment.utils.Triangle;
 
 /**
  * Created by SebestyenMiklos on 2017. 03. 26..
@@ -19,7 +24,7 @@ public class UltrasonicSensor {
 	private double additionsToSides;
 	private double additionsToLength;
 
-	public UltrasonicSensor(int sensorNumber,double mainX, double mainY) {
+	public UltrasonicSensor(int sensorNumber, double mainX, double mainY) {
 		this.sensorNumber = sensorNumber;
 		resizer = Resizer.getResizer();
 		coordinates = new UltrasonicSensorCoordinates();
@@ -33,9 +38,12 @@ public class UltrasonicSensor {
 		calculateCoordinates(sensorNumber);
 	}
 
-	/*Egyenlő szárú háromszög egyenlő szárainak számítása: egyenlőSzár = magasság / sin(alapÉsEgyenlőSzárSzöge)
-	  Egyenlő szárú háromszög alapjának hossza: alap = 2 * egyenlőSzár * cos(alapÉsEgyenlőSzárSzöge)
-	  Alap / 2 az egyik érték, amivel el kell tolni X-et vagy Y-t és viewLength a másik, attól függ hanyas szenzor
+	/*
+	 * Egyenlő szárú háromszög egyenlő szárainak számítása: egyenlőSzár =
+	 * magasság / sin(alapÉsEgyenlőSzárSzöge) Egyenlő szárú háromszög alapjának
+	 * hossza: alap = 2 * egyenlőSzár * cos(alapÉsEgyenlőSzárSzöge) Alap / 2 az
+	 * egyik érték, amivel el kell tolni X-et vagy Y-t és viewLength a másik,
+	 * attól függ hanyas szenzor
 	 */
 	private double basicCalculationsOfTriangle() {
 		double triangleBaseAngles = (180 - viewAngle) / 2;
@@ -50,36 +58,47 @@ public class UltrasonicSensor {
 		if (sensorNumber == 1 || sensorNumber == 8) {
 			coordinates.setLeftCoordinates(mainX - additionsToSides, mainY - additionsToLength);
 			coordinates.setRightCoordinates(mainX + additionsToSides, mainY - additionsToLength);
-		}
-		else if (sensorNumber == 2 || sensorNumber == 3) {
+		} else if (sensorNumber == 2 || sensorNumber == 3) {
 			coordinates.setLeftCoordinates(mainX + additionsToLength, mainY - additionsToSides);
 			coordinates.setRightCoordinates(mainX + additionsToLength, mainY + additionsToSides);
-		}
-		else if (sensorNumber == 4 || sensorNumber == 5) {
+		} else if (sensorNumber == 4 || sensorNumber == 5) {
 			coordinates.setLeftCoordinates(mainX + additionsToSides, mainY + additionsToLength);
 			coordinates.setRightCoordinates(mainX - additionsToSides, mainY + additionsToLength);
-		}
-		else {
+		} else {
 			coordinates.setLeftCoordinates(mainX - additionsToLength, mainY + additionsToSides);
 			coordinates.setRightCoordinates(mainX - additionsToLength, mainY - additionsToSides);
 		}
 	}
 
-	public UltrasonicSensorCoordinates getCoordinates(){
+	public UltrasonicSensorCoordinates getCoordinates() {
 		return coordinates;
 	}
 
-    public double getViewAngle() { return viewAngle; }
+	public double getViewAngle() {
+		return viewAngle;
+	}
 
-    public double getViewLength() { return viewLength; }
+	public double getViewLength() {
+		return viewLength;
+	}
 
-    public double getAdditionsToSidesInMeter() { return additionsToSidesInMeter; }
+	public double getAdditionsToSidesInMeter() {
+		return additionsToSidesInMeter;
+	}
 
-    public void setNewCoordinates(AutomatedCar auto){
+	public void setNewCoordinates(AutomatedCar auto) {
 
 	}
 
 	public Object getSensorNumber() {
-		return this.sensorNumber ;
+		return this.sensorNumber;
+	}
+
+	// ezt kell elvileg használni majd az objectek lekérdezéséhez
+	public Triangle getSensorViewTriangle() {
+		Point leftCord = new Point((int) coordinates.getLeftX(), (int) coordinates.getLeftY());
+		Point rightCord = new Point((int) coordinates.getRightX(), (int) coordinates.getRightY());
+		Point mainCore = new Point((int) coordinates.getMainX(), (int) coordinates.getMainY());
+		return new Triangle(leftCord, rightCord, mainCore, SensorType.UltraSonic);
 	}
 }

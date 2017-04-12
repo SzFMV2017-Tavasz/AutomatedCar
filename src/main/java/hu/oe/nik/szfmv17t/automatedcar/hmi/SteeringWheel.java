@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
+import hu.oe.nik.szfmv17t.Main;
+
 /**
  * Created by SebestyenMiklos on 2017. 03. 05..
  */
@@ -7,13 +9,23 @@ public class SteeringWheel {
     private int state;
     private HmiTimer timer;
     private int steeringStep = 5;
-    private int timeStep = 100;
+    private int timeStep = Main.CYCLE_PERIOD*2;
     private int steeringStateForIndicationLeft = -30;
     private int steeringStateForIndicationRight = 30;
     private DirectionIndicator directionIndicator;
     public static int maxLeft = -100;
     public static int maxRight = 100;
     private boolean timerStarted = false;
+
+    public boolean isSteerReleased() {
+        return steerReleased;
+    }
+
+    public void setSteerReleased(boolean steerReleased) {
+        this.steerReleased = steerReleased;
+    }
+
+    private boolean steerReleased = true;
 
     public SteeringWheel(DirectionIndicator directionIndicator) {
         this.state = 0;
@@ -27,10 +39,31 @@ public class SteeringWheel {
 
     public void steerLeft() {
         startTimerIfNotStarted();
+        this.steerReleased = false;
         if(timer.getDuration() > timeStep) {
             if (state >= maxLeft + steeringStep) {
                 state -= steeringStep;
                 automaticIndicationLeft();
+            }
+            this.start();
+        }
+    }
+
+    public void autoSteerLeft(){
+        if(timer.getDuration() > timeStep) {
+            if (state >= maxLeft + steeringStep) {
+                state -= steeringStep;
+                automaticIndicationLeft();
+            }
+            this.start();
+        }
+    }
+
+    public void autoSteerRight() {
+        if(timer.getDuration() > timeStep){
+            if (state <= maxRight - steeringStep) {
+                state += steeringStep;
+                automaticIndicationRight();
             }
             this.start();
         }
@@ -46,6 +79,7 @@ public class SteeringWheel {
 
     public void steerRight() {
         startTimerIfNotStarted();
+        this.steerReleased = false;
         if(timer.getDuration() > timeStep){
             if (state <= maxRight - steeringStep) {
                 state += steeringStep;
@@ -75,14 +109,14 @@ public class SteeringWheel {
 
     private boolean wheelToCenterFromLeft() {
         if(!isSteeringWheelCentered()){
-            steerRight();
+            autoSteerRight();
             return true;
         }
         return false;
     }
     private boolean wheelToCenterFromRight() {
         if(!isSteeringWheelCentered()){
-            steerLeft();
+            autoSteerLeft();
             return true;
         }
         return false;
