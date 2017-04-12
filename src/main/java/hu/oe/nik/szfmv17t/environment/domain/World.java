@@ -8,6 +8,7 @@ import hu.oe.nik.szfmv17t.environment.utils.*;
 import hu.oe.nik.szfmv17t.physics.interfaces.ICollisionHandler;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Point;
 
 public class World implements IWorldVisualisation {
 
@@ -41,6 +42,38 @@ public class World implements IWorldVisualisation {
         width = xmlParser.getMapWidth();
         height = xmlParser.getMapHeight();
         worldObjects = xmlParser.getWorldObjects();
+    }
+    
+    public List<IWorldObject> checkSensorArea(Triangle sensorArea)
+    {
+        List<IWorldObject> detectedObjects = new ArrayList<IWorldObject>();
+        switch(sensorArea.getSensor())
+        {
+            case Camera: 
+                for(IWorldObject object : worldObjects)
+                {
+                    if (sensorArea.contains(object.getCenterX(), object.getCenterY())) {
+                    detectedObjects.add(object);
+                    }
+                }
+                break;
+            case Radar: 
+                for(IWorldObject object : worldObjects)
+                {
+                    if (object instanceof CollidableBase &&  sensorArea.contains(object.getCenterX(), object.getCenterY())) {
+                    detectedObjects.add(object);
+                    }
+                }
+                break;
+            case UltraSonic: //Maybe later will be difference between Radar and UltraSonic
+                for(IWorldObject object : worldObjects)
+                {
+                    if (object instanceof CollidableBase &&  sensorArea.contains(object.getCenterX(), object.getCenterY())) {
+                    detectedObjects.add(object);
+                    }                
+                }
+        }
+        return detectedObjects;
     }
 
     public int getWidth() {
