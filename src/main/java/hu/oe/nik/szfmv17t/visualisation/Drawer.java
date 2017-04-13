@@ -133,6 +133,8 @@ public class Drawer implements IWorldVisualization {
         {
             if (object.getImageName()=="road_2lane_tjunctionright.png" || object.getImageName()=="road_2lane_tjunctionleft.png")
                 return object.getWidth()/Config.SCALE;
+            else if (object.getImageName()=="road_2lane_90left.png" || object.getImageName()=="road_2lane_45left.png")
+                return (object.getWidth()-Config.roadWidth)/Config.SCALE;
             else
                return Config.roadWidth/Config.SCALE;
         }
@@ -152,7 +154,7 @@ public class Drawer implements IWorldVisualization {
                 drawCornerY = (baseY - worldObject.getHeight());
         }
         else
-            drawCornerY = ((int)(cameraObject.getY() - worldObject.getHeight()/2)) ;
+            drawCornerY = ((cameraObject.getY() - worldObject.getHeight()/2)) ;
         return drawCornerY/Config.SCALE;
     }
     private double calculateDrawCornerX(CameraObject cameraObject)
@@ -165,8 +167,10 @@ public class Drawer implements IWorldVisualization {
             double baseX=(cameraObject.getX()-(worldObject.getWidth()/2));
             if (worldObject.getImageName()=="road_2lane_tjunctionright.png" || worldObject.getImageName()=="road_2lane_tjunctionleft.png")
                 drawCornerX = (baseX - worldObject.getWidth());
+            else if (worldObject.getImageName()=="road_2lane_45left.png" || worldObject.getImageName()=="road_2lane_90left.png")
+                drawCornerX = (baseX - (worldObject.getWidth()-Config.roadWidth));
             else
-                drawCornerX = (baseX - Config.roadWidth) ;
+                drawCornerX=baseX-Config.roadWidth;
         }
         else
             drawCornerX = ((int) (cameraObject.getX() - worldObject.getWidth() / 2)) ;
@@ -181,7 +185,6 @@ public class Drawer implements IWorldVisualization {
     }
     private void putDebugInformationOnImage(Image image, IWorldObject object) {
         Graphics2D g = (Graphics2D) image.getGraphics();
-
         String loc = String.format ("x: %.0f, y:%.0f", object.getCenterX(), object.getCenterY(), object.getAxisAngle());
         String rot = String.format ("%.3f (rad)", object.getAxisAngle());
 
