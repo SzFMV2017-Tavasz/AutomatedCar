@@ -17,57 +17,74 @@ public class UltrasonicSensor {
 	private UltrasonicSensorCoordinates coordinates;
 	private double viewLength;
 	private double viewAngle;
+	private double sensorDistanceFromCenter;
 	private Resizer resizer;
-	private double mainX;
-	private double mainY;
-	private double additionsToSidesInMeter;
-	private double additionsToSides;
-	private double additionsToLength;
+	private double viewLengthInCoordinates;
+	private double sensorTrianglePointsDistanceFromSensor;
 
-	public UltrasonicSensor(int sensorNumber, double mainX, double mainY) {
+	public UltrasonicSensor(int sensorNumber, double carMainCoordinateX, double carMainCoordinateY, double carAxisAngle, double length) {
 		this.sensorNumber = sensorNumber;
 		resizer = Resizer.getResizer();
+		sensorDistanceFromCenter = 127;
 		coordinates = new UltrasonicSensorCoordinates();
+		calculateCoordinates(sensorNumber, carAxisAngle, carMainCoordinateX, carMainCoordinateY);
 		viewLength = 3;
+		viewLengthInCoordinates = resizer.meterToCoordinate(viewLength);
 		viewAngle = 100;
-		this.mainX = mainX;
-		this.mainY = mainY;
-		additionsToSidesInMeter = basicCalculationsOfTriangle();
-		additionsToSides = resizer.meterToCoordinate(additionsToSidesInMeter);
-		additionsToLength = resizer.meterToCoordinate(viewLength);
-		calculateCoordinates(sensorNumber);
+		sensorTrianglePointsDistanceFromSensor = sensorTriangleBasicCalculation();
 	}
 
-	/*
-	 * Egyenlő szárú háromszög egyenlő szárainak számítása: egyenlőSzár =
-	 * magasság / sin(alapÉsEgyenlőSzárSzöge) Egyenlő szárú háromszög alapjának
-	 * hossza: alap = 2 * egyenlőSzár * cos(alapÉsEgyenlőSzárSzöge) Alap / 2 az
-	 * egyik érték, amivel el kell tolni X-et vagy Y-t és viewLength a másik,
-	 * attól függ hanyas szenzor
-	 */
-	private double basicCalculationsOfTriangle() {
-		double triangleBaseAngles = (180 - viewAngle) / 2;
-		double equalSidesLength = viewLength / Math.sin(triangleBaseAngles);
-		double triangleBaseLength = 2 * equalSidesLength * Math.cos(triangleBaseAngles);
-
-		return triangleBaseLength / 2;
+	private double sensorTriangleBasicCalculation() {
+		return viewLengthInCoordinates / Math.cos(viewAngle/2);
 	}
 
-	private void calculateCoordinates(int sensorNumber) {
-		coordinates.setMainCoordinates(mainX, mainY);
-		if (sensorNumber == 1 || sensorNumber == 8) {
-			coordinates.setLeftCoordinates(mainX - additionsToSides, mainY - additionsToLength);
-			coordinates.setRightCoordinates(mainX + additionsToSides, mainY - additionsToLength);
-		} else if (sensorNumber == 2 || sensorNumber == 3) {
-			coordinates.setLeftCoordinates(mainX + additionsToLength, mainY - additionsToSides);
-			coordinates.setRightCoordinates(mainX + additionsToLength, mainY + additionsToSides);
-		} else if (sensorNumber == 4 || sensorNumber == 5) {
-			coordinates.setLeftCoordinates(mainX + additionsToSides, mainY + additionsToLength);
-			coordinates.setRightCoordinates(mainX - additionsToSides, mainY + additionsToLength);
-		} else {
-			coordinates.setLeftCoordinates(mainX - additionsToLength, mainY + additionsToSides);
-			coordinates.setRightCoordinates(mainX - additionsToLength, mainY - additionsToSides);
+	public void calculateCoordinates(int sensorNumber, double carAxisAngle, double carMainCoordinateX, double carMainCoordinateY) {
+		double angle = 0;
+		switch (sensorNumber) {
+			case 1:
+				angle = 20;
+				break;
+			case 2:
+				angle = 25;
+				break;
+			case 3:
+				angle = 155;
+				break;
+			case 4:
+				angle = 160;
+				break;
+			case 5:
+				angle = 200;
+				break;
+			case 6:
+				angle = 205;
+				break;
+			case 7:
+				angle = 335;
+				break;
+			case 8:
+				angle = 340;
+				break;
 		}
+		double sensorAngle = angle + carAxisAngle;
+		sensorPositionCalculate(sensorAngle, carMainCoordinateX, carMainCoordinateY);
+		sensorPointsCalculate(sensorAngle);
+	}
+
+	private void sensorPositionCalculate(double angleFROMCarAxisAngle, double carMainCoordinateX, double carMainCoordinateY) {
+		double x = Math.sin(angleFROMCarAxisAngle) * sensorDistanceFromCenter;
+		double y = Math.cos(angleFROMCarAxisAngle) * sensorDistanceFromCenter;
+		coordinates.setMainCoordinates(carMainCoordinateX + x, carMainCoordinateY + y);
+	}
+
+	private void sensorPointsCalculate(double sensorAngle){
+		double halfViewAngle = viewAngle/2;
+		double leftX = Math.sin(sensorAngle-halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
+		double leftY = Math.cos(sensorAngle-halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
+		double rightX = Math.sin(sensorAngle+halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
+		double rightY = Math.cos(sensorAngle+halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
+		coordinates.setLeftCoordinates(leftX + coordinates.getMainX(),leftY+ coordinates.getMainY());
+		coordinates.setRightCoordinates(rightX + coordinates.getMainX(),rightY + coordinates.getMainY());
 	}
 
 	public UltrasonicSensorCoordinates getCoordinates() {
@@ -80,14 +97,6 @@ public class UltrasonicSensor {
 
 	public double getViewLength() {
 		return viewLength;
-	}
-
-	public double getAdditionsToSidesInMeter() {
-		return additionsToSidesInMeter;
-	}
-
-	public void setNewCoordinates(AutomatedCar auto) {
-
 	}
 
 	public Object getSensorNumber() {
