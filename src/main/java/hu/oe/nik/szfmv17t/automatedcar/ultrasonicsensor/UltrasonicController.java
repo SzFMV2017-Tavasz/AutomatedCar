@@ -39,6 +39,11 @@ public class UltrasonicController extends SystemComponent {
         for(UltrasonicSensor sensor : ultrasonicSensors){
             VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.ULTRASONIC_SENSOR_ID,(int)sensor.getSensorNumber()));
         }
+        System.out.println(automatedCar.getCenterX() + " " + automatedCar.getCenterY());
+        System.out.println("#: " + ultrasonicSensors.get(0).getSensorNumber() + " " + ultrasonicSensors.get(0).getCoordinates().getMainX() + " " + ultrasonicSensors.get(0).getCoordinates().getMainY());
+        for(int i=1;i<9;i++){
+            ultrasonicSensors.get(i-1).calculateCoordinates(i,automatedCar.getAxisAngle(),automatedCar.getCenterX(),automatedCar.getCenterY());
+        }
     }
 
     @Override
