@@ -80,12 +80,14 @@ public class UltrasonicSensor {
 	private void sensorPointsCalculate(double carAxisAngle) {
 		double halfViewAngle = viewAngle / 2;
 		double plusRotationAngle = 0;
+
 		if (sensorNumber == 2 || sensorNumber == 3)
 			plusRotationAngle = 90;
 		else if (sensorNumber == 4 || sensorNumber == 5)
 			plusRotationAngle = 180;
 		else if (sensorNumber == 6 || sensorNumber == 7)
 			plusRotationAngle = 270;
+
 		double leftX = Math.sin(((carAxisAngle - halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
 		double leftY = Math.cos(((carAxisAngle - halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
 		double rightX = Math.sin(((carAxisAngle + halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
@@ -106,7 +108,7 @@ public class UltrasonicSensor {
 		return viewLength;
 	}
 
-	public Object getSensorNumber() {
+	public int getSensorNumber() {
 		return this.sensorNumber;
 	}
 
