@@ -26,12 +26,12 @@ public class UltrasonicSensor {
 		this.sensorNumber = sensorNumber;
 		resizer = Resizer.getResizer();
 		sensorDistanceFromCenter = 127;
+		viewLength = 3;
+		viewAngle = 100;
+		viewLengthInCoordinates = resizer.meterToCoordinate(viewLength);
+		sensorTrianglePointsDistanceFromSensor = sensorTriangleBasicCalculation();
 		coordinates = new UltrasonicSensorCoordinates();
 		calculateCoordinates(sensorNumber, carAxisAngle, carMainCoordinateX, carMainCoordinateY);
-		viewLength = 3;
-		viewLengthInCoordinates = resizer.meterToCoordinate(viewLength);
-		viewAngle = 100;
-		sensorTrianglePointsDistanceFromSensor = sensorTriangleBasicCalculation();
 	}
 
 	private double sensorTriangleBasicCalculation() {
@@ -68,23 +68,30 @@ public class UltrasonicSensor {
 		}
 		double sensorAngle = angle + carAxisAngle;
 		sensorPositionCalculate(sensorAngle, carMainCoordinateX, carMainCoordinateY);
-		sensorPointsCalculate(sensorAngle);
+		sensorPointsCalculate(carAxisAngle);
 	}
 
 	private void sensorPositionCalculate(double angleFROMCarAxisAngle, double carMainCoordinateX, double carMainCoordinateY) {
-		double x = Math.sin(angleFROMCarAxisAngle) * sensorDistanceFromCenter;
-		double y = Math.cos(angleFROMCarAxisAngle) * sensorDistanceFromCenter;
+		double x = Math.sin(angleFROMCarAxisAngle * (Math.PI / 180)) * sensorDistanceFromCenter;
+		double y = Math.cos(angleFROMCarAxisAngle * (Math.PI / 180)) * sensorDistanceFromCenter;
 		coordinates.setMainCoordinates(carMainCoordinateX + x, carMainCoordinateY + y);
 	}
 
-	private void sensorPointsCalculate(double sensorAngle){
-		double halfViewAngle = viewAngle/2;
-		double leftX = Math.sin(sensorAngle-halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
-		double leftY = Math.cos(sensorAngle-halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
-		double rightX = Math.sin(sensorAngle+halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
-		double rightY = Math.cos(sensorAngle+halfViewAngle)*sensorTrianglePointsDistanceFromSensor;
-		coordinates.setLeftCoordinates(leftX + coordinates.getMainX(),leftY+ coordinates.getMainY());
-		coordinates.setRightCoordinates(rightX + coordinates.getMainX(),rightY + coordinates.getMainY());
+	private void sensorPointsCalculate(double carAxisAngle) {
+		double halfViewAngle = viewAngle / 2;
+		double plusRotationAngle = 0;
+		if (sensorNumber == 2 || sensorNumber == 3)
+			plusRotationAngle = 90;
+		else if (sensorNumber == 4 || sensorNumber == 5)
+			plusRotationAngle = 180;
+		else if (sensorNumber == 6 || sensorNumber == 7)
+			plusRotationAngle = 270;
+		double leftX = Math.sin(((carAxisAngle - halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
+		double leftY = Math.cos(((carAxisAngle - halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
+		double rightX = Math.sin(((carAxisAngle + halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
+		double rightY = Math.cos(((carAxisAngle + halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
+		coordinates.setLeftCoordinates(leftX + coordinates.getMainX(), leftY + coordinates.getMainY());
+		coordinates.setRightCoordinates(rightX + coordinates.getMainX(), rightY + coordinates.getMainY());
 	}
 
 	public UltrasonicSensorCoordinates getCoordinates() {
