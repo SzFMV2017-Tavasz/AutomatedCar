@@ -22,7 +22,7 @@ public class UltrasonicSensor {
 	private double viewLengthInCoordinates;
 	private double sensorTrianglePointsDistanceFromSensor;
 
-	public UltrasonicSensor(int sensorNumber, double carMainCoordinateX, double carMainCoordinateY, double carAxisAngle, double length) {
+	public UltrasonicSensor(int sensorNumber, double carMainCoordinateX, double carMainCoordinateY, double carAxisAngle) {
 		this.sensorNumber = sensorNumber;
 		resizer = Resizer.getResizer();
 		sensorDistanceFromCenter = 127;
