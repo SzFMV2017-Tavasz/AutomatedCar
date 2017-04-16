@@ -1,8 +1,16 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
+import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv17t.environment.domain.Road;
+import hu.oe.nik.szfmv17t.environment.domain.Sign;
+import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.utils.Resizer;
+import hu.oe.nik.szfmv17t.environment.utils.SensorType;
+import hu.oe.nik.szfmv17t.environment.utils.Triangle;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,84 +20,111 @@ import java.util.List;
 public class CameraSensor {
 
     private Resizer resizer;
+    private World world;
 
     private double viewAngle;
     private double viewDistanceInMeter;
-    private double viewDistance;
+    private double viewDistanceInCoordinates;
 
-    //latomezo koordinatai
-    private double centerX;
-    private double centerY;
-    private double leftUpperCornerX;
-    private double leftUpperCornerY;
-    private double rightUpperCornerX;
-    private double rightUpperCornerY;
+    //latoter 3 pontja
+    private Point centerPoint;
+    private Point leftPoint;
+    private Point rightPoint;
 
-    //bal es jobb latomezo sarkahoz hozaadott tavolsag
+    //latomezo bal es jobb sarkanak center ponttol valo tavolsaga
     private double addingOffsetDistanceInMeter;
-    private double addingOffsetDistance;
+    private double addingOffsetDistanceInCoordinates;
 
+    //3 pont altal meghatarozott latoter
+    Triangle fieldView;
+    private List<IWorldObject> worldObjects;
     //relevans objektumok
     private List<IWorldObject> relevantWorldObjects;
 
-    public CameraSensor(IWorldObject carObject, List<IWorldObject> worldObjects) {
+    public CameraSensor(AutomatedCar carObject) {
         resizer = Resizer.getResizer();
+
         this.viewAngle = 60;
         this.viewDistanceInMeter = 110;
 
-        viewDistance = resizer.meterToCoordinate(viewDistanceInMeter);
+        viewDistanceInCoordinates = resizer.meterToCoordinate(viewDistanceInMeter);
         addingOffsetDistanceInMeter = calculateOffsetDistance();
-        addingOffsetDistance = resizer.meterToCoordinate(addingOffsetDistanceInMeter);
+        addingOffsetDistanceInCoordinates = resizer.meterToCoordinate(addingOffsetDistanceInMeter);
 
-        calculateFieldViewCoordinates(carObject);
-
-        relevantWorldObjects = new ArrayList<IWorldObject>();
+        fieldView = getSensorFieldView(carObject);
+        // worldObjects = world.checkSensorArea(fieldView);
+//        relevantWorldObjects = getRelevantWorldObjects(worldObjects);
     }
 
-    /*a latomezo 3 koordinatajat allitja be
-     */
-    private void calculateFieldViewCoordinates(IWorldObject car) {
-        centerX = car.getCenterX();
-        centerY = car.getCenterY();
-
-        //direction angle kell??
-        double carRotation = Math.toDegrees(car.getAxisAngle());
-
-        //itt az auto forgasatol eltekintunk
-        double leftUpperXBase = centerX - addingOffsetDistance;
-        double leftUpperYBase = centerY - viewDistance;
-        double rightUpperXBase = centerX + addingOffsetDistance;
-        double rightUpperYBase = centerY - viewDistance;
-
-        /*auto rotacios erteket figyelve
-        az otlet
-        https://prog.hu/tudastar/10748/pont-forgatasa-egy-masik-pont-korul-2d-ben
-        a feljebb kiszamolt pontokat rotaljuk el a uj pontra
-        * */
-        leftUpperCornerX = (((leftUpperXBase - centerX) * Math.cos(carRotation)) - ((leftUpperYBase - centerY) * Math.sin(carRotation))) + centerX;
-        leftUpperCornerY = (((leftUpperXBase - centerX) * Math.sin(carRotation)) + (leftUpperYBase - centerY) * Math.cos(carRotation)) + centerY;
-
-        rightUpperCornerX = (((rightUpperXBase - centerX) * Math.cos(carRotation)) - ((rightUpperYBase - centerY) * Math.sin(carRotation))) + centerX;
-        rightUpperCornerY = (((rightUpperXBase - centerX) * Math.sin(carRotation)) + (rightUpperYBase - centerY) * Math.cos(carRotation)) + centerY;
-
+    public Triangle getSensorFieldView(AutomatedCar car) {
+        centerPoint = calculateCenterPoint(car);
+        leftPoint = calculateLeftCornerPoint(car, centerPoint);
+        rightPoint = calculateRightCornerPoint(car, centerPoint);
+        return new Triangle(leftPoint, rightPoint, centerPoint, SensorType.Camera);
     }
 
-    private double calculateOffsetDistance() {
-        double baseOfTriangle;
-        //haromszog atfogo
-        double hypotenuse = viewDistanceInMeter / Math.cos(viewAngle / 2);
-        baseOfTriangle = 2 * Math.tan(viewAngle / 2) * hypotenuse;
+    Point calculateLeftCornerPoint(AutomatedCar car, Point center) {
+        double leftUpperXBase = center.getX() - addingOffsetDistanceInCoordinates;
+        double leftUpperYBase = center.getY() - viewDistanceInCoordinates;
+        double[] coordinates = {leftUpperXBase, leftUpperYBase};
+        double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+
+        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        double leftUpperCornerX = coordinates[0];
+        double leftUpperCornerY = coordinates[1];
+
+        return new Point((int) leftUpperCornerX, (int) leftUpperCornerY);
+    }
+
+    Point calculateRightCornerPoint(AutomatedCar car, Point center) {
+        double rightUpperXBase = center.getX() + addingOffsetDistanceInCoordinates;
+        double rightUpperYBase = center.getY() - viewDistanceInCoordinates;
+
+        double[] coordinates = {rightUpperXBase, rightUpperYBase};
+        double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+
+        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        double rightUpperCornerX = coordinates[0];
+        double rightUpperCornerY = coordinates[1];
+        return new Point((int) rightUpperCornerX, (int) rightUpperCornerY);
+    }
+
+    Point calculateCenterPoint(AutomatedCar car) {
+        return new Point((int) car.getCenterX(), (int) car.getCenterY());
+    }
+
+    double calculateOffsetDistance() {
+        double viewAngleInRadian = Math.toRadians(viewAngle / 2);
+        double baseOfTriangle = Math.tan(viewAngleInRadian) * viewDistanceInMeter;
         return baseOfTriangle;
     }
 
-    private double carDistanceFromObject(IWorldObject carObject, IWorldObject worldObject) {
-        double result = 0;
-        return result;
+    double carDistanceFromObjectInMeter(double distanceInCoordinate) {
+        double distanceInMeter = resizer.coordinateToMeter(distanceInCoordinate);
+        return distanceInMeter;
     }
 
-    private List<IWorldObject> getRelevantWorldObjects() {
+    double carDistanceFromObjectInCoordinate(AutomatedCar carObject, IWorldObject worldObject) {
+        double carUpMiddleX = carObject.getCenterX();
+        double carUpMiddleY = carObject.getCenterY() - (carObject.getHeight() / 2);
+
+        double woLowerMiddleX = worldObject.getCenterX();
+        double woLowerMiddleY = worldObject.getCenterY() + (worldObject.getHeight() / 2);
+
+        //abszolutertek kell vagy sem??
+        double distanceInCoordinate = Math.abs(Math.sqrt(Math.pow((woLowerMiddleX - carUpMiddleX), 2) + Math.pow((woLowerMiddleY - carUpMiddleY), 2)));
+        return distanceInCoordinate;
+    }
+
+    List<IWorldObject> getRelevantWorldObjects(List<IWorldObject> worldObjects) {
+        worldObjects = world.checkSensorArea(fieldView);
         List<IWorldObject> result = new ArrayList<IWorldObject>();
 
+        for (IWorldObject element : worldObjects) {
+            if (Road.class.isInstance(element) || Sign.class.isInstance(element)) {
+                result.add(element);
+            }
+        }
         return result;
     }
 }
