@@ -140,7 +140,8 @@ public class CameraSensorTest {
         double rightUpperCornerX = coordinates[0];
         double rightUpperCornerY = coordinates[1];
         rightPoint = new Point((int) rightUpperCornerX, (int) rightUpperCornerY);
-        Point result = cameraSensor.calculateRightCornerPoint(car2, car2Center);
+        Point resultPoint = cameraSensor.calculateRightCornerPoint(car2, car2Center);
+        assertEquals(rightPoint,resultPoint);
     }
 
     @Test
