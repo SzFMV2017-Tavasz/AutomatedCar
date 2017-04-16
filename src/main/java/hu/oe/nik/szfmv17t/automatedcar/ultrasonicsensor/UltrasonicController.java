@@ -20,6 +20,7 @@ public class UltrasonicController extends SystemComponent {
 	private List<ICollidableObject> allSeenObjectsBuffer;
     
 	public UltrasonicController(AutomatedCar auto) {
+        ultrasonicSensors = new ArrayList<UltrasonicSensor>();
 		this.automatedCar = auto;
 		initSensors();
 	}
@@ -27,28 +28,19 @@ public class UltrasonicController extends SystemComponent {
 	// Alapértelmezetten autó felfele néz, óramutató járásával megegyezően vannak megszámozva a szenzorok
 	// Ennek megfelelően autó jobb felső sarkánál az előre néző szenzor az 1-es számú
 	private void initSensors(){
-		ultrasonicSensors = new ArrayList<UltrasonicSensor>();
-        ultrasonicSensors.add(new UltrasonicSensor(0, automatedCar.getCenterX()-15, automatedCar.getCenterY()-39));
-        ultrasonicSensors.add(new UltrasonicSensor(1, automatedCar.getCenterX()+15, automatedCar.getCenterY()-39));
-        ultrasonicSensors.add(new UltrasonicSensor(2, automatedCar.getCenterX()+17, automatedCar.getCenterY()-37));
-        ultrasonicSensors.add(new UltrasonicSensor(3, automatedCar.getCenterX()+17, automatedCar.getCenterY()+37));
-        ultrasonicSensors.add(new UltrasonicSensor(4, automatedCar.getCenterX()+15, automatedCar.getCenterY()+39));
-        ultrasonicSensors.add(new UltrasonicSensor(5, automatedCar.getCenterX()-15, automatedCar.getCenterY()+39));
-        ultrasonicSensors.add(new UltrasonicSensor(6, automatedCar.getCenterX()-17, automatedCar.getCenterY()+37));
-        ultrasonicSensors.add(new UltrasonicSensor(7, automatedCar.getCenterX()-17, automatedCar.getCenterY()-37));
-
-	}
-
-	public void sensorPositionRefresh(AutomatedCar auto){
-        for(UltrasonicSensor sensor : ultrasonicSensors){
-            VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.ULTRASONIC_SENSOR_ID,(int)sensor.getSensorNumber()));
+		for(int i=1;i<9;i++){
+		    ultrasonicSensors.add(new UltrasonicSensor(i, automatedCar.getCenterX(),automatedCar.getCenterY(), automatedCar.getAxisAngle()));
         }
+
 	}
 
     @Override
     public void loop() {
-        for(UltrasonicSensor sensor : ultrasonicSensors){
-            VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.ULTRASONIC_SENSOR_ID,(int)sensor.getSensorNumber()));
+        for (UltrasonicSensor sensor : ultrasonicSensors) {
+            VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.ULTRASONIC_SENSOR_ID, (int) sensor.getSensorNumber()));
+        }
+        for (int i = 1; i < 9; i++) {
+            ultrasonicSensors.get(i - 1).calculateCoordinates(i, automatedCar.getAxisAngle(), automatedCar.getCenterX(), automatedCar.getCenterY());
         }
     }
 
