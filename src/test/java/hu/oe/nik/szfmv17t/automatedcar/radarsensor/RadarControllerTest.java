@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv17t.automatedcar.radarsensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.utils.Triangle;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,11 +14,12 @@ public class RadarControllerTest {
 
     private RadarController radarController;
     private AutomatedCar car;
+    private World world;
 
     @Before
     public void setUp() throws Exception {
         AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
-        radarController = new RadarController(car);
+        radarController = new RadarController(car,null);
     }
 
     @Test
