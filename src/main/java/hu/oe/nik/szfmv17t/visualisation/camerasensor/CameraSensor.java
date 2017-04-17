@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv17t.visualisation;
+package hu.oe.nik.szfmv17t.visualisation.camerasensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.domain.Road;
@@ -20,7 +20,6 @@ import java.util.List;
 public class CameraSensor {
 
     private Resizer resizer;
-    private World world;
 
     private double viewAngle;
     private double viewDistanceInMeter;
@@ -36,14 +35,10 @@ public class CameraSensor {
     private double addingOffsetDistanceInCoordinates;
 
     //3 pont altal meghatarozott latoter
-    Triangle fieldView;
-    private List<IWorldObject> worldObjects;
-    //relevans objektumok
-    private List<IWorldObject> relevantWorldObjects;
+    //Triangle fieldView;
 
     public CameraSensor(AutomatedCar carObject) {
         resizer = Resizer.getResizer();
-
         this.viewAngle = 60;
         this.viewDistanceInMeter = 110;
 
@@ -51,9 +46,9 @@ public class CameraSensor {
         addingOffsetDistanceInMeter = calculateOffsetDistance();
         addingOffsetDistanceInCoordinates = resizer.meterToCoordinate(addingOffsetDistanceInMeter);
 
-        fieldView = getSensorFieldView(carObject);
+        //fieldView = getSensorFieldView(carObject);
         // worldObjects = world.checkSensorArea(fieldView);
-//        relevantWorldObjects = getRelevantWorldObjects(worldObjects);
+        // relevantWorldObjects = getRelevantWorldObjects(worldObjects);
     }
 
     public Triangle getSensorFieldView(AutomatedCar car) {
@@ -64,9 +59,9 @@ public class CameraSensor {
     }
 
     Point calculateLeftCornerPoint(AutomatedCar car, Point center) {
-        double leftUpperXBase = center.getX() - addingOffsetDistanceInCoordinates;
-        double leftUpperYBase = center.getY() - viewDistanceInCoordinates;
-        double[] coordinates = {leftUpperXBase, leftUpperYBase};
+        double leftUpperBaseX = center.getX() - addingOffsetDistanceInCoordinates;
+        double leftUpperBaseY = center.getY() - viewDistanceInCoordinates;
+        double[] coordinates = {leftUpperBaseX, leftUpperBaseY};
         double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
 
         AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
@@ -77,10 +72,10 @@ public class CameraSensor {
     }
 
     Point calculateRightCornerPoint(AutomatedCar car, Point center) {
-        double rightUpperXBase = center.getX() + addingOffsetDistanceInCoordinates;
-        double rightUpperYBase = center.getY() - viewDistanceInCoordinates;
+        double rightUpperBaseX = center.getX() + addingOffsetDistanceInCoordinates;
+        double rightUpperBaseY = center.getY() - viewDistanceInCoordinates;
 
-        double[] coordinates = {rightUpperXBase, rightUpperYBase};
+        double[] coordinates = {rightUpperBaseX, rightUpperBaseY};
         double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
 
         AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
@@ -99,7 +94,7 @@ public class CameraSensor {
         return baseOfTriangle;
     }
 
-    double carDistanceFromObjectInMeter(double distanceInCoordinate) {
+    double carDistanceFromObjectInMeter( double distanceInCoordinate) {
         double distanceInMeter = resizer.coordinateToMeter(distanceInCoordinate);
         return distanceInMeter;
     }
@@ -111,13 +106,11 @@ public class CameraSensor {
         double woLowerMiddleX = worldObject.getCenterX();
         double woLowerMiddleY = worldObject.getCenterY() + (worldObject.getHeight() / 2);
 
-        //abszolutertek kell vagy sem??
         double distanceInCoordinate = Math.abs(Math.sqrt(Math.pow((woLowerMiddleX - carUpMiddleX), 2) + Math.pow((woLowerMiddleY - carUpMiddleY), 2)));
         return distanceInCoordinate;
     }
 
     List<IWorldObject> getRelevantWorldObjects(List<IWorldObject> worldObjects) {
-        worldObjects = world.checkSensorArea(fieldView);
         List<IWorldObject> result = new ArrayList<IWorldObject>();
 
         for (IWorldObject element : worldObjects) {

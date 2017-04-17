@@ -1,19 +1,14 @@
-package hu.oe.nik.szfmv17t.visualisation;
+package hu.oe.nik.szfmv17t.visualisation.camerasensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.domain.Road;
-import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.utils.Resizer;
-import hu.oe.nik.szfmv17t.environment.utils.SensorType;
-import hu.oe.nik.szfmv17t.environment.utils.Triangle;
+import hu.oe.nik.szfmv17t.visualisation.camerasensor.CameraSensor;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
