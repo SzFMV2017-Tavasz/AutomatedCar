@@ -12,14 +12,10 @@ public class RadarSensor {
 	private double viewLengthInCoordinates;
 	private double triangleAdjacentSideLength;
 
-	public RadarSensor(Position carPosition, double carAxisAngle){
+	public RadarSensor(){
 		resizer = Resizer.getResizer();
 		viewLengthInCoordinates = resizer.meterToCoordinate(VIEW_LENGTH_IN_METER);
 		triangleAdjacentSideLength = calculateAdjacentSideLength();
-	}
-
-	private double calculateSensorDistanceFromCenter(Position carPosition) {
-		return	carPosition.getHeight() / 2.0;
 	}
 
 	private double calculateAdjacentSideLength() {

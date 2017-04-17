@@ -8,22 +8,22 @@ import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv17t.environment.utils.Triangle;
 
 public class RadarController extends SystemComponent{
-	private static RadarSensor radarSensor;
+	private RadarSensor radarSensor;
 	private AutomatedCar automatedCar;
     
-	public RadarController (AutomatedCar auto) {
-		this.automatedCar = auto;
+	public RadarController (AutomatedCar car) {
+		this.automatedCar = car;
 		initSensor();
 	}
 
 	private void initSensor(){
-		radarSensor = new RadarSensor(automatedCar.getPositionObj(), automatedCar.getAxisAngle());
+		radarSensor = new RadarSensor();
 	}
 
     @Override
     public void loop() {
-            VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.RADAR_SENSOR_ID, null));
-            Triangle sensorArea = radarSensor.calculateCoordinates(automatedCar.getPositionObj(), automatedCar.getAxisAngle());
+        VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.RADAR_SENSOR_ID, null));
+        Triangle sensorArea = radarSensor.calculateCoordinates(automatedCar.getPositionObj(), automatedCar.getAxisAngle());
     }
 
     @Override
