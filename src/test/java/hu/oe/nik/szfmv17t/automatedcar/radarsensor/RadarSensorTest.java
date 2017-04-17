@@ -15,7 +15,6 @@ public class RadarSensorTest {
     public void setUp() throws Exception {
         radarSensor = new RadarSensor();
         carPosition = new Position(2,3,2,4,0, 0);
-
     }
 
     @Test
