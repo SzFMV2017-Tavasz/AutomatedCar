@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv17t.environment.utils.Triangle;
 
 public class RadarController extends SystemComponent{
 	private static RadarSensor radarSensor;
@@ -16,21 +17,15 @@ public class RadarController extends SystemComponent{
 	}
 
 	private void initSensor(){
-		radarSensor = new RadarSensor(automatedCar.getCenterX(),automatedCar.getCenterY(), automatedCar.getAxisAngle());
+		radarSensor = new RadarSensor(automatedCar.getPositionObj(), automatedCar.getAxisAngle());
 	}
 
     @Override
     public void loop() {
             VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.RADAR_SENSOR_ID, null));
-            radarSensor.calculateCoordinates(automatedCar.getAxisAngle(), automatedCar.getCenterX(), automatedCar.getCenterY());
+            Triangle sensorArea = radarSensor.calculateCoordinates(automatedCar.getPositionObj(), automatedCar.getAxisAngle());
     }
 
     @Override
-    public void receiveSignal(Signal s) {
-
-    }
-
-    public static RadarSensor getRadarSensor(){
-        return radarSensor;
-    }
+    public void receiveSignal(Signal s) { }
 }
