@@ -29,7 +29,7 @@ public class Triangle {
     {
         //Barycentric method
         double dX = objectX - cX;
-        double dY = objectY - cX;
+        double dY = objectY - cY;
         double dX21 = cX - bX;
         double dY12 = bY - cY;
         double D = dY12*(aX - cX) + dX21*(aY-cY);
