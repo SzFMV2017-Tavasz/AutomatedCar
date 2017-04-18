@@ -17,6 +17,8 @@ public class Main {
 
 	public static final String world_1="src/main/resources/test_world.xml";
 	public static final String world_2="src/main/resources/NewLevel.xml";
+	public static final String world_3="src/main/resources/AdvancedLevel.xml.converted.xml";
+
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
 
