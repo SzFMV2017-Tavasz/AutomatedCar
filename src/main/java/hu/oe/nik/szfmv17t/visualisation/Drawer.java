@@ -4,8 +4,10 @@ import hu.oe.nik.szfmv17t.environment.domain.Turn;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import hu.oe.nik.szfmv17t.environment.utils.Config;
+import hu.oe.nik.szfmv17t.environment.utils.StringUtil;
 import hu.oe.nik.szfmv17t.visualisation.interfaces.IWorldVisualization;
 import hu.oe.nik.szfmv17t.visualisation.viewmodels.CameraObject;
+import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -85,7 +87,23 @@ public class Drawer implements IWorldVisualization {
                 Graphics2D g2d = (Graphics2D) g.create();
                 for (CameraObject object : toDraw) {
                     // draw objects
-                    image = worldImages.get(object.getWorldObject().getImageName());
+                    IWorldObject wobject = object.getWorldObject();
+                    WorldObjectState state = wobject.getState();
+                    String imageName = wobject.getImageName();
+                    if(state == WorldObjectState.Damaged || state == WorldObjectState.Destroyed){
+                        if (!checkHashMap(imageName,state)){
+                            try {
+                                insertIntoHashMap(wobject,state);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        String strippedImageName = StringUtil.removeExtension(imageName);
+                        image = worldImages.get(strippedImageName+"_"+state.toString()+".png");
+                    }
+                    else {
+                        image = worldImages.get(imageName);
+                    }
                     g2d.drawImage(image, getObjectTransformation(calculateDrawCornerX(object), calculateDrawCornerY(object), object.getWorldObject()), null);
                 }
             }
@@ -115,6 +133,8 @@ public class Drawer implements IWorldVisualization {
         {
             if (object.getImageName()=="road_2lane_tjunctionright.png" || object.getImageName()=="road_2lane_tjunctionleft.png")
                 return object.getWidth()/Config.SCALE;
+            else if (object.getImageName()=="road_2lane_90left.png" || object.getImageName()=="road_2lane_45left.png")
+                return (object.getWidth()-Config.roadWidth)/Config.SCALE;
             else
                return Config.roadWidth/Config.SCALE;
         }
@@ -134,7 +154,7 @@ public class Drawer implements IWorldVisualization {
                 drawCornerY = (baseY - worldObject.getHeight());
         }
         else
-            drawCornerY = ((int)(cameraObject.getY() - worldObject.getHeight()/2)) ;
+            drawCornerY = ((cameraObject.getY() - worldObject.getHeight()/2)) ;
         return drawCornerY/Config.SCALE;
     }
     private double calculateDrawCornerX(CameraObject cameraObject)
@@ -147,8 +167,10 @@ public class Drawer implements IWorldVisualization {
             double baseX=(cameraObject.getX()-(worldObject.getWidth()/2));
             if (worldObject.getImageName()=="road_2lane_tjunctionright.png" || worldObject.getImageName()=="road_2lane_tjunctionleft.png")
                 drawCornerX = (baseX - worldObject.getWidth());
+            else if (worldObject.getImageName()=="road_2lane_45left.png" || worldObject.getImageName()=="road_2lane_90left.png")
+                drawCornerX = (baseX - (worldObject.getWidth()-Config.roadWidth));
             else
-                drawCornerX = (baseX - Config.roadWidth) ;
+                drawCornerX=baseX-Config.roadWidth;
         }
         else
             drawCornerX = ((int) (cameraObject.getX() - worldObject.getWidth() / 2)) ;
@@ -161,9 +183,8 @@ public class Drawer implements IWorldVisualization {
         transform.scale(Config.SCALENUM, Config.SCALENUM);
         return transform;
     }
-    private void PutDebugInformationOnImage (Image image, IWorldObject object) {
+    private void putDebugInformationOnImage(Image image, IWorldObject object) {
         Graphics2D g = (Graphics2D) image.getGraphics();
-
         String loc = String.format ("x: %.0f, y:%.0f", object.getCenterX(), object.getCenterY(), object.getAxisAngle());
         String rot = String.format ("%.3f (rad)", object.getAxisAngle());
 
@@ -174,5 +195,16 @@ public class Drawer implements IWorldVisualization {
         g.setFont(new Font("sans", Font.PLAIN, 15));
         g.drawString(loc, 3, 20);
         g.drawString(rot, 3, 35);
+    }
+
+    private boolean checkHashMap (String imageName, WorldObjectState state) {
+        return worldImages.containsKey(imageName+"_"+state.toString());
+    }
+    private void insertIntoHashMap(IWorldObject object, WorldObjectState state) throws IOException{
+        String strippedImageName = StringUtil.removeExtension(object.getImageName());
+        String imageName = strippedImageName+"_"+state.toString()+".png";
+
+        BufferedImage bufferedImage = ImageIO.read(new File(ClassLoader.getSystemResource(imageName).getFile()));
+        worldImages.put(imageName, bufferedImage);
     }
 }
