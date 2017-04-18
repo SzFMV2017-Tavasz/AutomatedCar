@@ -1,9 +1,8 @@
-package hu.oe.nik.szfmv17t.visualisation.camerasensor;
+package hu.oe.nik.szfmv17t.automatedcar.camerasensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.domain.Road;
 import hu.oe.nik.szfmv17t.environment.utils.Resizer;
-import hu.oe.nik.szfmv17t.visualisation.camerasensor.CameraSensor;
 import org.junit.Before;
 import org.junit.Test;
 

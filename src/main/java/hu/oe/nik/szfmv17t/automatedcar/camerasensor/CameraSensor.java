@@ -1,9 +1,8 @@
-package hu.oe.nik.szfmv17t.visualisation.camerasensor;
+package hu.oe.nik.szfmv17t.automatedcar.camerasensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.domain.Road;
 import hu.oe.nik.szfmv17t.environment.domain.Sign;
-import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.utils.Resizer;
 import hu.oe.nik.szfmv17t.environment.utils.SensorType;
@@ -45,10 +44,6 @@ public class CameraSensor {
         viewDistanceInCoordinates = resizer.meterToCoordinate(viewDistanceInMeter);
         addingOffsetDistanceInMeter = calculateOffsetDistance();
         addingOffsetDistanceInCoordinates = resizer.meterToCoordinate(addingOffsetDistanceInMeter);
-
-        //fieldView = getSensorFieldView(carObject);
-        // worldObjects = world.checkSensorArea(fieldView);
-        // relevantWorldObjects = getRelevantWorldObjects(worldObjects);
     }
 
     public Triangle getSensorFieldView(AutomatedCar car) {

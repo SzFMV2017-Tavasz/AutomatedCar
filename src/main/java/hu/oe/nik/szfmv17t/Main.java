@@ -2,6 +2,8 @@ package hu.oe.nik.szfmv17t;
 
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.radarsensor.RadarController;
+import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv17t.automatedcar.camerasensor.CameraSensorController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,6 +42,10 @@ public class Main {
 		RadarController radarController = new RadarController(car,w);
 
 		VirtualFunctionBus.registerComponent(radarController);
+
+		CameraSensorController cameraSensorController = new CameraSensorController(car,w);
+
+		VirtualFunctionBus.registerComponent(cameraSensorController);
 
 		// add car to the world
 		w.addObjectToWorld(car);
