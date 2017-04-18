@@ -6,27 +6,36 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by gabi1_000 on 2017.04.02..
+ * Created by gabi1_000 on 2017.04.15..
  */
 public class UltrasonicSensorTest {
 
-    private UltrasonicSensor sensor;
+    private UltrasonicSensor ultrasonicSensor;
 
     @Before
     public void setUp() throws Exception {
-        int sensorNumber = 1;
-        double mainX = 44;
-        double mainY = 2;
-        sensor = new UltrasonicSensor(sensorNumber,mainX,mainY);
-
+        ultrasonicSensor = new UltrasonicSensor(1,0,0,0);
     }
 
     @Test
-    public void basicCalculationsOfTriangle() throws Exception {
-        double firstCalculation = (180 - sensor.getViewAngle()) / 2;
-        double secondCalculation = sensor.getViewLength() / Math.sin(firstCalculation);
-        double thirdCalculation = 2 * secondCalculation * Math.cos(firstCalculation);
-        assertTrue(sensor.getAdditionsToSidesInMeter() == (thirdCalculation/2));
+    public void calculateCoordinates() throws Exception {
+        ultrasonicSensor.calculateCoordinates(1,0,0,0);
+        assertTrue(ultrasonicSensor.getCoordinates().getMainX()>0 && ultrasonicSensor.getCoordinates().getMainY()>0);
+    }
+
+    @Test
+    public void getViewAngle() throws Exception {
+        assertTrue(ultrasonicSensor.getViewAngle() == 100);
+    }
+
+    @Test
+    public void getViewLength() throws Exception {
+        assertTrue(ultrasonicSensor.getViewLength() == 3);
+    }
+
+    @Test
+    public void getSensorNumber() throws Exception {
+        assertTrue(ultrasonicSensor.getSensorNumber() == 1);
     }
 
 }
