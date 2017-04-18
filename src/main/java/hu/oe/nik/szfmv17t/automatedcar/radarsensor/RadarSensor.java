@@ -2,70 +2,42 @@ package hu.oe.nik.szfmv17t.automatedcar.radarsensor;
 
 import java.awt.Point;
 
-import hu.oe.nik.szfmv17t.environment.utils.Resizer;
-import hu.oe.nik.szfmv17t.environment.utils.SensorType;
-import hu.oe.nik.szfmv17t.environment.utils.Triangle;
+import hu.oe.nik.szfmv17t.environment.utils.*;
 
 public class RadarSensor {
-	private double viewLength;
-	private double viewAngle;
-	private double sensorDistanceFromCenter;
+	static private final double VIEW_LENGTH_IN_METER = 200;
+	static private final double VIEW_ANGLE_IN_DEGREE = 60;
+	static private final double VIEW_ANGLE_IN_RADIAN = Math.toRadians(VIEW_ANGLE_IN_DEGREE);
 	private Resizer resizer;
 	private double viewLengthInCoordinates;
-	private double sensorTrianglePointsDistanceFromSensor;
-	private RadarSensorCoordinates coordinates;
-	
-	public RadarSensor(double carMainCoordinateX, double carMainCoordinateY, double carAxisAngle){
+	private double triangleAdjacentSideLength;
+
+	public RadarSensor(){
 		resizer = Resizer.getResizer();
-		sensorDistanceFromCenter = 127;
-		viewLength = 200;
-		viewAngle = 60;
-		viewLengthInCoordinates = resizer.meterToCoordinate(viewLength);
-		sensorTrianglePointsDistanceFromSensor = sensorTriangleBasicCalculation();
-		coordinates = new RadarSensorCoordinates();
-		calculateCoordinates(carAxisAngle, carMainCoordinateX, carMainCoordinateY);
-	}	
-	private double sensorTriangleBasicCalculation() {
-		return viewLengthInCoordinates / Math.cos(viewAngle/2);
-	}
-	public void calculateCoordinates(double carAxisAngle, double carMainCoordinateX, double carMainCoordinateY) {
-		double sensorAngle = carAxisAngle;
-		sensorPositionCalculate(sensorAngle, carMainCoordinateX, carMainCoordinateY);
-		sensorPointsCalculate(carAxisAngle);
+		viewLengthInCoordinates = resizer.meterToCoordinate(VIEW_LENGTH_IN_METER);
+		triangleAdjacentSideLength = calculateAdjacentSideLength();
 	}
 
-	private void sensorPositionCalculate(double angleFROMCarAxisAngle, double carMainCoordinateX, double carMainCoordinateY) {
-		double x = Math.sin(angleFROMCarAxisAngle * (Math.PI / 180)) * sensorDistanceFromCenter;
-		double y = Math.cos(angleFROMCarAxisAngle * (Math.PI / 180)) * sensorDistanceFromCenter;
-		coordinates.setMainCoordinates(carMainCoordinateX + x, carMainCoordinateY + y);
+	private double calculateAdjacentSideLength() {
+		return Math.tan(VIEW_ANGLE_IN_RADIAN / 2.0) * viewLengthInCoordinates;
 	}
 
-	private void sensorPointsCalculate(double carAxisAngle) {
-		double halfViewAngle = viewAngle / 2;
-		double leftX = Math.sin((carAxisAngle - halfViewAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
-		double leftY = Math.cos((carAxisAngle - halfViewAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
-		double rightX = Math.sin((carAxisAngle + halfViewAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
-		double rightY = Math.cos((carAxisAngle + halfViewAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
-		coordinates.setLeftCoordinates(leftX + coordinates.getMainX(), leftY + coordinates.getMainY());
-		coordinates.setRightCoordinates(rightX + coordinates.getMainX(), rightY + coordinates.getMainY());
+	public Triangle calculateCoordinates(Position carPosition, double carAxisAngle) {
+		Point defaultSensorCoordinate = new Point((int)carPosition.getCenter().getX(), (int)carPosition.getMinimumY());
+		Point rotatedSensorCoordinate = rotatePoint(carPosition.getCenter().getX(),carPosition.getCenter().getY(),carAxisAngle, defaultSensorCoordinate);
+
+		Point defaultLeftCoordinate = new Point((int)(carPosition.getCenter().getX()-triangleAdjacentSideLength), (int)(defaultSensorCoordinate.getY()-viewLengthInCoordinates));
+		Point rotatedLeftCoordinate = rotatePoint(carPosition.getCenter().getX(),carPosition.getCenter().getY(),carAxisAngle,defaultLeftCoordinate);
+
+		Point defaultRightCoordinate = new Point((int)(carPosition.getCenter().getX()+triangleAdjacentSideLength), (int)(defaultSensorCoordinate.getY()-viewLengthInCoordinates));
+		Point rotatedRightCoordinate = rotatePoint(carPosition.getCenter().getX(),carPosition.getCenter().getY(),carAxisAngle,defaultRightCoordinate);
+
+		return new Triangle(rotatedSensorCoordinate,rotatedLeftCoordinate,rotatedRightCoordinate,SensorType.Radar);
 	}
 
-	public RadarSensorCoordinates getCoordinates() {
-		return coordinates;
-	}
-
-	public double getViewAngle() {
-		return viewAngle;
-	}
-
-	public double getViewLength() {
-		return viewLength;
-	}
-
-	public Triangle getSensorViewTriangle() {
-		Point leftCord = new Point((int) coordinates.getLeftX(), (int) coordinates.getLeftY());
-		Point rightCord = new Point((int) coordinates.getRightX(), (int) coordinates.getRightY());
-		Point mainCore = new Point((int) coordinates.getMainX(), (int) coordinates.getMainY());
-		return new Triangle(leftCord, rightCord, mainCore, SensorType.Radar);
+	private Point rotatePoint(double centerX, double centerY, double angle, Point pointToTurn){
+		double newX = Math.cos(angle) * (pointToTurn.getX() - centerX) - Math.sin(angle) * (pointToTurn.getY() - centerY) + centerX;
+		double newY = Math.sin(angle) * (pointToTurn.getX() - centerX) + Math.cos(angle) * (pointToTurn.getY() - centerY) + centerY;
+		return new Point((int)newX,(int)newY);
 	}
 }
