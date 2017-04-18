@@ -15,11 +15,13 @@ public class Main {
 	private static final Logger logger = LogManager.getLogger();
 	public static final int CYCLE_PERIOD = 20;
 
+	public static final String world_1="src/main/resources/test_world.xml";
+	public static final String world_2="src/main/resources/NewLevel.xml";
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
 
 		// create the world
-		World w = new World("src/main/resources/test_world.xml");
+		World w = new World(world_1);
 
 		// create an automated car NEW signature
 		AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
