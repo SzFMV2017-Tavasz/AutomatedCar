@@ -113,7 +113,7 @@ public class HMI extends SystemComponent implements KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
 
 
-        System.out.println("keyPressed:" + keyEvent.getKeyChar());
+        //System.out.println("keyPressed:" + keyEvent.getKeyChar());
         char key = keyEvent.getKeyChar();
         switch (key) {
             case STEER_LEFT_KEY:
@@ -145,7 +145,7 @@ public class HMI extends SystemComponent implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        System.out.println("keyReleased:" + keyEvent.getKeyChar());
+        //System.out.println("keyReleased:" + keyEvent.getKeyChar());
         keyPressHandled = false;
         char key = keyEvent.getKeyChar();
         switch (key) {
