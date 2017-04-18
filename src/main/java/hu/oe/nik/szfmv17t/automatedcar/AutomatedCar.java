@@ -37,7 +37,6 @@ public class AutomatedCar extends Car{
 		this.speed = this.powertrainSystem.getVelocity();
 		this.setDirectionAngle(powertrainSystem.getSteeringAngle(this.speed));
 		this.setAxisAngle((-1) * this.getDirectionAngle());
-		System.out.println(Math.toDegrees(this.getDirectionAngle()));
 	}
 
 	@Override
