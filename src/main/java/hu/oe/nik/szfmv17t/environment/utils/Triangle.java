@@ -38,4 +38,12 @@ public class Triangle {
         if (D<0) return s<=0 && t<=0 && s+t>=D;
         return s>=0 && t>=0 && s+t<=D;
     }
+
+    @Override
+    public String toString() {
+        String triangleString = String.format("%1$s  A( %2$d, %3$d ) B( %4$d, %5$d) C( %6$d, %7$d )",
+                sensor.name(),((int) aX),((int) aY),((int) bX),((int) bY),((int) cX),((int) cY));
+
+        return triangleString;
+    }
 }
