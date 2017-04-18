@@ -48,9 +48,12 @@ public class UltrasonicController extends SystemComponent {
 		}
 
 		if(world != null) {
+			System.out.println("=== BEGIN Ultrasonic Sensor triangles requesting objects ===");
 			for(UltrasonicSensor us : ultrasonicSensors) {
+				System.out.println(us.getSensorViewTriangle().toString());
 				allSeenObjectsBuffer.addAll(world.checkSensorArea(us.getSensorViewTriangle()));
 			}
+			System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
 			for(IWorldObject wo : allSeenObjectsBuffer) {
 				System.out.println(wo.getImageName());
 			}
