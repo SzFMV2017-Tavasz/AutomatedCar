@@ -22,21 +22,21 @@ public class Main {
 		World w = new World("src/main/resources/test_world.xml");
 
 		// create an automated car NEW signature
-		AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
+		AutomatedCar car = new AutomatedCar(480, 800, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
 		HmiJPanel.setHmi(hmi);
 
 		//init Ultrasonic sensor system
-		UltrasonicController usController = new UltrasonicController(car);
+		UltrasonicController usController = new UltrasonicController(car, w);
 
 		// add car to the world
 		w.addObjectToWorld(car);
 
 		// init visualisation module with the world
 		vis.init(w);
-		Thread drawThread=new Thread(vis);
+		Thread drawThread = new Thread(vis);
 		drawThread.start();
 		while(true) {
 			try {
@@ -45,7 +45,7 @@ public class Main {
 				//vis.refreshFrame();
 				w.updateWorld();
 				Thread.sleep(CYCLE_PERIOD);
-			} catch (Exception e) {
+			} catch(Exception e) {
 				logger.error(e.getMessage());
 			}
 		}
