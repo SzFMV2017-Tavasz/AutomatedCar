@@ -21,7 +21,7 @@ public class Main {
 		CourseDisplay vis = new CourseDisplay();
 
 		// create the world
-		World w = new World(world_2);
+		World w = new World(world_1);
 
 		// create an automated car NEW signature
 		AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
