@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv17t;
 
+import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv17t.automatedcar.camerasensor.CameraSensorController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,6 +36,10 @@ public class Main {
 
 		//init Ultrasonic sensor system
 		UltrasonicController usController = new UltrasonicController(car);
+
+		CameraSensorController cameraSensorController = new CameraSensorController(car,w);
+
+		VirtualFunctionBus.registerComponent(cameraSensorController);
 
 		// add car to the world
 		w.addObjectToWorld(car);

@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv17t.visualisation.camerasensor;
+package hu.oe.nik.szfmv17t.automatedcar.camerasensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.domain.Road;

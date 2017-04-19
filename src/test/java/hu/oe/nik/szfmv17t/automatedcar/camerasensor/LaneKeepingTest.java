@@ -1,10 +1,9 @@
-package hu.oe.nik.szfmv17t.visualisation.camerasensor;
+package hu.oe.nik.szfmv17t.automatedcar.camerasensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.domain.Road;
 import hu.oe.nik.szfmv17t.environment.domain.Turn;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
-import hu.oe.nik.szfmv17t.visualisation.camerasensor.LaneKeeping;
 import org.junit.Before;
 import org.junit.Test;
 
