@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
+import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
@@ -33,7 +34,7 @@ public class PowertrainSystem extends SystemComponent {
     // Output signals
     // Only these are available trough getters
 
-    public PowertrainSystem(double height, double width, double carWeight) {
+    public PowertrainSystem(double carWeight) {
         super();
 
         this.speedControl = new SpeedControl(carWeight);
@@ -51,15 +52,15 @@ public class PowertrainSystem extends SystemComponent {
 		// Handle demo signal
 		case SMI_BrakePedal:
 			int brakePedal = (int) s.getData();
-			this.speedControl.setBrakePedal(brakePedal);
+			this.getSpeedControl().setBrakePedal(brakePedal);
 			break;
 		case SMI_Gaspedal:
 			int gasPedal = (int) s.getData();
-			this.speedControl.setGasPedal(gasPedal);
+			this.getSpeedControl().setGasPedal(gasPedal);
 			break;
 		case SMI_Gear:
 			AutoGearStates gear = AutoGearStates.values()[(int) s.getData()];
-			this.speedControl.setAutoGearState(gear);
+			this.getSpeedControl().setAutoGearState(gear);
 			break;
 		case SMI_SteeringWheel:
 			this.wheelState = (int)s.getData();
@@ -76,7 +77,11 @@ public class PowertrainSystem extends SystemComponent {
 		return steeringControl.calculateAngle(carVelocity, this.wheelState);
 	}
 
-    public double getVelocity() {
-        return speedControl.calculateVelocity();
+    public double getVelocity(WorldObjectState state) {
+        return this.speedControl.calculateVelocity(state);
     }
+
+	public SpeedControl getSpeedControl() {
+		return speedControl;
+	}
 }

@@ -20,7 +20,7 @@ public class AutomatedCar extends Car{
 		// The car has to know its PowertrainSystem, to get its coordinates
 
 
-	   	powertrainSystem = new PowertrainSystem(height,width, mass);
+	   	powertrainSystem = new PowertrainSystem(mass);
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
 
@@ -34,10 +34,10 @@ public class AutomatedCar extends Car{
 		// call components
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
-		this.speed = this.powertrainSystem.getVelocity();
-		this.setDirectionAngle(powertrainSystem.getSteeringAngle(this.speed));
+		this.speed = this.powertrainSystem.getVelocity(this.state);
+		System.out.println(this.speed);
+		this.setDirectionAngle(getPowertrainSystem().getSteeringAngle(this.speed));
 		this.setAxisAngle((-1) * this.getDirectionAngle());
-		System.out.println(Math.toDegrees(this.getDirectionAngle()));
 	}
 
 	@Override
@@ -46,5 +46,9 @@ public class AutomatedCar extends Car{
 
 		position.setPositionX(position.getMinimumX() + direction.getY() * getSpeed());
 		position.setPositionY(position.getMinimumY() - direction.getX() * getSpeed());
+	}
+
+	public PowertrainSystem getPowertrainSystem() {
+		return this.powertrainSystem;
 	}
 }
