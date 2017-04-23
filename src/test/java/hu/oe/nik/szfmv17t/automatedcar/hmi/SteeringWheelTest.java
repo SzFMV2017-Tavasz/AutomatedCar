@@ -13,12 +13,10 @@ public class SteeringWheelTest {
 
     private int timeStep;
     SteeringWheel steeringWheel;
-    DirectionIndicator indicator;
 
     @Before
     public void setUp() throws Exception {
-        indicator = new DirectionIndicator();
-        steeringWheel = new SteeringWheel(indicator);
+        steeringWheel = new SteeringWheel();
         timeStep = steeringWheel.getTimeStep();
     }
 
@@ -60,76 +58,6 @@ public class SteeringWheelTest {
         steeringWheel.steerRight();
         assertTrue( steeringWheel.isSteeringWheelRightToCenter() );
         steeringWheel.steerLeft();
-    }
-
-    @Test
-    public void automaticIndicationLeft() throws Exception {
-        while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationLeft()) {
-            steeringWheel.steerLeft();
-        }
-        assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Left );
-        steeringWheel.steerRelease();
-    }
-
-    @Test
-    public void automaticIndicationFromLeftBackwards() throws Exception {
-        while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationLeft()) {
-            steeringWheel.steerLeft();
-        }
-        Thread.sleep(timeStep+1);
-        steeringWheel.steerLeft();
-        Thread.sleep(timeStep+1);
-        steeringWheel.steerRight();
-        assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Default );
-        steeringWheel.steerRelease();
-    }
-
-    @Test
-    public void automaticIndicationFromLeftBackwardsWhileOtherIndicationActive() throws Exception {
-        while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationLeft()) {
-            steeringWheel.steerLeft();
-        }
-        steeringWheel.steerLeft();
-        indicator.IndicatingRight();
-        indicator.IndicatingRight();
-        steeringWheel.steerRight();
-        assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Right );
-        steeringWheel.steerRelease();
-    }
-
-    @Test
-    public void automaticIndicationRight() throws Exception {
-        while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationRight()) {
-            steeringWheel.steerRight();
-        }
-        assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Right );
-        steeringWheel.steerRelease();
-    }
-
-    @Test
-    public void automaticIndicationFromRightBackwards() throws Exception {
-        while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationRight()) {
-            steeringWheel.steerRight();
-        }
-        Thread.sleep(timeStep+1);
-        steeringWheel.steerRight();
-        Thread.sleep(timeStep+1);
-        steeringWheel.steerLeft();
-        assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Default );
-        steeringWheel.steerRelease();
-    }
-
-    @Test
-    public void automaticIndicationFromRightBackwardsWhileOtherIndicationActive() throws Exception {
-        while(steeringWheel.getState()!=steeringWheel.getSteeringStateForIndicationRight()) {
-            steeringWheel.steerRight();
-        }
-        steeringWheel.steerRight();
-        indicator.IndicatingLeft();
-        indicator.IndicatingLeft();
-        steeringWheel.steerLeft();
-        assertTrue( indicator.GetDirectionIndicatorState() == DirectionIndicatorStates.Left );
-        steeringWheel.steerRelease();
     }
 
     @Test
