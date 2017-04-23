@@ -5,11 +5,10 @@ import hu.oe.nik.szfmv17t.Main;
 /**
  * Created by SebestyenMiklos on 2017. 03. 05..
  */
-public class SteeringWheel {
+public class SteeringWheel extends CarControl {
     private int state;
-    private HmiTimer timer;
     private int steeringStep = 5;
-    private int timeStep = Main.CYCLE_PERIOD*2;
+    private int timeStep = 100;
     public static int maxLeft = -100;
     public static int maxRight = 100;
     private boolean timerStarted = false;
@@ -25,8 +24,8 @@ public class SteeringWheel {
     private boolean steerReleased = true;
 
     public SteeringWheel() {
+        super(new HmiTimer(),false);
         this.state = 0;
-        this.timer = new HmiTimer();
     }
 
     public int getTimeStep() {
@@ -40,7 +39,7 @@ public class SteeringWheel {
             if (state >= maxLeft + steeringStep) {
                 state -= steeringStep;
             }
-            this.start();
+            this.timerStart();
         }
     }
 
@@ -49,7 +48,7 @@ public class SteeringWheel {
             if (state >= maxLeft + steeringStep) {
                 state -= steeringStep;
             }
-            this.start();
+            this.timerStart();
         }
     }
 
@@ -58,7 +57,7 @@ public class SteeringWheel {
             if (state <= maxRight - steeringStep) {
                 state += steeringStep;
             }
-            this.start();
+            this.timerStart();
         }
     }
 
@@ -69,7 +68,7 @@ public class SteeringWheel {
             if (state <= maxRight - steeringStep) {
                 state += steeringStep;
             }
-            this.start();
+            this.timerStart();
         }
     }
 
@@ -137,16 +136,8 @@ public class SteeringWheel {
             return false;
         }
     }
-    public void start() {
-        timer.Start();
-        timerStarted = true;
-    }
 
-    public void startTimerIfNotStarted(){
-        if(!this.timerStarted){
-            this.start();
-        }
-    }
+
 
 
 }

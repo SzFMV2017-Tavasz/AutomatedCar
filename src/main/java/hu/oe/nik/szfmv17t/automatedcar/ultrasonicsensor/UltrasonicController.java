@@ -48,14 +48,14 @@ public class UltrasonicController extends SystemComponent {
 		}
 
 		if(world != null) {
-			System.out.println("=== BEGIN Ultrasonic Sensor triangles requesting objects ===");
+			//System.out.println("=== BEGIN Ultrasonic Sensor triangles requesting objects ===");
 			for(UltrasonicSensor us : ultrasonicSensors) {
-				System.out.println(us.getSensorViewTriangle().toString());
+				//System.out.println(us.getSensorViewTriangle().toString());
 				allSeenObjectsBuffer.addAll(world.checkSensorArea(us.getSensorViewTriangle()));
 			}
-			System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
+			//System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
 			for(IWorldObject wo : allSeenObjectsBuffer) {
-				System.out.println(wo.getClass().getSimpleName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
+				//System.out.println(wo.getClass().getSimpleName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
 			}
 			allSeenObjectsBuffer = new ArrayList<IWorldObject>();
 		}
