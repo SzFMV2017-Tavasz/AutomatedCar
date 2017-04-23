@@ -1,35 +1,48 @@
 package hu.oe.nik.szfmv17t.automatedcar.hmi;
 
-public class GasPedal {
+import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
+
+public class GasPedal extends CarControl {
     public static final int MAX_STATE = 100;
     public static final int MIN_STATE = 0;
     public static final int START_STATE = 0;
     public static final int DEFAULT_AMOUNT = 10;
     public static final int LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN = 1000;//milisecond
 
-    public HmiTimer timer;
     private int amount;
     private int state;
+    private boolean gasPedalReleased;
 
     public GasPedal() {
+        super(new HmiTimer(),false);
         state = START_STATE;
         amount = DEFAULT_AMOUNT;
-        timer = new HmiTimer();
+        gasPedalReleased = true;
     }
 
     public void acceleration() {
-        if (timer.getDuration() >= LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN) {
+        startTimerIfNotStarted();
+        long duration = timer.getDuration();
+        //System.out.println(duration);
+        if (!gasPedalReleased && duration >= LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN) {
             this.pedalToTheMetal();
-        } else {
+            this.timerStop();
+        } else if(gasPedalReleased){
             this.incraseGas();
+            this.timerStop();
         }
     }
 
     public void deceleration() {
-        if (timer.getDuration() >= LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN) {
+        startTimerIfNotStarted();
+        long duration = timer.getDuration();
+        //System.out.println(duration);
+        if (!gasPedalReleased && duration >= LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN) {
             this.gasPedalRelease();
-        } else {
+            this.timerStop();
+        } else if(gasPedalReleased) {
             this.decraseGas();
+            this.timerStop();
         }
 
     }
@@ -62,7 +75,10 @@ public class GasPedal {
         return this.state;
     }
 
-    public void start() {
-        timer.Start();
+
+    public void setGasPedalReleased(boolean gasPedalReleased) {
+        this.gasPedalReleased = gasPedalReleased;
     }
+
+
 }
