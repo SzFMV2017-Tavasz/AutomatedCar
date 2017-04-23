@@ -15,6 +15,7 @@ public class PowertrainSystem extends SystemComponent {
     public static final int SMI_Gear = 12;
     public static final int SMI_SteeringWheel = 13;
     public static final int ULTRASONIC_SENSOR_ID = 14;
+    public static final int RADAR_SENSOR_ID=15;
     public static final int Modelling = 20;
     public static final int Physics = 30;
     public static final int Physics_Speed = 31;
