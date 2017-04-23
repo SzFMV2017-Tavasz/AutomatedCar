@@ -26,4 +26,9 @@ public class UltrasonicControllerTest {
 		assertTrue(ultrasonicController.getUltrasonicSensor(1) != null);
 	}
 
+	
+	 @Test
+	 public void distanceTest(){
+		 assertTrue(ultrasonicController.getDistance(0, 0, 5, 0) == 5);
+	 }
 }

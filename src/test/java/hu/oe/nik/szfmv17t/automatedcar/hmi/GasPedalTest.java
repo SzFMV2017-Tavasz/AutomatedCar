@@ -45,7 +45,7 @@ public class GasPedalTest {
 	}
 	@Test
 	public void gasPedalReleaseTest(){
-		gasPedal.start();
+		gasPedal.timerStart();
 		try {
 			Thread.sleep(GasPedal.LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN);
 
@@ -60,7 +60,8 @@ public class GasPedalTest {
 	}
 	@Test
 	public void pedalToTheMetalTest(){
-		gasPedal.start();
+		gasPedal.setGasPedalReleased(false);
+		gasPedal.acceleration();
 		try {
 			Thread.sleep(GasPedal.LENGTH_OF_BUTONPRESS_TO_MAX_OR_MIN);
 
