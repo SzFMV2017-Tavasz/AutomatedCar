@@ -63,7 +63,7 @@ public class HMI extends SystemComponent implements KeyListener {
         sendGasPedalSignal();
         sendBrakePedalSignal();
         sendGearStickSignal();
-        if(carspeed > 0 && steeringWheel.isSteerReleased()){
+        if(carspeed != 0 && steeringWheel.isSteerReleased()){
             steeringWheel.steerRelease();
         }
     }
