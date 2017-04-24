@@ -37,6 +37,24 @@ public class InWay {
         r.add(far1);
         return r;
     }
+    private static Rectangle2D.Double RectangleCrafterBack(IWorldObject obj) {
+        Point2D.Double car0 = new Point2D.Double(obj.getCenterX() - obj.getWidth() / 2, obj.getCenterY() + obj.getHeight() / 2);
+        Point2D.Double car1 = new Point2D.Double(obj.getCenterX() + obj.getWidth() / 2, obj.getCenterY() + obj.getHeight() / 2);
+        Point2D.Double mid = midPoint(car0, car1);
+        AffineTransform transform = AffineTransform.getRotateInstance(obj.getAxisAngle(), mid.getX(), mid.getY());
+        transform.transform(car0, car0);
+        transform.transform(car1, car1);
+        Point2D.Double far0 = new Point2D.Double(obj.getCenterX() - obj.getWidth() / 2, obj.getCenterY() + 10e5);
+        Point2D.Double far1 = new Point2D.Double(obj.getCenterX() + obj.getWidth() / 2, obj.getCenterY() + 10e5);
+        transform.transform(far0, far0);
+        transform.transform(far1, far1);
+        Rectangle2D.Double r = new Rectangle2D.Double();
+        r.add(car0);
+        r.add(car1);
+        r.add(far0);
+        r.add(far1);
+        return r;
+    }
 
     private static Point2D.Double midPoint(Point2D.Double p, Point2D.Double o) {
         double mx = (p.x + o.x) / 2;
@@ -46,6 +64,11 @@ public class InWay {
 
     public static List<IWorldObject> InWaySortCarFront(AutomatedCar car, List<IWorldObject> objectsin) {
         Rectangle2D.Double carRect = RectangleCrafterFront(car);
+        return SortingMethod(carRect, objectsin);
+    }
+    
+    public static List<IWorldObject> InWaySortCarBack(AutomatedCar car, List<IWorldObject> objectsin) {
+        Rectangle2D.Double carRect = RectangleCrafterBack(car);
         return SortingMethod(carRect, objectsin);
     }
 
