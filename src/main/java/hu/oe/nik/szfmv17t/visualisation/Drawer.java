@@ -148,7 +148,9 @@ public class Drawer implements IWorldVisualization {
         if (Turn.class.isInstance(worldObject))
         {
             double baseY=(cameraObject.getY()-(worldObject.getHeight()/2));
-            if (worldObject.getImageName()=="road_2lane_tjunctionright.png" || worldObject.getImageName()=="road_2lane_tjunctionleft.png")
+            if (worldObject.getImageName()=="road_2lane_tjunctionright.png")
+                drawCornerY=baseY + worldObject.getWidth();
+            else if (worldObject.getImageName()=="road_2lane_tjunctionleft.png")
                 drawCornerY=baseY;
             else
                 drawCornerY = (baseY - worldObject.getHeight());
