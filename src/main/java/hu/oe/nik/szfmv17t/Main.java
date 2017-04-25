@@ -34,6 +34,7 @@ public class Main {
 
 		//init Ultrasonic sensor system
 		UltrasonicController usController = new UltrasonicController(car);
+		RadarController radarController = new RadarController(car,w);
 		
 		// add car to the world
 		w.addObjectToWorld(car);

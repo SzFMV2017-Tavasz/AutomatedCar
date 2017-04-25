@@ -30,7 +30,7 @@ public class AutomatedCar extends Car{
 		new Driver();
 
 		this.ultrasonicController = new UltrasonicController(this);
-		this.radarSensorController = new RadarController(this);
+		//this.radarSensorController = new RadarController(this,);
 	}
 
 	public void drive() {
