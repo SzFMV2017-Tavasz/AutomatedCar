@@ -45,7 +45,7 @@ public class CameraSensorController extends SystemComponent {
         seenWorldObjects = world.checkSensorArea(fieldView);
         relevantObjects = cameraSensor.getRelevantWorldObjects(seenWorldObjects);
         cameraSensorStoredData = getDataOfCameraSensor(car, relevantObjects);
-        printOutInformation();
+        //printOutInformation();
     }
 
     @Override

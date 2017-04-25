@@ -72,8 +72,10 @@ public class CameraSensorTest {
 
         //double rotation = Math.toRadians(360);
         double[] coordinates = {leftUpperXBase, leftUpperYBase};
-        double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
-        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        //double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+        //AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+
+        AffineTransform.getRotateInstance(car.getDirectionAngle(), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
 
         double leftUpperCornerX = coordinates[0];
         double leftUpperCornerY = coordinates[1];
@@ -88,10 +90,11 @@ public class CameraSensorTest {
         double rightUpperXBase = center.getX() + addingOffsetDistanceInCoordinates;
         double rightUpperYBase = center.getY() - viewDistanceInCoordinates;
 
-        double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+        //double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
         double[] coordinates = {rightUpperXBase, rightUpperYBase};
-        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        //AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
 
+        AffineTransform.getRotateInstance(car.getDirectionAngle(), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
         double rightUpperCornerX = coordinates[0];
         double rightUpperCornerY = coordinates[1];
         rightPoint = new Point((int) rightUpperCornerX, (int) rightUpperCornerY);
@@ -109,8 +112,9 @@ public class CameraSensorTest {
         double leftUpperYBase = car2Center.getY() - viewDistanceInCoordinates;
 
         double[] coordinates = {leftUpperXBase, leftUpperYBase};
-        double angleOfRotationInDeg = (360 - Math.toDegrees(car2.getDirectionAngle()));
-        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), car2Center.getX(), car2Center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        //double angleOfRotationInDeg = (360 - Math.toDegrees(car2.getDirectionAngle()));
+        //AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), car2Center.getX(), car2Center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        AffineTransform.getRotateInstance(car2.getDirectionAngle(), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
 
         double leftUpperCornerX = coordinates[0];
         double leftUpperCornerY = coordinates[1];
@@ -128,14 +132,15 @@ public class CameraSensorTest {
         double rightUpperYBase = car2Center.getY() - viewDistanceInCoordinates;
 
         double[] coordinates = {rightUpperXBase, rightUpperYBase};
-        double angleOfRotationInDeg = (360 - Math.toDegrees(car2.getDirectionAngle()));
-        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), car2Center.getX(), car2Center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        //double angleOfRotationInDeg = (360 - Math.toDegrees(car2.getDirectionAngle()));
+        //AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), car2Center.getX(), car2Center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        AffineTransform.getRotateInstance(car2.getDirectionAngle(), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
 
         double rightUpperCornerX = coordinates[0];
         double rightUpperCornerY = coordinates[1];
         rightPoint = new Point((int) rightUpperCornerX, (int) rightUpperCornerY);
         Point resultPoint = cameraSensor.calculateRightCornerPoint(car2, car2Center);
-        assertEquals(rightPoint,resultPoint);
+        assertEquals(rightPoint, resultPoint);
     }
 
     @Test

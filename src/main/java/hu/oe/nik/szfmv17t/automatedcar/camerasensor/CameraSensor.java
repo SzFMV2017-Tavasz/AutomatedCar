@@ -33,9 +33,6 @@ public class CameraSensor {
     private double addingOffsetDistanceInMeter;
     private double addingOffsetDistanceInCoordinates;
 
-    //3 pont altal meghatarozott latoter
-    //Triangle fieldView;
-
     public CameraSensor(AutomatedCar carObject) {
         resizer = Resizer.getResizer();
         this.viewAngle = 60;
@@ -57,12 +54,12 @@ public class CameraSensor {
         double leftUpperBaseX = center.getX() - addingOffsetDistanceInCoordinates;
         double leftUpperBaseY = center.getY() - viewDistanceInCoordinates;
         double[] coordinates = {leftUpperBaseX, leftUpperBaseY};
-        double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+        //double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+       // AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        AffineTransform.getRotateInstance(car.getDirectionAngle(), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
 
-        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
         double leftUpperCornerX = coordinates[0];
         double leftUpperCornerY = coordinates[1];
-
         return new Point((int) leftUpperCornerX, (int) leftUpperCornerY);
     }
 
@@ -71,9 +68,10 @@ public class CameraSensor {
         double rightUpperBaseY = center.getY() - viewDistanceInCoordinates;
 
         double[] coordinates = {rightUpperBaseX, rightUpperBaseY};
-        double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+        //double angleOfRotationInDeg = (360 - Math.toDegrees(car.getDirectionAngle()));
+        //AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
+        AffineTransform.getRotateInstance(car.getDirectionAngle(), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
 
-        AffineTransform.getRotateInstance(Math.toRadians(angleOfRotationInDeg), center.getX(), center.getY()).transform(coordinates, 0, coordinates, 0, 1);
         double rightUpperCornerX = coordinates[0];
         double rightUpperCornerY = coordinates[1];
         return new Point((int) rightUpperCornerX, (int) rightUpperCornerY);
