@@ -38,6 +38,9 @@ public class Main {
 		//init Ultrasonic sensor system
 		UltrasonicController usController = new UltrasonicController(car, w);
 
+		RadarController radarController = new RadarController(car,w);
+		VirtualFunctionBus.registerComponent(radarController);
+
 		// add car to the world
 		w.addObjectToWorld(car);
 
