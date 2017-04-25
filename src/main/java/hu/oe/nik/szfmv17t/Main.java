@@ -41,6 +41,9 @@ public class Main {
 		RadarController radarController = new RadarController(car,w);
 		VirtualFunctionBus.registerComponent(radarController);
 
+		CameraSensorController  cameraSensorController = new CameraSensorController(car, w);
+		VirtualFunctionBus.registerComponent(cameraSensorController);
+
 		// add car to the world
 		w.addObjectToWorld(car);
 
