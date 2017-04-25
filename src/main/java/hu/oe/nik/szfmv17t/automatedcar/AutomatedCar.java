@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv17t.automatedcar;
 
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv17t.automatedcar.radarsensor.RadarController;
 import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import hu.oe.nik.szfmv17t.environment.domain.Car;
 import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
@@ -11,6 +12,7 @@ public class AutomatedCar extends Car{
 
 	private PowertrainSystem powertrainSystem;
 	private UltrasonicController ultrasonicController;
+	private RadarController radarSensorController;
 
    public AutomatedCar(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double mass, double speed, double directionAngle) {
         super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, mass, speed, directionAngle);
@@ -28,6 +30,7 @@ public class AutomatedCar extends Car{
 		new Driver();
 
 		this.ultrasonicController = new UltrasonicController(this);
+		this.radarSensorController = new RadarController(this);
 	}
 
 	public void drive() {
