@@ -30,20 +30,15 @@ public class PowertrainSystem extends SystemComponent {
 
     // Output signals
     // Only these are available trough getters
-
     private int wheelState = 0;
 
-    // Output signals
-    // Only these are available trough getters
 
 
 
     public PowertrainSystem(double height, double width, double carWeight) {
         super();
-
         this.speedControl = new SpeedControl(carWeight);
         this.steeringControl = new SteeringControl();
-
     }
 
 
@@ -56,25 +51,21 @@ public class PowertrainSystem extends SystemComponent {
 
 
     @Override
-
     public void receiveSignal(Signal s) {
 
         switch (s.getId()) {
             // Handle demo signal
             case SMI_BrakePedal:
-
                 int brakePedal = (int) s.getData();
                 this.speedControl.setBrakePedal(brakePedal);
                 break;
 
             case SMI_Gaspedal:
-
                 int gasPedal = (int) s.getData();
                 this.speedControl.setGasPedal(gasPedal);
                 break;
 
             case SMI_Gear:
-
                 AutoGearStates gear = AutoGearStates.values()[(int) s.getData()];
                 this.speedControl.setAutoGearState(gear);
                 break;
