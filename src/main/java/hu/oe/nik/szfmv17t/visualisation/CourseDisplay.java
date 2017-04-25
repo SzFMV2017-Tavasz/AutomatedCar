@@ -55,8 +55,9 @@ public class CourseDisplay implements Runnable, ActionListener {
 		mainPanel.add(worldObjectsJPanel, BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
 		keyPanel = new KeyPanel();
+		hmiJPanel.add(keyPanel);
+
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
-		mainPanel.add(keyPanel, BorderLayout.WEST);
 
 		SizeFrame(frame);
 		//Solve the duplicated key listener
@@ -102,8 +103,8 @@ public class CourseDisplay implements Runnable, ActionListener {
 	@Override
 	public void run() {
 		/*int refreshRate = 1000 / Config.FPS;
-		
-		
+
+
 			try {
 				Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel,world,mainPanel);
 			} catch (IOException e) {
