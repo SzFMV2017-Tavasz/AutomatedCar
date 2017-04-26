@@ -31,14 +31,7 @@ public class RadarController extends SystemComponent{
 		allObjectsInCarLane = new ArrayList<IWorldObject>();
 		initSensor();
 	}
-	public RadarController (AutomatedCar car) {
-		resizer = Resizer.getResizer();
-		this.automatedCar = car;
-		detectedObjects = new ArrayList<IWorldObject>();
-		allObjectsInCarLane = new ArrayList<IWorldObject>();
-		this.radarSensor=new RadarSensor();
-	}
-
+	
 	private void initSensor(){
 		radarSensor = new RadarSensor();
 	}
@@ -62,7 +55,7 @@ public class RadarController extends SystemComponent{
         Triangle sensorArea = radarSensor.calculateCoordinates(automatedCar.getPositionObj(), -automatedCar.getAxisAngle());
 		detectedObjects = world.checkSensorArea(sensorArea);
 		
-		allObjectsInCarLane=radarSensor.selectObjectsInCarLane(detectedObjects, automatedCar.getPositionObj(),-automatedCar.getAxisAngle());
+		allObjectsInCarLane=radarSensor.selectObjectsInCarLane(detectedObjects, automatedCar.getPositionObj(),-automatedCar.getAxisAngle(),1.5);
 		logInformationOfDetectedObjectsByRadarSensor();
 		logAllObjectsInCarLane();
 		logClosestObjectInCarLane();

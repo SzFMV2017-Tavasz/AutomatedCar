@@ -44,11 +44,11 @@ public class RadarSensor {
 		return new Point((int)newX,(int)newY);
 	}
 	
-	public List<IWorldObject> selectObjectsInCarLane(List<IWorldObject> allDetectedObjects,Position carPosition, double carAxisAngle){
+	public List<IWorldObject> selectObjectsInCarLane(List<IWorldObject> allDetectedObjects,Position carPosition, double carAxisAngle,double laneWidthInMeter){
 		Point lineEndpoints[]=calcLineEndpoints(carPosition,carAxisAngle);
 		double pointA[]={lineEndpoints[0].getX(),lineEndpoints[0].getY()};
 		double pointB[]={lineEndpoints[1].getX(),lineEndpoints[1].getY()};
-		double laneWidthInMapUnits=resizer.meterToCoordinate(1.5);
+		double laneWidthInMapUnits=resizer.meterToCoordinate(laneWidthInMeter);
 		
 		List<IWorldObject> objectsInCarLane=new ArrayList<IWorldObject>();
 		
