@@ -55,7 +55,7 @@ public class CourseDisplay implements Runnable, ActionListener {
 		mainPanel.add(worldObjectsJPanel, BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
 		keyPanel = new KeyPanel();
-		hmiJPanel.add(keyPanel);
+		mainPanel.add(keyPanel,BorderLayout.NORTH);
 
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
 
