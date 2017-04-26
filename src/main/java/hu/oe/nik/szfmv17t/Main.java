@@ -29,7 +29,7 @@ public class Main {
 		World w = new World(world_1);
 
 		// create an automated car NEW signature
-		AutomatedCar car = new AutomatedCar(480, 800, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
+		AutomatedCar car = new AutomatedCar(480, 800, 108, 240, 0d, 1, "car_1_white.png", 200d, 0d, 0d);
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
