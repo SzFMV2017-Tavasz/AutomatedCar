@@ -29,19 +29,21 @@ public Entity(){
 public boolean isKnown(){
 	return (this.getPreviousState().getStatus()==EntityStatus.known && this.getPredictedState().getStatus()==EntityStatus.known);
 }
-public void calcSpeed(){
+public void updateSpeed(){
 	double deltaPos=movementMath.distance2d(this.getPreviousState().getPosition(), this.getPredictedState().getPosition());
 	this.setSpeed(deltaPos/cyclePeriod);
 }
 
 public void PredictEntityState(){
 	if(this.getPreviousState().getStatus()==EntityStatus.known && this.getCurrentState().getStatus()==EntityStatus.known){
-		calcSpeed();
-		calcDirection(this.getPreviousState().getPosition(), this.getCurrentState().getPosition());
+		
 		this.getPredictedState().setStatus(EntityStatus.known);		
 	}
 }
-private void calcDirection(Vector2d a, Vector2d b){
+public void updateDirection(){
+	Vector2d a= this.previousState.getPosition();
+	Vector2d b= this.currentState.getPosition();
+	
 	Vector2d directionVector=new Vector2d(b.getX()-a.getX(), b.getY()-a.getY());
 	this.setDirection(directionVector);
 }

@@ -34,23 +34,23 @@ private void addBestFitEntityToList(IWorldObject worldObject){
 	Vector2d woCurrPos=new Vector2d(worldObject.getCenterX(),worldObject.getCenterY());
 	
 	
-	for(Entity ent:lastEntites){
+	for(Entity lastEnt:lastEntites){
 		
-		double currDistance=movementMath.distance2d(woCurrPos, ent.getCurrentState().getPosition());
+		double currDistance=movementMath.distance2d(woCurrPos, lastEnt.getCurrentState().getPosition());
 		
 		
-		if(ent.getPredictedState().getStatus()==EntityStatus.known){
-			double predDistance=movementMath.distance2d(woCurrPos, ent.getPredictedState().getPosition());
+		if(lastEnt.getPredictedState().getStatus()==EntityStatus.known){
+			double predDistance=movementMath.distance2d(woCurrPos, lastEnt.getPredictedState().getPosition());
 			if(predDistance<=acceptedMaxPredictedMovementDeltaInCoordinates){
-				refreshEntity(ent, worldObject);
-				newEntites.add(ent);
+				refreshEntity(lastEnt, worldObject);
+				newEntites.add(lastEnt);
 			}
 		}
 		
 		
 		else if(currDistance<=acceptedMaxMovementDeltaInCoordinates){
-			refreshEntity(ent, worldObject);
-			newEntites.add(ent);
+			refreshEntity(lastEnt, worldObject);
+			newEntites.add(lastEnt);
 		}
 		
 		else newEntites.add(createNewEntity(worldObject));		
@@ -74,6 +74,9 @@ private void refreshEntity(Entity ent,IWorldObject worldObject){
 	ent.getCurrentState().setStatus(EntityStatus.known);
 	ent.setPreviousState(ent.getCurrentState());
 	ent.setCurrentState(newState);
+	ent.updateSpeed();
+	ent.updateDirection();
+	
 }
 
 }
