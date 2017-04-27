@@ -22,6 +22,9 @@ public class RadarController extends SystemComponent{
 	private World world;
 	private List<IWorldObject> detectedObjects;
 	private List<IWorldObject> allObjectsInCarLane;
+	
+	private EntityMovementAnalyzer objectTracker;
+	List<Entity> detectedEntites;
 
 	public RadarController (AutomatedCar car,World world) {
 		resizer = Resizer.getResizer();
@@ -29,6 +32,8 @@ public class RadarController extends SystemComponent{
 		this.world = world;
 		detectedObjects = new ArrayList<IWorldObject>();
 		allObjectsInCarLane = new ArrayList<IWorldObject>();
+		this.objectTracker=new EntityMovementAnalyzer();
+		
 		initSensor();
 	}
 	
@@ -56,6 +61,10 @@ public class RadarController extends SystemComponent{
 		detectedObjects = world.checkSensorArea(sensorArea);
 		
 		allObjectsInCarLane=radarSensor.selectObjectsInCarLane(detectedObjects, automatedCar.getPositionObj(),-automatedCar.getAxisAngle(),1.5);
+		detectedEntites=objectTracker.updateEntityList(detectedObjects);
+		
+		objectTracker.predictEntities();
+		
 		logInformationOfDetectedObjectsByRadarSensor();
 		logAllObjectsInCarLane();
 		logClosestObjectInCarLane();
