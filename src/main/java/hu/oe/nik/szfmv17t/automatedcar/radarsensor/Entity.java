@@ -36,9 +36,13 @@ public void updateSpeed(){
 
 public void PredictEntityState(){
 	if(this.getPreviousState().getStatus()==EntityStatus.known && this.getCurrentState().getStatus()==EntityStatus.known){
-		
 		this.getPredictedState().setStatus(EntityStatus.known);		
+		predictPosition();				
 	}
+}
+
+private void predictPosition(){
+	this.getPredictedState().setPosition(new Vector2d(this.getCurrentState().getPosition().getX()+this.getDirection().getX(),this.getCurrentState().getPosition().getY()+this.getDirection().getY()));
 }
 public void updateDirection(){
 	Vector2d a= this.previousState.getPosition();
