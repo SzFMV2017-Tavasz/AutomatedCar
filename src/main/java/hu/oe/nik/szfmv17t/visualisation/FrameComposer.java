@@ -26,7 +26,6 @@ public class FrameComposer {
         this.world = world;
         this.camera = camera;
         this.worldPanel = worldPanel;
-
     }
 
     public static FrameComposer getComposer(IWorldVisualisation world, JPanel worldPanel)
@@ -44,6 +43,7 @@ public class FrameComposer {
             throw new CarNotFoundException();
 
         setCameraPosition();
+        setCameraSize(worldPanel.getWidth(), worldPanel.getHeight());
         List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
         List<CameraObject> cameraObjects = calculateRelativePosition(car, visibleObjects);
 
