@@ -64,8 +64,8 @@ public class Drawer implements IWorldVisualization {
         return instance;
     }
 
-    public FrameComposer getComposer(IWorldVisualisation world) {
-        return FrameComposer.getComposer(world);
+    public FrameComposer getComposer(IWorldVisualisation world, JPanel worldPanel) {
+        return FrameComposer.getComposer(world, worldPanel);
     }
 
     //private static double t=0.1;
@@ -75,7 +75,7 @@ public class Drawer implements IWorldVisualization {
     public void DrawFrametoPanel(JPanel worldObjectsPanel, IWorldVisualisation world, JPanel mainPanel) {
         BorderLayout layout = (BorderLayout) mainPanel.getLayout();
         mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
-        FrameComposer fc = getComposer(world);
+        FrameComposer fc = getComposer(world, worldObjectsPanel);
         fc.setCameraSize(worldObjectsPanel.getWidth(), worldObjectsPanel.getHeight());
         List<CameraObject> toDraw = fc.composeFrame();
 

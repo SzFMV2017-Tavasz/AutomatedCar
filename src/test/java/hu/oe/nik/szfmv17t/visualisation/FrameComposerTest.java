@@ -8,6 +8,7 @@ import org.junit.Test;
 import hu.oe.nik.szfmv17t.visualisation.mock.WorldObjectMock;
 import hu.oe.nik.szfmv17t.visualisation.mock.WorldVisualizationMock;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class FrameComposerTest {
         List<IWorldObject> objects = new ArrayList<>();
         objects.add (car);
 
-        FrameComposer fc = new FrameComposer(new WorldVisualizationMock(objects), new Camera());
+        FrameComposer fc = new FrameComposer(new WorldVisualizationMock(objects), new Camera(), new JPanel());
 
         List<CameraObject> ret = fc.composeFrame();
 
@@ -32,7 +33,7 @@ public class FrameComposerTest {
     public void frameComposeThrowsException () {
         List<IWorldObject> objects = new ArrayList<>();
 
-        FrameComposer fc = new FrameComposer(new WorldVisualizationMock(objects), new Camera());
+        FrameComposer fc = new FrameComposer(new WorldVisualizationMock(objects), new Camera(), new JPanel());
 
         List<CameraObject> ret = fc.composeFrame();
     }
@@ -48,7 +49,7 @@ public class FrameComposerTest {
         objects.add (car);
         objects.add (visible);
 
-        FrameComposer fc = new FrameComposer(new WorldVisualizationMock(objects), camera);
+        FrameComposer fc = new FrameComposer(new WorldVisualizationMock(objects), camera, new JPanel());
         fc.setCameraSize(200, 200);
 
         List<CameraObject> ret = fc.composeFrame();
