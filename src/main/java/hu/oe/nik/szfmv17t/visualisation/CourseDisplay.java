@@ -48,10 +48,10 @@ public class CourseDisplay implements Runnable, ActionListener{
 		frame.setVisible(true);
 		frame.createBufferStrategy(4);
 		strategy = frame.getBufferStrategy();
-		worldObjectsJPanel = new JPanel();
-		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
+		worldObjectsJPanel = new JPanel();
+		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
 		SizeFrame(frame);
 		//Solve the duplicated key listener
 		//addSmiKeyEventListenerToFrame();
