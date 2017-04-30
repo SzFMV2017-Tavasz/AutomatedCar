@@ -20,16 +20,16 @@ public class Main {
 
 	public static final String world_1="src/main/resources/test_world.xml";
 	public static final String world_2="src/main/resources/NewLevel.xml";
-	public static final String world_3="src/main/resources/AdvancedLevel.xml.converted.xml";
+	public static final String world_3="src/main/resources/AdvancedLevel.xml";
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
 
 		// create the world
-		World w = new World(world_1);
+		World w = new World(world_3);
 
 		// create an automated car NEW signature
-		AutomatedCar car = new AutomatedCar(480, 800, 108, 240, 0d, 1, "car_1_white.png", 200d, 0d, 0d);
+		AutomatedCar car = new AutomatedCar(2759, 3318, 108, 240, 0d, 1, "car_1_white.png", 200d, 0d, 0d);
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
