@@ -1,7 +1,8 @@
-package hu.oe.nik.szfmv17t.visualisation.camerasensor;
+package hu.oe.nik.szfmv17t.automatedcar.camerasensor;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.environment.domain.Road;
+import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 import static org.junit.Assert.*;
 
@@ -18,6 +20,7 @@ import static org.junit.Assert.*;
 public class CameraSensorControllerTest {
 
     private CameraSensorController cameraSensorController;
+    private World world;
     private List<IWorldObject> worldObjects;
     private AutomatedCar car;
     private IWorldObject road1;
@@ -26,7 +29,7 @@ public class CameraSensorControllerTest {
     @Before
     public void setUp() {
         car = new AutomatedCar(100, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
-        cameraSensorController = new CameraSensorController(car);
+        cameraSensorController = new CameraSensorController(car, null);
 
         road1 = new Road(0, 0, 350, 350, 0, 0, "road_2lane_straight.png", 0, 1, 1, 1);
         worldObjects = new ArrayList<IWorldObject>();
