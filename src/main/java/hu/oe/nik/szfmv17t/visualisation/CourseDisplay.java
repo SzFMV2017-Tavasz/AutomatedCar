@@ -1,34 +1,37 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
-import hu.oe.nik.szfmv17t.environment.domain.World;
-import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
-import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
-import hu.oe.nik.szfmv17t.environment.utils.Config;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class CourseDisplay implements Runnable, ActionListener{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
+import hu.oe.nik.szfmv17t.environment.utils.Config;
+
+public class CourseDisplay implements Runnable, ActionListener {
 
 	private static final Logger logger = LogManager.getLogger();
 	private JFrame frame = new JFrame("OE NIK Automated Car Project");
 	private JPanel hmiJPanel;
+	private JPanel keyPanel;
 	private JPanel mainPanel;
 	private JPanel worldObjectsJPanel;
 	//private Drawer drawer;
 	private IWorldVisualisation world;
 	private BufferStrategy strategy;
-	Timer timer=new Timer(1000/Config.FPS, this);
+	Timer timer = new Timer(1000 / Config.FPS, this);
 
 	public void refreshFrame() {
 		frame.invalidate();
@@ -39,19 +42,23 @@ public class CourseDisplay implements Runnable, ActionListener{
 		frame.repaint();
 	}
 
-	public void init(IWorldVisualisation world){
+	public void init(IWorldVisualisation world) {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.world=world;
+		this.world = world;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		frame.setVisible(true);
 		frame.createBufferStrategy(4);
 		strategy = frame.getBufferStrategy();
 		worldObjectsJPanel = new JPanel();
-		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
+		mainPanel.add(worldObjectsJPanel, BorderLayout.CENTER);
 		hmiJPanel = getSmiJPanel();
+		keyPanel = new KeyPanel();
+		mainPanel.add(keyPanel,BorderLayout.NORTH);
+
 		mainPanel.add(hmiJPanel, BorderLayout.SOUTH);
+
 		SizeFrame(frame);
 		//Solve the duplicated key listener
 		//addSmiKeyEventListenerToFrame();
@@ -71,28 +78,28 @@ public class CourseDisplay implements Runnable, ActionListener{
 	}
 
 	public void addSmiKeyEventListenerToFrame() {
-		if(frame != null && HmiJPanel.getHmi() != null) {
+		if((frame != null) && (HmiJPanel.getHmi() != null)) {
 			frame.addKeyListener(HmiJPanel.getHmi());
-		}else{
+		} else {
 			logger.error("JFrame frame or HmiJPanel.getHmi() returned null");
 		}
 	}
 
-	private void SizeFrame(JFrame frame)
-	{
+	private void SizeFrame(JFrame frame) {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
-		frame.setSize(Config.getScreenWidth,Config.getScreenHeight- 50);
+		frame.setSize(Config.getScreenWidth, Config.getScreenHeight - 50);
 	}
-	private JPanel filler()
-	{
-		JPanel filler=new JPanel();
+
+	private JPanel filler() {
+		JPanel filler = new JPanel();
 		filler.setOpaque(true);
 		filler.setBackground(Color.orange);
 		filler.setPreferredSize(new Dimension(200, 40));
 		return filler;
 	}
+
 	@Override
 	public void run() {
 		/*int refreshRate = 1000 / Config.FPS;
@@ -111,8 +118,8 @@ public class CourseDisplay implements Runnable, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel,world,mainPanel);
-		} catch (IOException er) {
+			Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel, world, mainPanel);
+		} catch(IOException er) {
 			er.printStackTrace();
 		}
 		refreshFrame();
