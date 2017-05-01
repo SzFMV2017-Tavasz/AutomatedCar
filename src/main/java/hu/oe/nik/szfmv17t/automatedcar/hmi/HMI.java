@@ -25,6 +25,8 @@ public class HMI extends SystemComponent implements KeyListener {
     public static final char INDICATE_LEFT = 'u';
     public static final char BREAKDOWN = 'i';
     public static final char INDICATE_RIGHT = 'o';
+    public static final char SEARCHING_TOGGLE = 'p';
+    public static final char PARKING_TOGGLE = 'é';
 
     public static final int BUTTON_PRESSING_LENGTH_FOR_PTTM = 5;
     public static final int DURATION_FOR_PTTM = 100;
@@ -99,8 +101,11 @@ public class HMI extends SystemComponent implements KeyListener {
     }
 
     private void sendDirectionIndicationSignal() {
+        if (directionIndicator.GetDirectionIndicatorState() != previousDirection) {
             VirtualFunctionBus
                     .sendSignal(new Signal(PowertrainSystem.SMI_Indication, directionIndicator.GetDirectionIndicatorState().ordinal()));
+            previousDirection = directionIndicator.GetDirectionIndicatorState();
+        }
     }
 
     @Override
