@@ -25,6 +25,7 @@ public class UltrasonicController extends SystemComponent {
 	private World world;
 	private Map<Integer, IWorldObject> seenObjectsBySensor;
 	private DirectionIndicatorStates indicator;
+	private Map<Integer, Boolean> activatedSensors;
     
 	public UltrasonicController(AutomatedCar auto, World world) {
 		ultrasonicSensors = new ArrayList<UltrasonicSensor>();
@@ -33,6 +34,7 @@ public class UltrasonicController extends SystemComponent {
 		this.world = world;
 		initSensors();
 		indicator = DirectionIndicatorStates.Default;
+		activatedSensors = new HashMap<Integer, Boolean>();
 	}
 
 
@@ -125,4 +127,12 @@ public class UltrasonicController extends SystemComponent {
     public double getDistance(double x1, double y1, double x2, double y2){ 
     	return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
+
+    public void activateSensor(int id){
+    	activatedSensors.replace(id,true);
+	}
+	public void deactivateSensor(int id){
+		activatedSensors.replace(id,false);
+	}
+
 }
