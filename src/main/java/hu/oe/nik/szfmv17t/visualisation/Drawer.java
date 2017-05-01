@@ -64,18 +64,15 @@ public class Drawer implements IWorldVisualization {
         return instance;
     }
 
-    public FrameComposer getComposer(IWorldVisualisation world) {
-        return FrameComposer.getComposer(world);
+    public FrameComposer getComposer(IWorldVisualisation world, JPanel worldPanel) {
+        return FrameComposer.getComposer(world, worldPanel);
     }
 
-    //private static double t=0.1;
-    //double direction =0.1;
-    int t = 0;
 
     public void DrawFrametoPanel(JPanel worldObjectsPanel, IWorldVisualisation world, JPanel mainPanel) {
         BorderLayout layout = (BorderLayout) mainPanel.getLayout();
         mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
-        FrameComposer fc = getComposer(world);
+        FrameComposer fc = getComposer(world, worldObjectsPanel);
         fc.setCameraSize(worldObjectsPanel.getWidth(), worldObjectsPanel.getHeight());
         List<CameraObject> toDraw = fc.composeFrame();
 
@@ -133,8 +130,11 @@ public class Drawer implements IWorldVisualization {
         {
             if (object.getImageName()=="road_2lane_tjunctionright.png" || object.getImageName()=="road_2lane_tjunctionleft.png")
                 return object.getWidth()/Config.SCALE;
-            else if (object.getImageName()=="road_2lane_90left.png" || object.getImageName()=="road_2lane_45left.png")
+            else if (object.getImageName()=="road_2lane_90left.png" || object.getImageName()=="road_2lane_45left.png" )
                 return (object.getWidth()-Config.roadWidth)/Config.SCALE;
+            else if (object.getImageName()=="road_2lane_6left.png" ) {
+                return (Config.roadWidth + object.getWidth()-Config.roadWidth) / Config.SCALE;
+            }
             else
                return Config.roadWidth/Config.SCALE;
         }
@@ -143,7 +143,7 @@ public class Drawer implements IWorldVisualization {
     private double calculateDrawCornerY(CameraObject cameraObject)
     {
         IWorldObject worldObject = cameraObject.getWorldObject();
-        double drawCornerY=0;
+        double drawCornerY;
 
         if (Turn.class.isInstance(worldObject))
         {
@@ -162,15 +162,18 @@ public class Drawer implements IWorldVisualization {
     private double calculateDrawCornerX(CameraObject cameraObject)
     {
         IWorldObject worldObject = cameraObject.getWorldObject();
-        double drawCornerX=0;
+        double drawCornerX;
 
         if (Turn.class.isInstance(worldObject))
         {
             double baseX=(cameraObject.getX()-(worldObject.getWidth()/2));
             if (worldObject.getImageName()=="road_2lane_tjunctionright.png" || worldObject.getImageName()=="road_2lane_tjunctionleft.png")
                 drawCornerX = (baseX - worldObject.getWidth());
-            else if (worldObject.getImageName()=="road_2lane_45left.png" || worldObject.getImageName()=="road_2lane_90left.png")
+            else if (worldObject.getImageName()=="road_2lane_45left.png" || worldObject.getImageName()=="road_2lane_90left.png" )
                 drawCornerX = (baseX - (worldObject.getWidth()-Config.roadWidth));
+            else if (worldObject.getImageName()=="road_2lane_6left.png" ) {
+                drawCornerX = (cameraObject.getX() - ((worldObject.getWidth()/2)+(worldObject.getWidth()-Config.roadWidth))) - Config.roadWidth;
+            }
             else
                 drawCornerX=baseX-Config.roadWidth;
         }

@@ -6,6 +6,7 @@ import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
 import hu.oe.nik.szfmv17t.environment.utils.Config;
 import hu.oe.nik.szfmv17t.visualisation.viewmodels.CameraObject;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,17 +19,19 @@ public class FrameComposer {
     private Camera camera;
     private IWorldVisualisation world;
     private static FrameComposer instance=null;
+    private JPanel worldPanel;
 
-    FrameComposer(IWorldVisualisation world, Camera camera)
+    FrameComposer(IWorldVisualisation world, Camera camera, JPanel worldPanel)
     {
         this.world = world;
         this.camera = camera;
+        this.worldPanel = worldPanel;
     }
 
-    public static FrameComposer getComposer(IWorldVisualisation world)
+    public static FrameComposer getComposer(IWorldVisualisation world, JPanel worldPanel)
     {
         if (instance==null)
-            instance=new FrameComposer(world, new Camera());
+            instance=new FrameComposer(world, new Camera(), worldPanel);
         return instance;
     }
 
@@ -40,6 +43,7 @@ public class FrameComposer {
             throw new CarNotFoundException();
 
         setCameraPosition();
+        setCameraSize(worldPanel.getWidth(), worldPanel.getHeight());
         List<IWorldObject> visibleObjects = getVisibleObjects(worldObjects);
         List<CameraObject> cameraObjects = calculateRelativePosition(car, visibleObjects);
 
@@ -57,8 +61,8 @@ public class FrameComposer {
     }
     private void setCameraPosition()
     {
-        camera.setX(Config.getScreenWidth/2);
-        camera.setY(Config.getScreenHeight/2);
+        camera.setX(worldPanel.getWidth() /2);
+        camera.setY(worldPanel.getHeight() /2);
     }
 
     public void setCameraSize(int width, int height)
