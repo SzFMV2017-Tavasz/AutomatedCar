@@ -24,6 +24,9 @@ public class KeyPanel extends JPanel {
 	private Label breakdownLabel;
 	private Label indicateRightLabel;
 
+	private Label searchingLabel;
+	private Label parkingLabel;
+
 	public KeyPanel() {
 		// this.setLayout(new GridLayout(6, 2));
 
@@ -59,5 +62,11 @@ public class KeyPanel extends JPanel {
 
 		breakdownLabel = new Label(Character.toUpperCase(HMI.BREAKDOWN) + " : Breakdown");
 		this.add(breakdownLabel);
+
+		searchingLabel = new Label(Character.toUpperCase(HMI.SEARCHING_TOGGLE) + " : Searching");
+		this.add(searchingLabel);
+
+		parkingLabel = new Label(Character.toUpperCase(HMI.PARKING_TOGGLE) + " : Parking");
+		this.add(parkingLabel);
 	}
 }

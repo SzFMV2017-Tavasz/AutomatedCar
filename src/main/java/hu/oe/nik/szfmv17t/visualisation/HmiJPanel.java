@@ -31,6 +31,12 @@ public class HmiJPanel extends JPanel {
 	private Label labelIndicationValue;
 	private Label indicationValue;
 
+	private Label labelAutomaticParkingValue;
+	private Label automaticParkingValue;
+
+	private Label labelSpaceFoundValue;
+	private Label spaceFoundValue;
+
 	public static void setHmi(HMI hmi) {
 		HmiJPanel.hmi = hmi;
 	}
@@ -67,6 +73,16 @@ public class HmiJPanel extends JPanel {
 		indicationValue = new Label(String.valueOf(hmi.getDirectionIndicatorState()));
 		this.add(indicationValue);
 
+		labelAutomaticParkingValue = new Label("Automatic Parking: ");
+		this.add(labelAutomaticParkingValue);
+		automaticParkingValue = new Label(String.valueOf(hmi.getParkingState()));
+		this.add(automaticParkingValue);
+
+		labelSpaceFoundValue = new Label("Parking space found: ");
+		this.add(labelSpaceFoundValue);
+		spaceFoundValue = new Label(String.valueOf(hmi.getSpaceFound()));
+		this.add(spaceFoundValue);
+
 	}
 
 	@Override
@@ -86,6 +102,12 @@ public class HmiJPanel extends JPanel {
 		}
 		if(indicationValue != null){
 			indicationValue.setText(String.valueOf(hmi.getDirectionIndicatorState()));
+		}
+		if(automaticParkingValue != null){
+			automaticParkingValue.setText(String.valueOf(hmi.getParkingState()));
+		}
+		if(spaceFoundValue != null){
+			spaceFoundValue.setText(String.valueOf(hmi.getSpaceFound()));
 		}
 		if(speed != null){
 			speed.setText(String.valueOf(Math.round(hmi.getSpeed())+" km/h"));

@@ -4,6 +4,8 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicator;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicatorStates;
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
@@ -15,9 +17,10 @@ public class PowertrainSystem extends SystemComponent {
     public static final int SMI_Gaspedal = 11;
     public static final int SMI_Gear = 12;
     public static final int SMI_SteeringWheel = 13;
-    public static final int ULTRASONIC_SENSOR_ID = 14;
-    public static final int RADAR_SENSOR_ID = 15;
-    public static final int CAMERA_SENSOR_ID = 16;
+    public static final int SMI_Indication = 14;
+    public static final int ULTRASONIC_SENSOR_ID = 15;
+    public static final int RADAR_SENSOR_ID = 16;
+    public static final int CAMERA_SENSOR_ID = 17;
     public static final int Modelling = 20;
     public static final int Physics = 30;
     public static final int Physics_Speed = 31;
@@ -72,6 +75,10 @@ public class PowertrainSystem extends SystemComponent {
 
             case SMI_SteeringWheel:
                 this.wheelState = (int) s.getData();
+                break;
+
+            case SMI_Indication:
+                DirectionIndicatorStates indicator = DirectionIndicatorStates.values()[(int) s.getData()];
                 break;
 
             case ULTRASONIC_SENSOR_ID:

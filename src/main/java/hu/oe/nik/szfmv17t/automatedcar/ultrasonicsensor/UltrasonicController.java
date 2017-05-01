@@ -10,6 +10,7 @@ import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicatorStates;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
@@ -23,6 +24,7 @@ public class UltrasonicController extends SystemComponent {
 	private AutomatedCar automatedCar;
 	private World world;
 	private Map<Integer, IWorldObject> seenObjectsBySensor;
+	private DirectionIndicatorStates indicator;
     
 	public UltrasonicController(AutomatedCar auto, World world) {
 		ultrasonicSensors = new ArrayList<UltrasonicSensor>();
@@ -30,6 +32,7 @@ public class UltrasonicController extends SystemComponent {
 		this.automatedCar = auto;
 		this.world = world;
 		initSensors();
+		indicator = DirectionIndicatorStates.Default;
 	}
 
 
@@ -82,7 +85,8 @@ public class UltrasonicController extends SystemComponent {
 
     @Override
     public void receiveSignal(Signal s) {
-
+		if(s.getId()==PowertrainSystem.SMI_Indication)
+			indicator = DirectionIndicatorStates.values()[(int) s.getData()];
     }
 
     public static UltrasonicSensor getUltrasonicSensor(int sensorNumber){
