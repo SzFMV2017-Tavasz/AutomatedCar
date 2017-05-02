@@ -2,9 +2,6 @@ package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
 
 import java.awt.Point;
 
-import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
-import hu.oe.nik.szfmv17t.environment.utils.Position;
 import hu.oe.nik.szfmv17t.environment.utils.Resizer;
 import hu.oe.nik.szfmv17t.environment.utils.SensorType;
 import hu.oe.nik.szfmv17t.environment.utils.Triangle;
@@ -35,36 +32,36 @@ public class UltrasonicSensor {
 	}
 
 	private double sensorTriangleBasicCalculation() {
-		return viewLengthInCoordinates / Math.cos(viewAngle/2);
+		return viewLengthInCoordinates / Math.cos(viewAngle / 2);
 	}
 
 	public void calculateCoordinates(int sensorNumber, double carAxisAngle, double carMainCoordinateX, double carMainCoordinateY) {
 		double angle = 0;
-		switch (sensorNumber) {
+		switch(sensorNumber) {
 			case 1:
 				angle = 20;
-				break;
+			break;
 			case 2:
 				angle = 25;
-				break;
+			break;
 			case 3:
 				angle = 155;
-				break;
+			break;
 			case 4:
 				angle = 160;
-				break;
+			break;
 			case 5:
 				angle = 200;
-				break;
+			break;
 			case 6:
 				angle = 205;
-				break;
+			break;
 			case 7:
 				angle = 335;
-				break;
+			break;
 			case 8:
 				angle = 340;
-				break;
+			break;
 		}
 		double sensorAngle = angle + carAxisAngle;
 		sensorPositionCalculate(sensorAngle, carMainCoordinateX, carMainCoordinateY);
@@ -81,12 +78,13 @@ public class UltrasonicSensor {
 		double halfViewAngle = viewAngle / 2;
 		double plusRotationAngle = 0;
 
-		if (sensorNumber == 2 || sensorNumber == 3)
+		if((sensorNumber == 2) || (sensorNumber == 3)) {
 			plusRotationAngle = 90;
-		else if (sensorNumber == 4 || sensorNumber == 5)
+		} else if((sensorNumber == 4) || (sensorNumber == 5)) {
 			plusRotationAngle = 180;
-		else if (sensorNumber == 6 || sensorNumber == 7)
+		} else if((sensorNumber == 6) || (sensorNumber == 7)) {
 			plusRotationAngle = 270;
+		}
 
 		double leftX = Math.sin(((carAxisAngle - halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;
 		double leftY = Math.cos(((carAxisAngle - halfViewAngle) + plusRotationAngle) * (Math.PI / 180)) * sensorTrianglePointsDistanceFromSensor;

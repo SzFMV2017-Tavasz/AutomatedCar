@@ -23,7 +23,7 @@ public class ExternalForces {
 	
 	private double calculateDragForce(double velocity) {
 		
-		return constantDrag * Math.pow(velocity, 2);
+		return constantDrag * Math.pow(velocity, 2)/2.5;
 		
 	}
 	

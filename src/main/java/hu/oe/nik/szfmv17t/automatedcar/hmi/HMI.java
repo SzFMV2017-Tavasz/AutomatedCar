@@ -25,6 +25,8 @@ public class HMI extends SystemComponent implements KeyListener {
     public static final char INDICATE_LEFT = 'u';
     public static final char BREAKDOWN = 'i';
     public static final char INDICATE_RIGHT = 'o';
+    public static final char SEARCHING_TOGGLE = 'é';
+    public static final char PARKING_TOGGLE = 'p';
 
     public static final int BUTTON_PRESSING_LENGTH_FOR_PTTM = 5;
     public static final int DURATION_FOR_PTTM = 100;
@@ -34,14 +36,16 @@ public class HMI extends SystemComponent implements KeyListener {
     private int previousBrakePedalState = 0;
     private AutoGearStates previousGearStickState = AutoGearStates.P;
     private DirectionIndicatorStates previousDirection = DirectionIndicatorStates.Default;
+    private AutomaticParkingStates previousParkingState = AutomaticParkingStates.Off;
 
-    SteeringWheel steeringWheel;
-    GasPedal gasPedal;
-    BrakePedal brakePedal;
-    GearStick gearStick;
+    private SteeringWheel steeringWheel;
+    private GasPedal gasPedal;
+    private BrakePedal brakePedal;
+    private GearStick gearStick;
     private boolean keyPressHandled;
-    DirectionIndicator directionIndicator;
-    double carspeed;
+    private DirectionIndicator directionIndicator;
+    private AutomaticParking parkingState;
+    private double carspeed;
 
     public void setCarspeed(double carspeed) {
         this.carspeed = carspeed * 3.6;
@@ -54,7 +58,8 @@ public class HMI extends SystemComponent implements KeyListener {
         gearStick = new GearStick();
         directionIndicator = new DirectionIndicator();
         brakePedal = new BrakePedal(directionIndicator);
-        steeringWheel = new SteeringWheel(directionIndicator);
+        steeringWheel = new SteeringWheel();
+        parkingState = new AutomaticParking();
     }
 
     @Override
@@ -63,7 +68,8 @@ public class HMI extends SystemComponent implements KeyListener {
         sendGasPedalSignal();
         sendBrakePedalSignal();
         sendGearStickSignal();
-        if(carspeed > 0 && steeringWheel.isSteerReleased()){
+        sendDirectionIndicationSignal();
+        if (carspeed != 0 && steeringWheel.isSteerReleased()) {
             steeringWheel.steerRelease();
         }
     }
@@ -95,7 +101,14 @@ public class HMI extends SystemComponent implements KeyListener {
                     .sendSignal(new Signal(PowertrainSystem.SMI_Gear, gearStick.getAutoGearState().ordinal()));
             previousGearStickState = gearStick.getAutoGearState();
         }
+    }
 
+    private void sendDirectionIndicationSignal() {
+        if (directionIndicator.GetDirectionIndicatorState() != previousDirection) {
+            VirtualFunctionBus
+                    .sendSignal(new Signal(PowertrainSystem.SMI_Indication, directionIndicator.GetDirectionIndicatorState().ordinal()));
+            previousDirection = directionIndicator.GetDirectionIndicatorState();
+        }
     }
 
     @Override
@@ -111,9 +124,7 @@ public class HMI extends SystemComponent implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-
-
-        System.out.println("keyPressed:" + keyEvent.getKeyChar());
+        //System.out.println("keyPressed:" + keyEvent.getKeyChar());
         char key = keyEvent.getKeyChar();
         switch (key) {
             case STEER_LEFT_KEY:
@@ -122,17 +133,19 @@ public class HMI extends SystemComponent implements KeyListener {
             case STEER_RIGHT_KEY:
                 steeringWheel.steerRight();
                 break;
+            case INCRASE_GAS_KEY:
+                gasPedal.setGasPedalReleased(false);
+                gasPedal.acceleration();
+                break;
+            case DECRASE_GAS_KEY:
+                gasPedal.setGasPedalReleased(false);
+                gasPedal.deceleration();
+                break;
         }
         if (keyPressHandled) {
             return;
         }
         switch (key) {
-            case INCRASE_GAS_KEY:
-                gasPedal.start();
-                break;
-            case DECRASE_GAS_KEY:
-                gasPedal.start();
-                break;
             case INCRASE_BRAKE_KEY:
                 brakePedal.start();
                 break;
@@ -145,7 +158,7 @@ public class HMI extends SystemComponent implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        System.out.println("keyReleased:" + keyEvent.getKeyChar());
+        //System.out.println("keyReleased:" + keyEvent.getKeyChar());
         keyPressHandled = false;
         char key = keyEvent.getKeyChar();
         switch (key) {
@@ -156,9 +169,11 @@ public class HMI extends SystemComponent implements KeyListener {
                 steeringWheel.setSteerReleased(true);
                 break;
             case INCRASE_GAS_KEY:
+                gasPedal.setGasPedalReleased(true);
                 gasPedal.acceleration();
                 break;
             case DECRASE_GAS_KEY:
+                gasPedal.setGasPedalReleased(true);
                 gasPedal.deceleration();
                 break;
             case INCRASE_BRAKE_KEY:
@@ -182,6 +197,12 @@ public class HMI extends SystemComponent implements KeyListener {
             case BREAKDOWN:
                 directionIndicator.IndicatingBreakdown();
                 break;
+            case SEARCHING_TOGGLE:
+                parkingState.searchingButtonPress();
+                break;
+            case PARKING_TOGGLE:
+                parkingState.parkingButtonPress();
+                break;
         }
     }
 
@@ -204,6 +225,9 @@ public class HMI extends SystemComponent implements KeyListener {
     public DirectionIndicatorStates getDirectionIndicatorState() {
         return directionIndicator.GetDirectionIndicatorState();
     }
+
+    public AutomaticParkingStates getParkingState(){return parkingState.getParkingState();}
+    public boolean getSpaceFound(){return parkingState.getParkingEnabled();}
 
     public double getSpeed() {
         return carspeed;

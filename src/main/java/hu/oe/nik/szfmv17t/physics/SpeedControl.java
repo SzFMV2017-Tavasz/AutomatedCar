@@ -8,7 +8,7 @@ import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 
 public class SpeedControl {
 	/* m/s^2, R, P, 1, 2... */
-	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 3, 0, 8, 6, 4.55, 2.6, 1.6 };
+	public static final double[] GEAR_MAX_ACCELERATION = new double[] { 3, 0, 8, 6, 4.55, 3.9, 2.8 };
 	/* m/s, km/h: 0, 20, 45, 75, 110, 200 */
 	public static final double[] GEAR_MAX_VELOCITY = new double[] { 4, 0, 5.5, 12.5, 20.8, 30.6, 55.5 };
 	private static final int MILLISECONDSTOSECONDS = 1000;
