@@ -65,28 +65,32 @@ public class RadarController extends SystemComponent{
 		
 		logInformationOfDetectedObjectsByRadarSensor();
 		logAllObjectsInCarLane();
-		logClosestObjectInCarLane();
+		logDetectedEntities();
+	//logClosestObjectInCarLane();
 	}
 
 
 	private void logInformationOfDetectedObjectsByRadarSensor(){
-		System.out.println("\nDetected objects by the radar sensor: ");
+		System.out.println("\nDetected objects by the radar sensor: "+detectedObjects.size());
 		for (IWorldObject obj: detectedObjects) {
 			Point detectedObject = new Point((int)obj.getCenterX(),(int)obj.getCenterY());
-			System.out.println(obj.getClass().getSimpleName() + " " + obj.getImageName() + " X:" + obj.getCenterX() + " Y:" + obj.getCenterY() + ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
+			//System.out.println(obj.getClass().getSimpleName() + " " + obj.getImageName() + " X:" + obj.getCenterX() + " Y:" + obj.getCenterY() + ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
+			System.out.println(" X:" + obj.getCenterX() + " Y:" + obj.getCenterY() + " "+obj.getClass().getSimpleName() + " " + obj.getImageName() +  ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
+
 		}
 	}
 	
 	private void logAllObjectsInCarLane(){
-		System.out.println("\nOBJECTS IN CAR LANE ");
+		System.out.println("\nOBJECTS IN CAR LANE "+allObjectsInCarLane.size());
 		for (IWorldObject obj: allObjectsInCarLane) {
 			Point detectedObject = new Point((int)obj.getCenterX(),(int)obj.getCenterY());
-			System.out.println("x:"+automatedCar.getCenterX()+" Y:"+automatedCar.getCenterY()+" "+ obj.getClass().getSimpleName() + " " + obj.getImageName() + " X:" + obj.getCenterX() + " Y:" + obj.getCenterY() + ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
+			//System.out.println("X:"+automatedCar.getCenterX()+" Y:"+automatedCar.getCenterY()+" "+ obj.getClass().getSimpleName() + " " + obj.getImageName() + " X:" + obj.getCenterX() + " Y:" + obj.getCenterY() + ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
+			System.out.println(" X:" + obj.getCenterX() + " Y:" + obj.getCenterY() + " "+obj.getClass().getSimpleName() + " " + obj.getImageName() +  ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
 		}
 	}
 	
 	private void logClosestObjectInCarLane(){
-		System.out.println("\nCLOSEST OBJECT IN CAR LANE ");
+		System.out.println("\nCLOSEST OBJECT IN CAR LANE: ");
 		if(!allObjectsInCarLane.isEmpty())
 		{
 			IWorldObject theclosestObj= getClosestObject(allObjectsInCarLane);
@@ -98,6 +102,13 @@ public class RadarController extends SystemComponent{
 		}
 	}
 
+	private void logDetectedEntities(){
+		System.out.println("\nDETECTED ENTITIES: "+ detectedEntites.size());
+		for (Entity ent: detectedEntites) {
+			Point detectedObject = new Point((int)ent.getCurrentState().getPosition().getX(),(int)ent.getCurrentState().getPosition().getY());
+			System.out.println("X:"+detectedObject.getX()+" Y:"+detectedObject.getY() + ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
+		}
+	}
     @Override
     public void receiveSignal(Signal s) { }
 }

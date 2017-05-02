@@ -11,7 +11,7 @@ private EntityStatus status;
 public EntityState(Vector2d position)
 {
 	this.position=position;
-	this.status=EntityStatus.unknown;
+	this.status=EntityStatus.known;
 }
 public EntityState()
 {

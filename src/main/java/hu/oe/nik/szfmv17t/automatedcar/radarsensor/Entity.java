@@ -18,12 +18,14 @@ public Entity(int cyclePeriod){
 	this.setPreviousState(new EntityState());
 	this.setCurrentState(new EntityState());
 	this.setPredictedState(new EntityState());
+	this.setDirection(new Vector2d(0, 0));
 }
 public Entity(){
 	this.cyclePeriod=Main.CYCLE_PERIOD;
 	this.setPreviousState(new EntityState());
 	this.setCurrentState(new EntityState());
 	this.setPredictedState(new EntityState());
+	this.setDirection(new Vector2d(0, 0));
 	
 }
 public boolean isKnown(){

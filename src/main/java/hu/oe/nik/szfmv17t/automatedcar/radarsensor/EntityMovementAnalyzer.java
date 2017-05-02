@@ -24,10 +24,13 @@ public EntityMovementAnalyzer() {
 public List<Entity> updateEntityList(List<IWorldObject> newWorldObjects){
 	newEntites.clear();
 	for(IWorldObject currWorldObject:newWorldObjects){
+		if(currWorldObject!=null)
 		addBestFitEntityToList(currWorldObject);
 	}
-	
-	this.lastEntites=newEntites;
+	lastEntites.clear();
+	for (Entity ent : newEntites) {
+		lastEntites.add(ent);
+	}
 	return this.newEntites;
 }
 private void addBestFitEntityToList(IWorldObject worldObject){
@@ -44,6 +47,7 @@ private void addBestFitEntityToList(IWorldObject worldObject){
 			if(predDistance<=acceptedMaxPredictedMovementDeltaInCoordinates){
 				refreshEntity(lastEnt, worldObject);
 				newEntites.add(lastEnt);
+				break;
 			}
 		}
 		
@@ -51,15 +55,24 @@ private void addBestFitEntityToList(IWorldObject worldObject){
 		else if(currDistance<=acceptedMaxMovementDeltaInCoordinates){
 			refreshEntity(lastEnt, worldObject);
 			newEntites.add(lastEnt);
+			break;
 		}
 		
-		else newEntites.add(createNewEntity(worldObject));		
+		else {
+			Entity newEntityToAdd= createNewEntity(worldObject);
+			newEntites.add(newEntityToAdd);	
+			break;
+		}
+	}
+	if(lastEntites.isEmpty()){
+		newEntites.add(createNewEntity(worldObject));
 	}
 	
 }
 private Entity createNewEntity(IWorldObject wo){	
 	Entity resultEnt = new Entity();
 	EntityState resultEntState= new EntityState(new Vector2d(wo.getCenterX(), wo.getCenterY()));
+	//resultEntState.setStatus(EntityStatus.known);
 	resultEnt.setCurrentState(resultEntState);
 	return resultEnt;
 }
