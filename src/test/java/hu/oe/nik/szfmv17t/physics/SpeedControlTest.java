@@ -75,7 +75,7 @@ public class SpeedControlTest {
 
 		Method method = null;
 		try {
-			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName);
+			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName, WorldObjectState.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -86,7 +86,7 @@ public class SpeedControlTest {
 		// act
 		double result = -1;
 		try {
-			result = (double) method.invoke(speedControl);
+			result = (double) method.invoke(speedControl, WorldObjectState.Untouched);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -110,7 +110,7 @@ public class SpeedControlTest {
 
 		Method method = null;
 		try {
-			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName);
+			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName, WorldObjectState.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
