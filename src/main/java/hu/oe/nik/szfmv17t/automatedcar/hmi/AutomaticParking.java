@@ -42,4 +42,10 @@ public class AutomaticParking {
         else
             emergencyShutdown();
     }
+    
+    public void handleDriverAction(){
+    	if(parkingState == AutomaticParkingStates.Parking){
+    		emergencyShutdown();
+    	}
+    }
 }

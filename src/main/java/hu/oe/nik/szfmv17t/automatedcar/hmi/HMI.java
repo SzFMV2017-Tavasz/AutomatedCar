@@ -129,17 +129,21 @@ public class HMI extends SystemComponent implements KeyListener {
         switch (key) {
             case STEER_LEFT_KEY:
                 steeringWheel.steerLeft();
+                parkingState.handleDriverAction();
                 break;
             case STEER_RIGHT_KEY:
                 steeringWheel.steerRight();
+                parkingState.handleDriverAction();
                 break;
             case INCRASE_GAS_KEY:
                 gasPedal.setGasPedalReleased(false);
                 gasPedal.acceleration();
+                parkingState.handleDriverAction();
                 break;
             case DECRASE_GAS_KEY:
                 gasPedal.setGasPedalReleased(false);
                 gasPedal.deceleration();
+                parkingState.handleDriverAction();
                 break;
         }
         if (keyPressHandled) {
@@ -148,9 +152,11 @@ public class HMI extends SystemComponent implements KeyListener {
         switch (key) {
             case INCRASE_BRAKE_KEY:
                 brakePedal.start();
+                parkingState.handleDriverAction();
                 break;
             case DECRASE_BRAKE_KEY:
                 brakePedal.start();
+                parkingState.handleDriverAction();
                 break;
         }
         keyPressHandled = true;
