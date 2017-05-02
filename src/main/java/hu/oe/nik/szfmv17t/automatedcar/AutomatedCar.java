@@ -35,7 +35,6 @@ public class AutomatedCar extends Car{
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
 		this.speed = this.powertrainSystem.getVelocity(this.state);
-		System.out.println(this.speed);
 		this.setDirectionAngle(getPowertrainSystem().getSteeringAngle(this.speed));
 		this.setAxisAngle((-1) * this.getDirectionAngle());
 	}
