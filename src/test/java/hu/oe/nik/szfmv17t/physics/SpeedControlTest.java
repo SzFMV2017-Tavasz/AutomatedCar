@@ -48,7 +48,6 @@ public class SpeedControlTest {
 			gearField = speedControl.getClass().getDeclaredField(gearShiftFieldName);
 			gearField.setAccessible(true);
 		} catch (NoSuchFieldException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -57,7 +56,6 @@ public class SpeedControlTest {
 			try {
 				result = (int) gearField.get(speedControl);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
