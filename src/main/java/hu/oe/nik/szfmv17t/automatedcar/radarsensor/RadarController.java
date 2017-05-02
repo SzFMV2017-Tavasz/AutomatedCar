@@ -20,12 +20,18 @@ public class RadarController extends SystemComponent{
 	private AutomatedCar automatedCar;
 	private World world;
 	private List<IWorldObject> detectedObjects;
+	private List<IWorldObject> allObjectsInCarLane;
+	
+	private EntityMovementAnalyzer objectTracker;
+	List<Entity> detectedEntites;
 
 	public RadarController (AutomatedCar car,World world) {
 		resizer = Resizer.getResizer();
 		this.automatedCar = car;
 		this.world = world;
 		detectedObjects = new ArrayList<IWorldObject>();
+		allObjectsInCarLane = new ArrayList<IWorldObject>();
+		this.objectTracker=new EntityMovementAnalyzer();
 		initSensor();
 	}
 

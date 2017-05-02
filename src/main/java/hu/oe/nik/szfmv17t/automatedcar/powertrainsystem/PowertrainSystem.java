@@ -4,12 +4,8 @@ package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
-<<<<<<< HEAD
 import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicator;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicatorStates;
-=======
-import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
->>>>>>> branch 'radarObjectTracking' of https://github.com/xpowerfullx/AutomatedCar
 import hu.oe.nik.szfmv17t.physics.SpeedControl;
 import hu.oe.nik.szfmv17t.physics.SteeringControl;
 
@@ -34,13 +30,6 @@ public class PowertrainSystem extends SystemComponent {
     // physics
     private SpeedControl speedControl;
     private SteeringControl steeringControl;
-<<<<<<< HEAD
-=======
-
-	// Output signals
-	// Only these are available trough getters
-	private int wheelState = 0;
->>>>>>> branch 'radarObjectTracking' of https://github.com/xpowerfullx/AutomatedCar
 
     // Output signals
     // Only these are available trough getters
@@ -49,13 +38,12 @@ public class PowertrainSystem extends SystemComponent {
 
 
 
-    public PowertrainSystem(double carWeight) {
+    public PowertrainSystem(double height, double width, double carWeight) {
         super();
         this.speedControl = new SpeedControl(carWeight);
         this.steeringControl = new SteeringControl();
     }
 
-<<<<<<< HEAD
 
 
     @Override
@@ -111,53 +99,9 @@ public class PowertrainSystem extends SystemComponent {
     }
 
 
-=======
-	@Override
-	public void loop() {
-		// TODO write this
-	}
 
-	@Override
-	public void receiveSignal(Signal s) {
-		switch(s.getId()) {
-		// Handle demo signal
-		case SMI_BrakePedal:
-			int brakePedal = (int) s.getData();
-			this.getSpeedControl().setBrakePedal(brakePedal);
-			break;
-		case SMI_Gaspedal:
-			int gasPedal = (int) s.getData();
-			this.getSpeedControl().setGasPedal(gasPedal);
-			break;
-		case SMI_Gear:
-			AutoGearStates gear = AutoGearStates.values()[(int) s.getData()];
-			this.getSpeedControl().setAutoGearState(gear);
-			break;
-		case SMI_SteeringWheel:
-			this.wheelState = (int)s.getData();
-			break;
-		case ULTRASONIC_SENSOR_ID:
-			// System.out.println("Ultrasonic sensor: " + s.getData());
-			break;
-		default:
-			// ignore other signals
-		}
-	}
-
-	public double getSteeringAngle(double carVelocity) {
-		return steeringControl.calculateAngle(carVelocity, this.wheelState);
-	}
->>>>>>> branch 'radarObjectTracking' of https://github.com/xpowerfullx/AutomatedCar
-
-    public double getVelocity(WorldObjectState state) {
-        return this.speedControl.calculateVelocity(state);
+    public double getVelocity() {
+        return speedControl.calculateVelocity();
     }
 
-<<<<<<< HEAD
-=======
-	public SpeedControl getSpeedControl() {
-		return speedControl;
-	}
->>>>>>> branch 'radarObjectTracking' of https://github.com/xpowerfullx/AutomatedCar
 }
-

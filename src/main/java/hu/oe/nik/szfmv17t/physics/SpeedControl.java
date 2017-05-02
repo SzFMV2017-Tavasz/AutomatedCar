@@ -4,7 +4,6 @@ import hu.oe.nik.szfmv17t.Main;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutoGearStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.GasPedal;
-import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 
 public class SpeedControl {
 	/* m/s^2, R, P, 1, 2... */
@@ -42,23 +41,23 @@ public class SpeedControl {
 		this.gearShift = 1;
 	}
 
-	public double calculateVelocity(WorldObjectState state) {
+	public double calculateVelocity() {
 		if (this.autoGear) {
 			this.gearShift = this.gearControl.actualGearState(this.autoGearState, this.gearShift, this.actualVelocity);
 		}
-		double sumAcceleration = sumAcceleration(state);
+		double sumAcceleration = sumAcceleration();
 
-		double calculatedVelocity = this.actualVelocity + (sumAcceleration * Main.CYCLE_PERIOD / MILLISECONDSTOSECONDS);
+		double calculatedVelocity = actualVelocity + (sumAcceleration * Main.CYCLE_PERIOD / MILLISECONDSTOSECONDS);
 
 		calculatedVelocity = preventNegativeVelocity(calculatedVelocity);
 		
 		calculatedVelocity = preventPositiveVelocityInReverse(calculatedVelocity);
 		
-		setActualVelocity(minOrMaxSpeed(calculatedVelocity));
+		actualVelocity = minOrMaxSpeed(calculatedVelocity);
 		
 		System.out.println("Gear: " + (this.gearShift - 1));
 		
-		return this.actualVelocity;
+		return actualVelocity;
 	}
 
 	private double minOrMaxSpeed(double velocity) {
@@ -118,7 +117,7 @@ public class SpeedControl {
 		this.maxBrakePedal = maxBrakePedal;
 	}
 
-	private double sumAcceleration(WorldObjectState state) {
+	private double sumAcceleration() {
 		double gasPedalPercentage = calculatePedalPercentage(this.gasPedal, this.maxGasPedal);
 		double brakePedalPercentage = calculatePedalPercentage(this.brakePedal, this.maxBrakePedal);
 
@@ -133,9 +132,9 @@ public class SpeedControl {
 
 		double engineBrakeAcceleration = this.engineBrake.calculateAcceleration(this.gearShift,
 				(float) gasPedalPercentage,
-				this.getActualVelocity());
+				this.actualVelocity);
 
-		double externalForces = this.externalForces.calculateAcceleration(this.carWeight, this.getActualVelocity());
+		double externalForces = this.externalForces.calculateAcceleration(this.carWeight,this.actualVelocity);
 		double externalAcceleration = externalForces / this.carWeight;
 		
 		//reverting accelerations while in reverse
@@ -145,12 +144,8 @@ public class SpeedControl {
 			engineBrakeAcceleration *= -1;
 			externalAcceleration *= -1;
 		}
-		if (state != WorldObjectState.Destroyed) {
-			return gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration + externalAcceleration;
-		}
-		else{
-			return brakeAcceleration + engineBrakeAcceleration + externalAcceleration;
-		}
+
+		return gasPedalAccelerationByGear + brakeAcceleration + engineBrakeAcceleration + externalAcceleration;
 	}
 	
 	private double calculatePedalPercentage(int actualValue, int maxValue) throws IllegalArgumentException {
@@ -159,13 +154,5 @@ public class SpeedControl {
 		}
 
 		return (double) actualValue / maxValue;
-	}
-
-	public double getActualVelocity() {
-		return actualVelocity;
-	}
-
-	public void setActualVelocity(double actualVelocity) {
-		this.actualVelocity = actualVelocity;
 	}
 }

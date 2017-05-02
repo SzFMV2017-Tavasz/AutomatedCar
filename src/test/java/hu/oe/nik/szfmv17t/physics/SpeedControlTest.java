@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,7 +26,7 @@ public class SpeedControlTest {
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
 		// act
-		double result = speedControl.calculateVelocity(WorldObjectState.Untouched);
+		double result = speedControl.calculateVelocity();
 		
 		// assert
 		assertEquals(0, result, 0);
@@ -42,7 +41,7 @@ public class SpeedControlTest {
 		speedControl.setAutoGearState(AutoGearStates.D);
 
 		// act
-		speedControl.calculateVelocity(WorldObjectState.Untouched);
+		speedControl.calculateVelocity();
 		Field gearField = null;
 		try {
 			gearField = speedControl.getClass().getDeclaredField(gearShiftFieldName);
