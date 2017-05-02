@@ -21,16 +21,20 @@ public class RadarController extends SystemComponent{
 	private World world;
 	private List<IWorldObject> detectedObjects;
 	private List<IWorldObject> allObjectsInCarLane;
+	private List<IWorldObject> possibleCollisionObjects;
 	
 	private EntityMovementAnalyzer objectTracker;
 	List<Entity> detectedEntites;
-
+	List<Entity> detectedEntitesInPossibleCollision;
+	
 	public RadarController (AutomatedCar car,World world) {
 		resizer = Resizer.getResizer();
 		this.automatedCar = car;
 		this.world = world;
 		detectedObjects = new ArrayList<IWorldObject>();
 		allObjectsInCarLane = new ArrayList<IWorldObject>();
+		possibleCollisionObjects = new ArrayList<IWorldObject>();
+		
 		this.objectTracker=new EntityMovementAnalyzer();
 		initSensor();
 	}
@@ -67,8 +71,25 @@ public class RadarController extends SystemComponent{
 		logAllObjectsInCarLane();
 		logDetectedEntities();
 	//logClosestObjectInCarLane();
-	}
-
+		
+		possibleCollisionObjects = radarSensor.selectObjectsInCarLane(detectedObjects, automatedCar.getPositionObj(),-automatedCar.getAxisAngle(),automatedCar.getWidth()/2);
+		detectedEntitesInPossibleCollision=objectTracker.updateEntityList(possibleCollisionObjects);
+		
+		if (radarSensor.willWeCollideWithStaticObjects(detectedEntitesInPossibleCollision, automatedCar))
+			logPossibleCollisions();
+    }
+    
+    private void logPossibleCollisions()
+    {
+    	System.out.println("WE WILL COLLIDE!!!");
+    	System.out.println("\nObjects that could collide with us in the future: ");
+    	for (IWorldObject obj: possibleCollisionObjects)
+    	{
+    		Point detectedObject = new Point((int)obj.getCenterX(),(int)obj.getCenterY());
+    		System.out.println(obj.getClass().getSimpleName() + " " + obj.getImageName() + " X:" + obj.getCenterX() + " Y:" + obj.getCenterY() + ", distance from car center: " + resizer.coordinateToMeter(detectedObject.distance(automatedCar.getCenterX(),automatedCar.getCenterY()))+ " m");
+    	}
+    }
+    
 
 	private void logInformationOfDetectedObjectsByRadarSensor(){
 		System.out.println("\nDetected objects by the radar sensor: "+detectedObjects.size());
