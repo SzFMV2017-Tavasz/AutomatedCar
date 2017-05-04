@@ -7,6 +7,10 @@ import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.Tree;
 import hu.oe.nik.szfmv17t.environment.domain.Turn;
 import hu.oe.nik.szfmv17t.environment.domain.ZebraCrossing;
+import hu.oe.nik.szfmv17t.environment.domain.Pedestrian;
+import hu.oe.nik.szfmv17t.environment.domain.Bycicle;
+import hu.oe.nik.szfmv17t.environment.domain.Car;
+
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -124,8 +128,6 @@ public class XmlParser {
                     mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_50.png",10,0,axisAngle)); break;
                 case "roadsign_speed_60":
                     mapObjects.add(new Sign(posX,posY,80,80,axisAngle,2,"roadsign_speed_60.png",10,0,axisAngle)); break;
-
-                //FIXME new map objects, needs rework on parser and model
                 case "parking_bollard":
                     mapObjects.add(new Sign(posX,posY,21,61,axisAngle,2,"bollard.png",20,0,axisAngle)); break;
                 case "boundary":
@@ -138,7 +140,18 @@ public class XmlParser {
                     mapObjects.add(new Turn(posX,posY,369,368,axisAngle,0,"road_2lane_6right.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
                 case "road_2lane_6left":
                     mapObjects.add(new Turn(posX,posY,369,368,axisAngle,0,"road_2lane_6left.png",axisAngle, roadPainting1, roadPainting2, roadPainting3)); break;
-
+                case "man":
+                    mapObjects.add(new Pedestrian(posX,posY,39,72,axisAngle,2,"man.png",80,0,axisAngle)); break;            
+                case "woman":
+                    mapObjects.add(new Pedestrian(posX,posY,47,74,axisAngle,2,"woman.png",50,0,axisAngle)); break;  
+                case "car1":
+                    mapObjects.add(new Car(posX,posY,108,240,axisAngle,2,"car_1_blue.png",110,0,axisAngle)); break;
+                case "car2":
+                    mapObjects.add(new Car(posX,posY,102,208,axisAngle,2,"car_2_red.png",110,0,axisAngle)); break;
+                case "car3":
+                    mapObjects.add(new Car(posX,posY,120,289,axisAngle,2,"car_3_black.png",110,0,axisAngle)); break; 
+                case "bycicle":
+                    mapObjects.add(new Bycicle(posX,posY,39,72,axisAngle,2,"bicycle.png",110,0,axisAngle)); break;   
                 case "tree":
                 mapObjects.add(new Tree(posX,posY,142,160,axisAngle,2,"tree.png",20,0,axisAngle)); break;
             }
