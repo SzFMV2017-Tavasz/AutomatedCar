@@ -144,12 +144,13 @@ public class XmlParser {
                     mapObjects.add(new Pedestrian(posX,posY,39,72,axisAngle,2,"man.png",80,0,axisAngle)); break;            
                 case "woman":
                     mapObjects.add(new Pedestrian(posX,posY,47,74,axisAngle,2,"woman.png",50,0,axisAngle)); break;  
-                case "car1":
+                //COMMENTED BECAUSE THE XML FILE HAS WRONG POSITIONS, AFTER FIXING JUST DELETE THE COMMENT
+                /*case "car1":
                     mapObjects.add(new Car(posX,posY,108,240,axisAngle,2,"car_1_blue.png",110,0,axisAngle)); break;
                 case "car2":
                     mapObjects.add(new Car(posX,posY,102,208,axisAngle,2,"car_2_red.png",110,0,axisAngle)); break;
                 case "car3":
-                    mapObjects.add(new Car(posX,posY,120,289,axisAngle,2,"car_3_black.png",110,0,axisAngle)); break; 
+                    mapObjects.add(new Car(posX,posY,120,289,axisAngle,2,"car_3_black.png",110,0,axisAngle)); break; */
                 case "bycicle":
                     mapObjects.add(new Bycicle(posX,posY,39,72,axisAngle,2,"bicycle.png",110,0,axisAngle)); break;   
                 case "tree":
