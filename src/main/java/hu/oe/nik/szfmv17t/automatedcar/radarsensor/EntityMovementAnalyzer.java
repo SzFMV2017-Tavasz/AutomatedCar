@@ -33,40 +33,72 @@ public List<Entity> updateEntityList(List<IWorldObject> newWorldObjects){
 	}
 	return this.newEntites;
 }
-private void addBestFitEntityToList(IWorldObject worldObject){
+private int getBestFitEntityByPrediction(IWorldObject worldObject)
+{
+	int indexOfFoundEntity=0;
+	boolean foundPredictedEntity=false;
 	Vector2d woCurrPos=new Vector2d(worldObject.getCenterX(),worldObject.getCenterY());
 	
-	
-	for(Entity lastEnt:lastEntites){
-		
-		double currDistance=movementMath.distance2d(woCurrPos, lastEnt.getCurrentState().getPosition());
-		
+	while(indexOfFoundEntity<lastEntites.size() && !foundPredictedEntity){
+		Entity lastEnt=lastEntites.get(indexOfFoundEntity);
 		
 		if(lastEnt.getPredictedState().getStatus()==EntityStatus.known){
 			double predDistance=movementMath.distance2d(woCurrPos, lastEnt.getPredictedState().getPosition());
-			if(predDistance<=acceptedMaxPredictedMovementDeltaInCoordinates){
-				refreshEntity(lastEnt, worldObject);
-				newEntites.add(lastEnt);
-				break;
+			if(predDistance<=acceptedMaxPredictedMovementDeltaInCoordinates){			
+				foundPredictedEntity=true;	
+				}
+			}
+		indexOfFoundEntity++;
+		}
+	if(foundPredictedEntity) return indexOfFoundEntity-1;
+	else return -1;
+}
+private int getBestFitEntityByLastPosition(IWorldObject worldObject)
+{
+	int indexOfFoundEntity=0;
+	boolean foundLastEntity=false;
+	Vector2d woCurrPos=new Vector2d(worldObject.getCenterX(),worldObject.getCenterY());
+	
+	while(indexOfFoundEntity<lastEntites.size() && !foundLastEntity){
+		Entity lastEnt=lastEntites.get(indexOfFoundEntity);
+		double currDistance=movementMath.distance2d(woCurrPos, lastEnt.getCurrentState().getPosition());	
+			if(currDistance<=acceptedMaxMovementDeltaInCoordinates){			
+				foundLastEntity=true;	
+			}
+		indexOfFoundEntity++;
+		}
+	if(foundLastEntity) return indexOfFoundEntity-1;
+	else return -1;
+}
+private void addBestFitEntityToList(IWorldObject worldObject){	
+	
+		int bestPredictedEntityIndex=getBestFitEntityByPrediction(worldObject);
+		
+		int bestLastEntityIndex = -1;
+		
+		//ha van közeli prediktált entitás
+		if(bestPredictedEntityIndex!=-1){
+			Entity bestEnt=lastEntites.get(bestPredictedEntityIndex);
+			refreshEntity(bestEnt, worldObject);
+			newEntites.add(bestEnt);
+		}
+		
+		
+		else{
+			bestLastEntityIndex=getBestFitEntityByLastPosition(worldObject);
+			//ha nincs közeli prediktált entitás, de van előző pozíciója alapján közeli entitás
+			if(bestLastEntityIndex!=-1){
+				Entity bestEnt=lastEntites.get(bestLastEntityIndex);
+				refreshEntity(bestEnt, worldObject);
+				newEntites.add(bestEnt);
 			}
 		}
 		
-		
-		else if(currDistance<=acceptedMaxMovementDeltaInCoordinates){
-			refreshEntity(lastEnt, worldObject);
-			newEntites.add(lastEnt);
-			break;
-		}
-		
-		else {
+		//ha se predikció se előző pozíció szerint nem talál közeli entitást
+		if(bestPredictedEntityIndex==-1 && bestLastEntityIndex==-1){
 			Entity newEntityToAdd= createNewEntity(worldObject);
 			newEntites.add(newEntityToAdd);	
-			break;
 		}
-	}
-	if(lastEntites.isEmpty()){
-		newEntites.add(createNewEntity(worldObject));
-	}
 	
 }
 private Entity createNewEntity(IWorldObject wo){	
