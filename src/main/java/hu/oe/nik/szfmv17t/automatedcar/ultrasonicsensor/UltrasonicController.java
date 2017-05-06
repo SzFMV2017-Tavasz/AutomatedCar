@@ -10,6 +10,7 @@ import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.AutomaticParkingStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicatorStates;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv17t.environment.domain.World;
@@ -26,6 +27,8 @@ public class UltrasonicController extends SystemComponent {
 	private Map<Integer, IWorldObject> seenObjectsBySensor;
 	private DirectionIndicatorStates indicator;
 	private List<Boolean> activatedSensors;
+	private AutomaticParkingStates parkingState;
+	private boolean spaceFound;
     
 	public UltrasonicController(AutomatedCar auto, World world) {
 		ultrasonicSensors = new ArrayList<UltrasonicSensor>();
@@ -37,16 +40,17 @@ public class UltrasonicController extends SystemComponent {
 		activatedSensors = new ArrayList<Boolean>();
 		for(int i = 0;i<ultrasonicSensors.size();i++)
 			activatedSensors.add(false);
+		parkingState = AutomaticParkingStates.Off;
+		spaceFound = false;
 	}
 
 
 	// Alapértelmezetten autó felfele néz, óramutató járásával megegyezően vannak megszámozva a szenzorok
 	// Ennek megfelelően autó jobb felső sarkánál az előre néző szenzor az 1-es számú
-	private void initSensors(){
-		for(int i=1;i<9;i++){
-		    ultrasonicSensors.add(new UltrasonicSensor(i, automatedCar.getCenterX(),automatedCar.getCenterY(), automatedCar.getAxisAngle()));
-        }
-
+	private void initSensors() {
+		for (int i = 1; i < 9; i++) {
+			ultrasonicSensors.add(new UltrasonicSensor(i, automatedCar.getCenterX(), automatedCar.getCenterY(), automatedCar.getAxisAngle()));
+		}
 	}
 
     @Override
@@ -91,6 +95,8 @@ public class UltrasonicController extends SystemComponent {
     public void receiveSignal(Signal s) {
 		if(s.getId()==PowertrainSystem.SMI_Indication)
 			indicator = DirectionIndicatorStates.values()[(int) s.getData()];
+		if(s.getId()==PowertrainSystem.Parking_State)
+			parkingState = AutomaticParkingStates.values()[(int) s.getData()];
     }
 
     public static UltrasonicSensor getUltrasonicSensor(int sensorNumber){
@@ -138,5 +144,7 @@ public class UltrasonicController extends SystemComponent {
 		activatedSensors.remove(id-1);
 		activatedSensors.add(id-1,false);
 	}
+
+	public boolean getSpaceFound(){return spaceFound;}
 
 }

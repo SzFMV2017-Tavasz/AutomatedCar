@@ -233,7 +233,6 @@ public class HMI extends SystemComponent implements KeyListener {
     }
 
     public AutomaticParkingStates getParkingState(){return parkingState.getParkingState();}
-    public boolean getSpaceFound(){return parkingState.getParkingEnabled();}
 
     public double getSpeed() {
         return carspeed;
