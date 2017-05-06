@@ -54,45 +54,50 @@ public class UltrasonicController extends SystemComponent {
 
     @Override
     public void loop() {
-		
-		//System.out.println("=== BEGIN Ultrasonic Sensor triangles requesting objects ===");
 
-    	for(int i = 0; i < ultrasonicSensors.size(); i++) {
-    		if(activatedSensors.get(i)) {
-				VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.ULTRASONIC_SENSOR_ID, (int) ultrasonicSensors.get(i).getSensorNumber()));
-				ultrasonicSensors.get(i).calculateCoordinates(i, automatedCar.getAxisAngle(), automatedCar.getCenterX(), automatedCar.getCenterY());
+        searchingModeLeft();
+        searchingModeRight();
+        parkingModeOn();
 
-				//System.out.println(us.getSensorViewTriangle().toString());
+        //System.out.println("=== BEGIN Ultrasonic Sensor triangles requesting objects ===");
 
-				if(world != null) {
-					List<IWorldObject> allSeenObjects = new ArrayList<IWorldObject>();
-					allSeenObjects.addAll(world.checkSensorArea(ultrasonicSensors.get(i).getSensorViewTriangle()));
-					for (IWorldObject wo : allSeenObjects) {
-						seenObjectsBySensor.put(ultrasonicSensors.get(i).getSensorNumber(), wo);
-					}
+        for (int i = 0; i < ultrasonicSensors.size(); i++) {
+            if (activatedSensors.get(i)) {
+                VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.ULTRASONIC_SENSOR_ID, (int) ultrasonicSensors.get(i).getSensorNumber()));
+                ultrasonicSensors.get(i).calculateCoordinates(i, automatedCar.getAxisAngle(), automatedCar.getCenterX(), automatedCar.getCenterY());
 
-				}
-			}
-		}
-		//System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
+                //System.out.println(ultrasonicSensors.get(i).getSensorViewTriangle().toString());
 
-		/*for (Entry<Integer, IWorldObject> entry : seenObjectsBySensor.entrySet()) {
+                if (world != null) {
+                    List<IWorldObject> allSeenObjects = new ArrayList<IWorldObject>();
+                    allSeenObjects.addAll(world.checkSensorArea(ultrasonicSensors.get(i).getSensorViewTriangle()));
+                    for (IWorldObject wo : allSeenObjects) {
+                        seenObjectsBySensor.put(ultrasonicSensors.get(i).getSensorNumber(), wo);
+                    }
+
+                }
+            }
+        }
+
+        //System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
+
+		for (Map.Entry<Integer, IWorldObject> entry : seenObjectsBySensor.entrySet()) {
 		    Integer sensor = entry.getKey();
 		    IWorldObject wo = entry.getValue();
-		    System.out.println("Detected by sensor: " + sensor);
-		    System.out.println(wo.getClass().getSimpleName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
-		}*/
+		    
+		    //System.out.println("Detected by sensor: " + sensor);
+		    //System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
+		}
 
 		/*System.out.println("---Closest Object Detected by Ultrasonic Sensor---");
 		IWorldObject closestObject = getClosestObject();
 		if(closestObject != null){
-			System.out.println(closestObject.getClass().getSimpleName() + " X: " + closestObject.getCenterX() + " Y: " + closestObject.getCenterY());
+			System.out.println(closestObject.getImageName() + " X: " + closestObject.getCenterX() + " Y: " + closestObject.getCenterY());
 		}*/
 
-		seenObjectsBySensor = new HashMap<Integer, IWorldObject>();
-
-
-
+        seenObjectsBySensor = new HashMap<Integer, IWorldObject>();
+        for (int i = 0; i < activatedSensors.size(); i++)
+            deactivateSensor(i+1);
     }
 
     @Override
@@ -140,15 +145,36 @@ public class UltrasonicController extends SystemComponent {
     	return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
-    public void activateSensor(int id){
+    private void activateSensor(int id){
     	activatedSensors.remove(id-1);
     	activatedSensors.add(id-1,true);
 	}
-	public void deactivateSensor(int id){
+	private void deactivateSensor(int id){
 		activatedSensors.remove(id-1);
 		activatedSensors.add(id-1,false);
 	}
 
 	public boolean getSpaceFound(){return spaceFound;}
+
+	private void searchingModeLeft(){
+	    if(parkingState == AutomaticParkingStates.Searching && indicator == DirectionIndicatorStates.Left){
+            activateSensor(6);
+            activateSensor(7);
+        }
+    }
+
+    private void searchingModeRight(){
+        if(parkingState == AutomaticParkingStates.Searching && indicator == DirectionIndicatorStates.Right){
+            activateSensor(2);
+            activateSensor(3);
+        }
+    }
+
+    private void parkingModeOn() {
+        if (parkingState == AutomaticParkingStates.Parking) {
+            for (int i = 0; i < activatedSensors.size(); i++)
+                activateSensor(i);
+        }
+    }
 
 }

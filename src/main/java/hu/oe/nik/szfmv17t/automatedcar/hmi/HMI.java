@@ -69,6 +69,7 @@ public class HMI extends SystemComponent implements KeyListener {
         sendBrakePedalSignal();
         sendGearStickSignal();
         sendDirectionIndicationSignal();
+        sendAutomaticParkingSignal();
         if (carspeed != 0 && steeringWheel.isSteerReleased()) {
             steeringWheel.steerRelease();
         }
@@ -108,6 +109,14 @@ public class HMI extends SystemComponent implements KeyListener {
             VirtualFunctionBus
                     .sendSignal(new Signal(PowertrainSystem.SMI_Indication, directionIndicator.GetDirectionIndicatorState().ordinal()));
             previousDirection = directionIndicator.GetDirectionIndicatorState();
+        }
+    }
+
+    private void sendAutomaticParkingSignal() {
+        if (parkingState.getParkingState() != previousParkingState) {
+            VirtualFunctionBus
+                    .sendSignal(new Signal(PowertrainSystem.Parking_State, parkingState.getParkingState().ordinal()));
+            previousParkingState = parkingState.getParkingState();
         }
     }
 
