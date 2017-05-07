@@ -1,10 +1,7 @@
 package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
@@ -15,7 +12,7 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.AutomaticParkingStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicatorStates;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv17t.environment.domain.World;
-import hu.oe.nik.szfmv17t.environment.interfaces.IWorld;
+import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 
 /**
@@ -31,6 +28,7 @@ public class UltrasonicController extends SystemComponent {
 	private List<Boolean> activatedSensors;
 	private AutomaticParkingStates parkingState;
 	private boolean spaceFound;
+	private ParkingSpaceType parkingSpaceType;
     
 	public UltrasonicController(AutomatedCar auto, World world) {
 		ultrasonicSensors = new ArrayList<UltrasonicSensor>();
@@ -43,7 +41,7 @@ public class UltrasonicController extends SystemComponent {
 		for (int i = 0; i < ultrasonicSensors.size(); i++)
 			activatedSensors.add(true);
 		parkingState = AutomaticParkingStates.Off;
-		spaceFound = false;
+		parkingSpaceType = ParkingSpaceType.None;
 	}
 
 	// Alapértelmezetten autó felfele néz, óramutató járásával megegyezően vannak megszámozva a szenzorok
@@ -84,8 +82,13 @@ public class UltrasonicController extends SystemComponent {
 		for (int i = 0; i < seenObjectsBySensor.length; i++) {
 		    if(seenObjectsBySensor[i] != null){
 				for (IWorldObject wo : seenObjectsBySensor[i]) {
+					IWorldObject closestBollard = getClosestObject(wo);
+					chooseParkingSpaceType(closestBollard,getUltrasonicSensor(i+1));
+
 					System.out.println("Detected by sensor: " + (i+1));
 					System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
+
+					System.out.println(parkingSpaceType);
 				}
 			}
 		}
@@ -142,6 +145,38 @@ public class UltrasonicController extends SystemComponent {
     	
     	return closestObject;
     }
+
+	public IWorldObject getClosestObject(IWorldObject itemType){
+		IWorldObject closestObject = null;
+		boolean isFirst = true;
+
+		for (int i = 0; i < seenObjectsBySensor.length; i++) {
+			if(seenObjectsBySensor[i] != null) {
+				for(IWorldObject wo : seenObjectsBySensor[i]) {
+					if (itemType.getImageName() == "bollard.png") {
+						try {
+							if (isFirst) {
+								closestObject = wo;
+								isFirst = false;
+							}
+							UltrasonicSensor sensor = getUltrasonicSensor(i + 1);
+							double newDistance = getDistance(wo.getCenterX(), wo.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
+							double closestDistance = getDistance(closestObject.getCenterX(), closestObject.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
+
+							if (newDistance < closestDistance) {
+								closestObject = wo;
+							}
+						} catch (Exception e) {
+							System.out.println(e);
+							System.out.println(e.getMessage());
+						}
+					}
+				}
+			}
+		}
+
+		return closestObject;
+	}
     
     public double getDistance(double x1, double y1, double x2, double y2){ 
     	return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
@@ -178,5 +213,15 @@ public class UltrasonicController extends SystemComponent {
                 activateSensor(i);
         }
     }
+
+	private void chooseParkingSpaceType(IWorldObject item, UltrasonicSensor sensor){
+    	if(item != null && item.getImageName() == "bollard.png") {
+			double distance = getDistance(item.getCenterX(), item.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
+			if (distance > automatedCar.getHeight())
+				parkingSpaceType = ParkingSpaceType.Perpendicular;
+			else
+				parkingSpaceType = ParkingSpaceType.Parallel;
+		}
+	}
 
 }
