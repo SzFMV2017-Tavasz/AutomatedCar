@@ -64,7 +64,7 @@ public class UltrasonicController extends SystemComponent {
         for (int i = 0; i < ultrasonicSensors.size(); i++) {
             if (activatedSensors.get(i)) {
                 VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.ULTRASONIC_SENSOR_ID, (int) ultrasonicSensors.get(i).getSensorNumber()));
-                ultrasonicSensors.get(i).calculateCoordinates(i, automatedCar.getAxisAngle(), automatedCar.getCenterX(), automatedCar.getCenterY());
+                ultrasonicSensors.get(i).calculateCoordinates(i + 1, automatedCar.getAxisAngle(), automatedCar.getCenterX(), automatedCar.getCenterY());
 
                 //System.out.println(ultrasonicSensors.get(i).getSensorViewTriangle().toString());
 
