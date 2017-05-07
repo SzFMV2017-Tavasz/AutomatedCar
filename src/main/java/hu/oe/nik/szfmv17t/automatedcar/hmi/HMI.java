@@ -18,13 +18,13 @@ public class HMI extends SystemComponent implements KeyListener {
     public static final char STEER_RIGHT_KEY = 'd';
     public static final char INCRASE_GAS_KEY = 'w';
     public static final char DECRASE_GAS_KEY = 's';
-    public static final char GEAR_UP_KEY = 'l';
-    public static final char GEAR_DOWN_KEY = 'k';
+    public static final char GEAR_UP_KEY = 'g';
+    public static final char GEAR_DOWN_KEY = 'f';
     public static final char INCRASE_BRAKE_KEY = 'b';
     public static final char DECRASE_BRAKE_KEY = 'v';
-    public static final char INDICATE_LEFT = 'u';
-    public static final char BREAKDOWN = 'i';
-    public static final char INDICATE_RIGHT = 'o';
+    public static final char INDICATE_LEFT = 'q';
+    public static final char BREAKDOWN = 'r';
+    public static final char INDICATE_RIGHT = 'e';
     public static final char SEARCHING_TOGGLE = 'é';
     public static final char PARKING_TOGGLE = 'p';
 
@@ -175,8 +175,8 @@ public class HMI extends SystemComponent implements KeyListener {
                 steeringWheel.setSteerReleased(true);
                 break;
             case INCRASE_GAS_KEY:
-                gasPedal.setGasPedalReleased(true);
-                gasPedal.acceleration();
+                this.addGas();
+
                 break;
             case DECRASE_GAS_KEY:
                 gasPedal.setGasPedalReleased(true);
@@ -210,6 +210,14 @@ public class HMI extends SystemComponent implements KeyListener {
                 parkingState.parkingButtonPress();
                 break;
         }
+    }
+
+    protected void addGas() {
+        if(brakePedal.getState() > 0) {
+            brakePedal.setState(0);
+        }
+        gasPedal.setGasPedalReleased(true);
+        gasPedal.acceleration();
     }
 
     protected void Brake() {

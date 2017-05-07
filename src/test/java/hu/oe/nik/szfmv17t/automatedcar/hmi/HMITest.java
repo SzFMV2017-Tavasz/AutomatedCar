@@ -23,4 +23,11 @@ public class HMITest extends HMI {
         Assert.assertEquals(this.getGaspedalValue(), 0);
     }
 
+    @Test
+    public void addGasTest() throws Exception {
+        this.brakePedal.setState(20);
+        this.addGas();
+        Assert.assertEquals(this.brakePedal.getState(), 0);
+
+    }
 }

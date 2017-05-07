@@ -51,7 +51,7 @@ public class CourseDisplay implements Runnable, ActionListener {
 		frame.setVisible(true);
 		frame.createBufferStrategy(4);
 		strategy = frame.getBufferStrategy();
-		hmiJPanel = getSmiJPanel();
+		hmiJPanel = getHmiJPanel();
 		keyPanel = new KeyPanel();
 		mainPanel.add(keyPanel,BorderLayout.NORTH);
 
@@ -59,29 +59,18 @@ public class CourseDisplay implements Runnable, ActionListener {
 		worldObjectsJPanel = new JPanel();
 		mainPanel.add(worldObjectsJPanel,BorderLayout.CENTER);
 		SizeFrame(frame);
-		//Solve the duplicated key listener
-		//addSmiKeyEventListenerToFrame();
 		frame.add(mainPanel);
 		frame.validate();
-		//frame.setVisible(true);
 		frame.setResizable(false);
 		timer.start();
 	}
 
-	public JPanel getSmiJPanel() {
+	public JPanel getHmiJPanel() {
 		JPanel hmiJPanel = new HmiJPanel();
 
 		frame.addKeyListener(HmiJPanel.getHmi());
-		//smiPanel.add(new Label("Hello SMI"));
-		return hmiJPanel;
-	}
 
-	public void addSmiKeyEventListenerToFrame() {
-		if((frame != null) && (HmiJPanel.getHmi() != null)) {
-			frame.addKeyListener(HmiJPanel.getHmi());
-		} else {
-			logger.error("JFrame frame or HmiJPanel.getHmi() returned null");
-		}
+		return hmiJPanel;
 	}
 
 	private void SizeFrame(JFrame frame) {
@@ -101,16 +90,6 @@ public class CourseDisplay implements Runnable, ActionListener {
 
 	@Override
 	public void run() {
-		/*int refreshRate = 1000 / Config.FPS;
-
-
-			try {
-				Drawer.getDrawer(world).DrawFrametoPanel(worldObjectsJPanel,world,mainPanel);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			refreshFrame();
-			*/
 
 	}
 
