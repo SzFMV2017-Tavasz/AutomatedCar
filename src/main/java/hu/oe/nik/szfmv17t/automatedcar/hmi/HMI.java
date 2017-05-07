@@ -20,8 +20,8 @@ public class HMI extends SystemComponent implements KeyListener {
     public static final char DECRASE_GAS_KEY = 's';
     public static final char GEAR_UP_KEY = 'l';
     public static final char GEAR_DOWN_KEY = 'k';
-    public static final char INCRASE_BRAKE_KEY = 'h';
-    public static final char DECRASE_BRAKE_KEY = 'j';
+    public static final char INCRASE_BRAKE_KEY = 'b';
+    public static final char DECRASE_BRAKE_KEY = 'v';
     public static final char INDICATE_LEFT = 'u';
     public static final char BREAKDOWN = 'i';
     public static final char INDICATE_RIGHT = 'o';
@@ -38,14 +38,14 @@ public class HMI extends SystemComponent implements KeyListener {
     private DirectionIndicatorStates previousDirection = DirectionIndicatorStates.Default;
     private AutomaticParkingStates previousParkingState = AutomaticParkingStates.Off;
 
-    private SteeringWheel steeringWheel;
-    private GasPedal gasPedal;
-    private BrakePedal brakePedal;
-    private GearStick gearStick;
-    private boolean keyPressHandled;
-    private DirectionIndicator directionIndicator;
-    private AutomaticParking parkingState;
-    private double carspeed;
+    protected SteeringWheel steeringWheel;
+    protected GasPedal gasPedal;
+    protected BrakePedal brakePedal;
+    protected GearStick gearStick;
+    protected boolean keyPressHandled;
+    protected DirectionIndicator directionIndicator;
+    protected AutomaticParking parkingState;
+    protected double carspeed;
 
     public void setCarspeed(double carspeed) {
         this.carspeed = carspeed * 3.6;
@@ -183,7 +183,7 @@ public class HMI extends SystemComponent implements KeyListener {
                 gasPedal.deceleration();
                 break;
             case INCRASE_BRAKE_KEY:
-                brakePedal.braking();
+                this.Brake();
                 break;
             case DECRASE_BRAKE_KEY:
                 brakePedal.releasingBrake();
@@ -210,6 +210,13 @@ public class HMI extends SystemComponent implements KeyListener {
                 parkingState.parkingButtonPress();
                 break;
         }
+    }
+
+    protected void Brake() {
+        if(gasPedal.getState() > 0){
+            gasPedal.setState(0);
+        }
+        brakePedal.braking();
     }
 
     public int getGaspedalValue() {
