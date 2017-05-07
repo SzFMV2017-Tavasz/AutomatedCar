@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.AutomaticParkingStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicatorStates;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv17t.environment.domain.World;
+import hu.oe.nik.szfmv17t.environment.interfaces.IWorld;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 
 /**
@@ -24,7 +26,7 @@ public class UltrasonicController extends SystemComponent {
 	private static List<UltrasonicSensor> ultrasonicSensors;
 	private AutomatedCar automatedCar;
 	private World world;
-	private Map<Integer, IWorldObject> seenObjectsBySensor;
+	private List<IWorldObject>[] seenObjectsBySensor;
 	private DirectionIndicatorStates indicator;
 	private List<Boolean> activatedSensors;
 	private AutomaticParkingStates parkingState;
@@ -32,14 +34,14 @@ public class UltrasonicController extends SystemComponent {
     
 	public UltrasonicController(AutomatedCar auto, World world) {
 		ultrasonicSensors = new ArrayList<UltrasonicSensor>();
-		seenObjectsBySensor = new HashMap<Integer, IWorldObject>();
+		seenObjectsBySensor = (List<IWorldObject>[])new List[8];
 		this.automatedCar = auto;
 		this.world = world;
 		initSensors();
 		indicator = DirectionIndicatorStates.Default;
 		activatedSensors = new ArrayList<Boolean>();
-		for(int i = 0;i<ultrasonicSensors.size();i++)
-			activatedSensors.add(false);
+		for (int i = 0; i < ultrasonicSensors.size(); i++)
+			activatedSensors.add(true);
 		parkingState = AutomaticParkingStates.Off;
 		spaceFound = false;
 	}
@@ -69,24 +71,23 @@ public class UltrasonicController extends SystemComponent {
                 //System.out.println(ultrasonicSensors.get(i).getSensorViewTriangle().toString());
 
                 if (world != null) {
-                    List<IWorldObject> allSeenObjects = new ArrayList<IWorldObject>();
-                    allSeenObjects.addAll(world.checkSensorArea(ultrasonicSensors.get(i).getSensorViewTriangle()));
-                    for (IWorldObject wo : allSeenObjects) {
-                        seenObjectsBySensor.put(ultrasonicSensors.get(i).getSensorNumber(), wo);
-                    }
-
-                }
+					List<IWorldObject> allSeenObjects = new ArrayList<IWorldObject>();
+					allSeenObjects.addAll(world.checkSensorArea(ultrasonicSensors.get(i).getSensorViewTriangle()));
+					seenObjectsBySensor[i] = new ArrayList<IWorldObject>();
+					seenObjectsBySensor[i] = allSeenObjects;
+				}
             }
         }
 
         //System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
 
-		for (Map.Entry<Integer, IWorldObject> entry : seenObjectsBySensor.entrySet()) {
-		    Integer sensor = entry.getKey();
-		    IWorldObject wo = entry.getValue();
-		    
-		    //System.out.println("Detected by sensor: " + sensor);
-		    //System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
+		for (int i = 0; i < seenObjectsBySensor.length; i++) {
+		    if(seenObjectsBySensor[i] != null){
+				for (IWorldObject wo : seenObjectsBySensor[i]) {
+					System.out.println("Detected by sensor: " + (i+1));
+					System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
+				}
+			}
 		}
 
 		/*System.out.println("---Closest Object Detected by Ultrasonic Sensor---");
@@ -95,7 +96,7 @@ public class UltrasonicController extends SystemComponent {
 			System.out.println(closestObject.getImageName() + " X: " + closestObject.getCenterX() + " Y: " + closestObject.getCenterY());
 		}*/
 
-        seenObjectsBySensor = new HashMap<Integer, IWorldObject>();
+        seenObjectsBySensor = (List<IWorldObject>[])new List[8];
         for (int i = 0; i < activatedSensors.size(); i++)
             deactivateSensor(i+1);
     }
@@ -116,26 +117,27 @@ public class UltrasonicController extends SystemComponent {
     	IWorldObject closestObject = null;
     	boolean isFirst = true;
     	
-    	for (Entry<Integer, IWorldObject> entry : seenObjectsBySensor.entrySet()) {
-    		try{
-			    Integer sensorNumber = entry.getKey();
-			    IWorldObject wo = entry.getValue();
-			    if(isFirst){
-			    	closestObject = wo;
-			    	isFirst = false;
-			    }
-			    UltrasonicSensor sensor = getUltrasonicSensor(sensorNumber);
-			    double newDistance = getDistance(wo.getCenterX(), wo.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
-			    double closestDistance = getDistance(closestObject.getCenterX(), closestObject.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
-			    
-			    if(newDistance < closestDistance){
-			    	closestObject = wo;
-			    }
-    		}
-    		catch(Exception e){
-    			System.out.println(e);
-    			System.out.println(e.getMessage());
-    		}
+    	for (int i = 0; i < seenObjectsBySensor.length; i++) {
+    		if(seenObjectsBySensor[i] != null) {
+				for(IWorldObject wo : seenObjectsBySensor[i]) {
+					try {
+						if (isFirst) {
+							closestObject = wo;
+							isFirst = false;
+						}
+						UltrasonicSensor sensor = getUltrasonicSensor(i + 1);
+						double newDistance = getDistance(wo.getCenterX(), wo.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
+						double closestDistance = getDistance(closestObject.getCenterX(), closestObject.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
+
+						if (newDistance < closestDistance) {
+							closestObject = wo;
+						}
+					} catch (Exception e) {
+						System.out.println(e);
+						System.out.println(e.getMessage());
+					}
+				}
+			}
 		}
     	
     	return closestObject;
