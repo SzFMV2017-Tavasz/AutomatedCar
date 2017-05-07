@@ -81,4 +81,7 @@ public class GasPedal extends CarControl {
     }
 
 
+    public void setState(int state) {
+        this.state = state;
+    }
 }

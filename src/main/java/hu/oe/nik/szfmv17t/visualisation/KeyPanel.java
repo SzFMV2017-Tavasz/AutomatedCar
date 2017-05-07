@@ -48,10 +48,10 @@ public class KeyPanel extends JPanel {
 		gearDownKeyLabel = new Label(Character.toUpperCase(HMI.GEAR_DOWN_KEY) + " : Gear Down");
 		this.add(gearDownKeyLabel);
 
-		increaseBreakKeyLabel = new Label(Character.toUpperCase(HMI.INCRASE_BRAKE_KEY) + " : Increase Break");
+		increaseBreakKeyLabel = new Label(Character.toUpperCase(HMI.INCRASE_BRAKE_KEY) + " : Brake + ");
 		this.add(increaseBreakKeyLabel);
 
-		decreaseBreakKeyLabel = new Label(Character.toUpperCase(HMI.DECRASE_BRAKE_KEY) + " : Decrease Break");
+		decreaseBreakKeyLabel = new Label(Character.toUpperCase(HMI.DECRASE_BRAKE_KEY) + " : Brake - ");
 		this.add(decreaseBreakKeyLabel);
 
 		indicateLeftLabel = new Label(Character.toUpperCase(HMI.INDICATE_LEFT) + " : Indicate Left");
