@@ -11,6 +11,8 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
  */
 public class HmiJPanel extends JPanel {
 
+	private final Color AEB_ALERT_COLOR = Color.yellow;
+
 	private static HMI hmi;
 
 	private Label labelGasPedalValue;
@@ -113,13 +115,17 @@ public class HmiJPanel extends JPanel {
 			speed.setText(String.valueOf(Math.round(hmi.getSpeed())+" km/h"));
 		}
 		if(hmi.isAEBAlertIsOn()){
-			labelSpeed.setBackground(Color.yellow);
-			speed.setBackground(Color.yellow);
+			this.setBackground(AEB_ALERT_COLOR);
+			for (Component component : this.getComponents()) {
+				component.setBackground(AEB_ALERT_COLOR);
+			}
 		}
 		else
 		{
-			labelSpeed.setBackground(null);
-			speed.setBackground(null);
+			this.setBackground(null);
+			for (Component component : this.getComponents()) {
+				component.setBackground(null);
+			}
 		}
 	}
 
