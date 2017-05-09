@@ -98,7 +98,7 @@ public class UltrasonicController extends SystemComponent {
 		if(closestObject != null){
 			System.out.println(closestObject.getImageName() + " X: " + closestObject.getCenterX() + " Y: " + closestObject.getCenterY());
 		}*/
-
+		demoParking();
         seenObjectsBySensor = (List<IWorldObject>[])new List[8];
         for (int i = 0; i < activatedSensors.size(); i++)
             deactivateSensor(i+1);
@@ -223,5 +223,18 @@ public class UltrasonicController extends SystemComponent {
 				parkingSpaceType = ParkingSpaceType.Parallel;
 		}
 	}
-
+	private void demoParking(){
+		if (parkingState == parkingState.Searching) {
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gear, 1));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gaspedal, 10));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_SteeringWheel, 50));
+		}
+		if (automatedCar.getCenterY() - 300 > (2005 - 305) && automatedCar.getCenterY() - 300 < (2005 - 270)
+				&& parkingState == parkingState.Searching) {
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gear, 3));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gaspedal, 0));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_BrakePedal, 50));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_SteeringWheel, 0));
+		}
+	}
 }
