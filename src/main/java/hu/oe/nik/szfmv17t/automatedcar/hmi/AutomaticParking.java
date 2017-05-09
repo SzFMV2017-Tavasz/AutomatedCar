@@ -6,27 +6,15 @@ package hu.oe.nik.szfmv17t.automatedcar.hmi;
 public class AutomaticParking {
 
     private AutomaticParkingStates parkingState;
-    private boolean parkingEnabled;
 
     public AutomaticParking() {
         parkingState = AutomaticParkingStates.Off;
-        parkingEnabled = false;
     }
 
     public AutomaticParkingStates getParkingState(){return parkingState;}
 
-    public boolean getParkingEnabled(){return parkingEnabled;}
-
-    public void enableParking() {
-        parkingEnabled = true;
-    }
-    public void disableParking(){
-        parkingEnabled = false;
-    }
-
     public void emergencyShutdown(){
         parkingState= AutomaticParkingStates.Off;
-        disableParking();
     }
 
     public void searchingButtonPress() {
@@ -37,7 +25,7 @@ public class AutomaticParking {
     }
 
     public void parkingButtonPress() {
-        if (parkingState == AutomaticParkingStates.Searching && parkingEnabled)
+        if (parkingState == AutomaticParkingStates.Searching)
             parkingState = AutomaticParkingStates.Parking;
         else
             emergencyShutdown();
