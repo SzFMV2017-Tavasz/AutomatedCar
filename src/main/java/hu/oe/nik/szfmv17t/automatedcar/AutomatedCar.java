@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv17t.automatedcar;
 
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv17t.automatedcar.radarsensor.RadarController;
 import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import hu.oe.nik.szfmv17t.environment.domain.Car;
 import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
@@ -44,7 +45,7 @@ public class AutomatedCar extends Car {
 		position.setPositionY(position.getMinimumY() - (direction.getX() * getSpeed()));
 	}
 
-	public PowertrainSystem getPowertrainSystem() {
-		return powertrainSystem;
+	public PowertrainSystem getPowertrainSystem(){
+		return this.powertrainSystem;
 	}
 }
