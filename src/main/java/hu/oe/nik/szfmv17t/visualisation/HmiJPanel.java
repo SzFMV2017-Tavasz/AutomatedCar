@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
-import java.awt.Label;
+import java.awt.*;
 
 import javax.swing.JPanel;
 
@@ -111,6 +111,15 @@ public class HmiJPanel extends JPanel {
 		}
 		if(speed != null){
 			speed.setText(String.valueOf(Math.round(hmi.getSpeed())+" km/h"));
+		}
+		if(hmi.isAEBAlertIsOn()){
+			labelSpeed.setBackground(Color.yellow);
+			speed.setBackground(Color.yellow);
+		}
+		else
+		{
+			labelSpeed.setBackground(null);
+			speed.setBackground(null);
 		}
 	}
 

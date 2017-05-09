@@ -238,4 +238,8 @@ public class HMI extends SystemComponent implements KeyListener {
     public double getSpeed() {
         return carspeed;
     }
+
+    public boolean isAEBAlertIsOn() {
+        return carspeed >= 70;
+    }
 }
