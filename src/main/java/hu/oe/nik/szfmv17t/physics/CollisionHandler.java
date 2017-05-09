@@ -7,11 +7,12 @@ import hu.oe.nik.szfmv17t.physics.interfaces.ICollisionHandler;
 
 public class CollisionHandler implements ICollisionHandler {
 
-    private static final double PERCENTAGEOFDESTROYEDTATE = 0.5;
+    private static final double PERCENTAGEOFDESTROYEDTATE = 0.25;
+    private static final boolean DEMO = true;
 
     @Override
     public void handleCollision(ICollidableObject objectOne, ICollidableObject objectTwo) {
-        if(objectOne instanceof  AutomatedCar){
+        if(!DEMO && objectOne instanceof  AutomatedCar){
             if(objectTwo instanceof  Sign){
                 collisionBaseHandler((AutomatedCar)objectOne, objectTwo);
                 ((Sign) objectTwo).setState(WorldObjectState.Destroyed);
