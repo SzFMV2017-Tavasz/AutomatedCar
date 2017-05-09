@@ -14,6 +14,7 @@ public class RadarSensor {
 	static private final double VIEW_ANGLE_IN_DEGREE = 60;
 	static private final double VIEW_ANGLE_IN_RADIAN = Math.toRadians(VIEW_ANGLE_IN_DEGREE);
 	private Resizer resizer;
+	private boolean avoidableCollisionAlert;
 	private double viewLengthInCoordinates;
 	private double triangleAdjacentSideLength;
 
@@ -21,6 +22,7 @@ public class RadarSensor {
 		resizer = Resizer.getResizer();
 		viewLengthInCoordinates = resizer.meterToCoordinate(VIEW_LENGTH_IN_METER);
 		triangleAdjacentSideLength = calculateAdjacentSideLength();
+		avoidableCollisionAlert = false;
 	}
 
 	private double calculateAdjacentSideLength() {
@@ -264,7 +266,11 @@ public class RadarSensor {
 		else
 			return vonalMelyikOldalan.rajta;
 	}
-	
+
+	public boolean isAvoidableCollisionAlert() {
+		return avoidableCollisionAlert;
+	}
+
 	private enum vonalMelyikOldalan { bal, jobb, rajta; }
 	
 	

@@ -12,6 +12,7 @@ import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
 public class HmiJPanel extends JPanel {
 
 	private final Color AEB_ALERT_COLOR = Color.yellow;
+	private final Color ACA_ALERT_COLOR = Color.red;
 
 	private static HMI hmi;
 
@@ -38,6 +39,8 @@ public class HmiJPanel extends JPanel {
 
 	private Label labelSpaceFoundValue;
 	private Label spaceFoundValue;
+
+	private Label labelAvoidableCollisionAlert;
 
 	public static void setHmi(HMI hmi) {
 		HmiJPanel.hmi = hmi;
@@ -85,6 +88,10 @@ public class HmiJPanel extends JPanel {
 		spaceFoundValue = new Label(String.valueOf(hmi.getSpaceFound()));
 		this.add(spaceFoundValue);
 
+		labelAvoidableCollisionAlert = new Label("POSSIBLE COLLISION!!!");
+		labelAvoidableCollisionAlert.setVisible(false);
+		labelAvoidableCollisionAlert.setForeground(ACA_ALERT_COLOR);
+		this.add(labelAvoidableCollisionAlert);
 	}
 
 	@Override
@@ -126,6 +133,12 @@ public class HmiJPanel extends JPanel {
 			for (Component component : this.getComponents()) {
 				component.setBackground(null);
 			}
+		}
+		if(hmi.isAvoidableCollisionAlert()){
+			this.labelAvoidableCollisionAlert.setVisible(true);
+		}
+		else{
+			this.labelAvoidableCollisionAlert.setVisible(false);
 		}
 	}
 

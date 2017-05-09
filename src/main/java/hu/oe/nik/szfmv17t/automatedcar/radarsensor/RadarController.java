@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RadarController extends SystemComponent{
+	public static final int AVOID_ALERT = 100;
 	private Resizer resizer;
 	private RadarSensor radarSensor;
 	private AutomatedCar automatedCar;
@@ -75,9 +76,16 @@ public class RadarController extends SystemComponent{
 		possibleCollisionObjects = radarSensor.selectObjectsInCarLane(detectedObjects, automatedCar.getPositionObj(),-automatedCar.getAxisAngle(),automatedCar.getWidth()/2);
 		detectedEntitesInPossibleCollision=objectTracker.updateEntityList(possibleCollisionObjects);
 		
-		if (radarSensor.willWeCollideWithStaticObjects(detectedEntitesInPossibleCollision, automatedCar))
+		if (radarSensor.willWeCollideWithStaticObjects(detectedEntitesInPossibleCollision, automatedCar)){
 			logPossibleCollisions();
-    }
+		}
+
+		if(radarSensor.isAvoidableCollisionAlert()){
+			VirtualFunctionBus.sendSignal(new Signal(AVOID_ALERT,1));
+		}else{
+			VirtualFunctionBus.sendSignal(new Signal(AVOID_ALERT,0));
+		}
+	}
     
     private void logPossibleCollisions()
     {
