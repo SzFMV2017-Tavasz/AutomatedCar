@@ -6,6 +6,7 @@ import java.util.List;
 
 import hu.oe.nik.szfmv17t.environment.utils.*;
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 
 
@@ -14,7 +15,7 @@ public class RadarSensor {
 	static private final double VIEW_ANGLE_IN_DEGREE = 60;
 	static private final double VIEW_ANGLE_IN_RADIAN = Math.toRadians(VIEW_ANGLE_IN_DEGREE);
 	private Resizer resizer;
-	private boolean avoidableCollisionAlert;
+	private boolean avoidableCollisionAlert;  // < ezt kell állítgatnod, true-ra és akkor kilessz írva a figyelmeztetés
 	private double viewLengthInCoordinates;
 	private double triangleAdjacentSideLength;
 
@@ -133,6 +134,50 @@ public class RadarSensor {
 	    }
 	    return Math.abs(dist);
 	} 
+	public int emergencyBrake(List<Entity> detectedEntitesInPossibleCollision, AutomatedCar car){
+		//legkozelebbi objektum meghatarozasa
+		Entity closestEntity = new Entity();
+		double closestEntityInMeter = Double.MAX_VALUE;
+		avoidableCollisionAlert=false;
+		Vector2d carVector = new Vector2d(car.getCenterX(),car.getCenterY());
+		double brakingDistance= car.getSpeed()*car.getSpeed()/(2*7.5);
+
+		for(int i=0; i<detectedEntitesInPossibleCollision.size();i++){
+			Entity actualEntity = (Entity) detectedEntitesInPossibleCollision.toArray()[i];
+			double actualEntityFarFromCar = this.howManyMetersUntilCollision(actualEntity.getDirection(), carVector);
+			if (actualEntityFarFromCar <closestEntityInMeter){
+				closestEntity=actualEntity;
+				closestEntityInMeter=actualEntityFarFromCar;
+			}
+		}
+		//utkozunk-e vele? 
+		List<Entity> closestEntityList = new ArrayList<Entity>();
+		closestEntityList.add(closestEntity);
+		if(this.willWeCollideWithStaticObjects(closestEntityList, car)){
+			//ha mar fektavolasgon belul van, akkor 100% fek 
+			// szaraz ut eseten 7,5 m/s
+			return BrakePedal.MAX_STATE;
+		}
+		else
+		{
+			int brakeIntensity=0;
+			// pl 20 meter
+			double untilEmergencyBrakeDistance = closestEntityInMeter-brakingDistance;
+			double carSpeedInMeter = car.getSpeed()*0.277778;
+			//20 kmh ig  - 5,55
+			//45 - 12,5
+			//75 - 20,83
+			//110 - 30,55
+			//200 - 55,5
+			if(untilEmergencyBrakeDistance*2<carSpeedInMeter){
+				brakeIntensity= 50;
+				avoidableCollisionAlert=true;
+			}
+			return brakeIntensity;
+		}
+		}
+
+
 	
 	public boolean willWeCollideWithStaticObjects(List<Entity> detectedEntitesInPossibleCollision, AutomatedCar car)
 	{		
@@ -151,7 +196,10 @@ public class RadarSensor {
 				
 				
 				double tavolsag = howManyMetersUntilCollision(ent.getCurrentState().getPosition(), new Vector2d(carRotatedStartPoint.getX(), carRotatedStartPoint.getY()));
-				double mennyiIdoVeszfekkelLefekezni = carSpeed/9.5;
+				//A száraz útviszonyok esetén jellemzően 7,5 m/s² átlagos lassulás érhető el. 
+				//Ez az érték nedves körülmények mellett 4,5 m/s²-re, havas-jeges úton egészen 1,5 m/s²-re csökken.
+				double mennyiIdoVeszfekkelLefekezni = carSpeed*2/(7.5*2);
+				//double mennyiIdoVeszfekkelLefekezni = carSpeed/9.5;
 				double mennyiIdoAmigOdaerunk = tavolsag/carSpeed;
 				
 				if (mennyiIdoVeszfekkelLefekezni >= mennyiIdoAmigOdaerunk)
