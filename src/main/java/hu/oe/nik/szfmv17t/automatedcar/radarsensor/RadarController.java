@@ -79,6 +79,9 @@ public class RadarController extends SystemComponent{
 		if (radarSensor.willWeCollideWithStaticObjects(detectedEntitesInPossibleCollision, automatedCar)){
 			logPossibleCollisions();
 		}
+		automatedCar.getPowertrainSystem().getSpeedControl().setBrakePedal(
+				radarSensor.emergencyBrake(detectedEntitesInPossibleCollision, automatedCar));
+
 
 		if(radarSensor.isAvoidableCollisionAlert()){
 			VirtualFunctionBus.sendSignal(new Signal(AVOID_ALERT,1));
