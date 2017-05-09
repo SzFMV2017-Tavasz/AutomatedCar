@@ -18,13 +18,13 @@ public class HMI extends SystemComponent implements KeyListener {
     public static final char STEER_RIGHT_KEY = 'd';
     public static final char INCRASE_GAS_KEY = 'w';
     public static final char DECRASE_GAS_KEY = 's';
-    public static final char GEAR_UP_KEY = 'l';
-    public static final char GEAR_DOWN_KEY = 'k';
-    public static final char INCRASE_BRAKE_KEY = 'h';
-    public static final char DECRASE_BRAKE_KEY = 'j';
-    public static final char INDICATE_LEFT = 'u';
-    public static final char BREAKDOWN = 'i';
-    public static final char INDICATE_RIGHT = 'o';
+    public static final char GEAR_UP_KEY = 'g';
+    public static final char GEAR_DOWN_KEY = 'f';
+    public static final char INCRASE_BRAKE_KEY = 'b';
+    public static final char DECRASE_BRAKE_KEY = 'v';
+    public static final char INDICATE_LEFT = 'q';
+    public static final char BREAKDOWN = 'r';
+    public static final char INDICATE_RIGHT = 'e';
     public static final char SEARCHING_TOGGLE = 'é';
     public static final char PARKING_TOGGLE = 'p';
 
@@ -38,14 +38,14 @@ public class HMI extends SystemComponent implements KeyListener {
     private DirectionIndicatorStates previousDirection = DirectionIndicatorStates.Default;
     private AutomaticParkingStates previousParkingState = AutomaticParkingStates.Off;
 
-    private SteeringWheel steeringWheel;
-    private GasPedal gasPedal;
-    private BrakePedal brakePedal;
-    private GearStick gearStick;
-    private boolean keyPressHandled;
-    private DirectionIndicator directionIndicator;
-    private AutomaticParking parkingState;
-    private double carspeed;
+    protected SteeringWheel steeringWheel;
+    protected GasPedal gasPedal;
+    protected BrakePedal brakePedal;
+    protected GearStick gearStick;
+    protected boolean keyPressHandled;
+    protected DirectionIndicator directionIndicator;
+    protected AutomaticParking parkingState;
+    protected double carspeed;
 
     public void setCarspeed(double carspeed) {
         this.carspeed = carspeed * 3.6;
@@ -69,6 +69,7 @@ public class HMI extends SystemComponent implements KeyListener {
         sendBrakePedalSignal();
         sendGearStickSignal();
         sendDirectionIndicationSignal();
+        sendAutomaticParkingSignal();
         if (carspeed != 0 && steeringWheel.isSteerReleased()) {
             steeringWheel.steerRelease();
         }
@@ -108,6 +109,14 @@ public class HMI extends SystemComponent implements KeyListener {
             VirtualFunctionBus
                     .sendSignal(new Signal(PowertrainSystem.SMI_Indication, directionIndicator.GetDirectionIndicatorState().ordinal()));
             previousDirection = directionIndicator.GetDirectionIndicatorState();
+        }
+    }
+
+    private void sendAutomaticParkingSignal() {
+        if (parkingState.getParkingState() != previousParkingState) {
+            VirtualFunctionBus
+                    .sendSignal(new Signal(PowertrainSystem.Parking_State, parkingState.getParkingState().ordinal()));
+            previousParkingState = parkingState.getParkingState();
         }
     }
 
@@ -175,15 +184,15 @@ public class HMI extends SystemComponent implements KeyListener {
                 steeringWheel.setSteerReleased(true);
                 break;
             case INCRASE_GAS_KEY:
-                gasPedal.setGasPedalReleased(true);
-                gasPedal.acceleration();
+                this.addGas();
+
                 break;
             case DECRASE_GAS_KEY:
                 gasPedal.setGasPedalReleased(true);
                 gasPedal.deceleration();
                 break;
             case INCRASE_BRAKE_KEY:
-                brakePedal.braking();
+                this.Brake();
                 break;
             case DECRASE_BRAKE_KEY:
                 brakePedal.releasingBrake();
@@ -212,6 +221,21 @@ public class HMI extends SystemComponent implements KeyListener {
         }
     }
 
+    protected void addGas() {
+        if(brakePedal.getState() > 0) {
+            brakePedal.setState(0);
+        }
+        gasPedal.setGasPedalReleased(true);
+        gasPedal.acceleration();
+    }
+
+    protected void Brake() {
+        if(gasPedal.getState() > 0){
+            gasPedal.setState(0);
+        }
+        brakePedal.braking();
+    }
+
     public int getGaspedalValue() {
         return gasPedal.getState();
     }
@@ -233,7 +257,6 @@ public class HMI extends SystemComponent implements KeyListener {
     }
 
     public AutomaticParkingStates getParkingState(){return parkingState.getParkingState();}
-    public boolean getSpaceFound(){return parkingState.getParkingEnabled();}
 
     public double getSpeed() {
         return carspeed;

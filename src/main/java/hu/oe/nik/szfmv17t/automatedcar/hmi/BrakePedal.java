@@ -66,4 +66,8 @@ public class BrakePedal{
     public void start() {
         timer.Start();
     }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 }
