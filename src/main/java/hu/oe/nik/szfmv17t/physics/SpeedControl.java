@@ -55,7 +55,7 @@ public class SpeedControl {
 		
 		actualVelocity = minOrMaxSpeed(calculatedVelocity);
 		
-		System.out.println("Gear: " + (this.gearShift - 1));
+		//System.out.println("Gear: " + (this.gearShift - 1));
 		
 		return actualVelocity;
 	}
