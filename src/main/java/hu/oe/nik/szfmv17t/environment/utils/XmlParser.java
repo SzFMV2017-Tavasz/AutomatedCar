@@ -154,7 +154,7 @@ public class XmlParser {
                 case "bycicle":
                     mapObjects.add(new Bycicle(posX,posY,39,72,axisAngle,2,"bicycle.png",110,0,axisAngle)); break;   
                 case "tree":
-                mapObjects.add(new Tree(posX,posY,142,160,axisAngle,2,"tree.png",20,0,axisAngle)); break;
+                mapObjects.add(new Tree(posX,posY,142,160,axisAngle,4,"tree.png",20,0,axisAngle)); break;
             }
     }
     
