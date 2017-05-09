@@ -55,6 +55,8 @@ public class UltrasonicController extends SystemComponent {
     @Override
     public void loop() {
 
+		List<IWorldObject> allObjectsSeenBySensors = new ArrayList<IWorldObject>();
+
         searchingModeLeft();
         searchingModeRight();
         parkingModeOn();
@@ -73,24 +75,20 @@ public class UltrasonicController extends SystemComponent {
 					allSeenObjects.addAll(world.checkSensorArea(ultrasonicSensors.get(i).getSensorViewTriangle()));
 					seenObjectsBySensor[i] = new ArrayList<IWorldObject>();
 					seenObjectsBySensor[i] = allSeenObjects;
+					allObjectsSeenBySensors.addAll(allSeenObjects);
 				}
             }
         }
 
         //System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
 
-		for (int i = 0; i < seenObjectsBySensor.length; i++) {
-		    if(seenObjectsBySensor[i] != null){
-				for (IWorldObject wo : seenObjectsBySensor[i]) {
-					IWorldObject closestBollard = getClosestObject(wo);
-					chooseParkingSpaceType(closestBollard,getUltrasonicSensor(i+1));
+		for (IWorldObject wo : allObjectsSeenBySensors) {
+			IWorldObject closestBollard = getClosestObject(wo);
+			chooseParkingSpaceType(closestBollard, getUltrasonicSensor(2));
 
-					System.out.println("Detected by sensor: " + (i+1));
-					System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
+			System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
 
-					System.out.println(parkingSpaceType);
-				}
-			}
+			System.out.println(parkingSpaceType);
 		}
 
 		/*System.out.println("---Closest Object Detected by Ultrasonic Sensor---");
@@ -153,7 +151,7 @@ public class UltrasonicController extends SystemComponent {
 		for (int i = 0; i < seenObjectsBySensor.length; i++) {
 			if(seenObjectsBySensor[i] != null) {
 				for(IWorldObject wo : seenObjectsBySensor[i]) {
-					if (itemType.getImageName() == "bollard.png") {
+					if (itemType.getHeight() == 100) {
 						try {
 							if (isFirst) {
 								closestObject = wo;
@@ -215,7 +213,7 @@ public class UltrasonicController extends SystemComponent {
     }
 
 	private void chooseParkingSpaceType(IWorldObject item, UltrasonicSensor sensor){
-    	if(item != null && item.getImageName() == "bollard.png") {
+    	if(item != null && item.getHeight() < 100) {
 			double distance = getDistance(item.getCenterX(), item.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
 			if (distance > automatedCar.getHeight())
 				parkingSpaceType = ParkingSpaceType.Perpendicular;
