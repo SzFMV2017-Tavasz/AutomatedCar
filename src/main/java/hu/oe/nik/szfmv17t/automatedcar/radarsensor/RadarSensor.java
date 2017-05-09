@@ -6,6 +6,7 @@ import java.util.List;
 
 import hu.oe.nik.szfmv17t.environment.utils.*;
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv17t.automatedcar.hmi.BrakePedal;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 
 
@@ -137,13 +138,16 @@ public class RadarSensor {
 		//legkozelebbi objektum meghatarozasa
 		Entity closestEntity = new Entity();
 		double closestEntityInMeter = Double.MAX_VALUE;
+		avoidableCollisionAlert=false;
 		Vector2d carVector = new Vector2d(car.getCenterX(),car.getCenterY());
 		double brakingDistance= car.getSpeed()*car.getSpeed()/(2*7.5);
 
 		for(int i=0; i<detectedEntitesInPossibleCollision.size();i++){
 			Entity actualEntity = (Entity) detectedEntitesInPossibleCollision.toArray()[i];
-			if (this.howManyMetersUntilCollision(closestEntity.getDirection(), carVector)<closestEntityInMeter){
+			double actualEntityFarFromCar = this.howManyMetersUntilCollision(actualEntity.getDirection(), carVector);
+			if (actualEntityFarFromCar <closestEntityInMeter){
 				closestEntity=actualEntity;
+				closestEntityInMeter=actualEntityFarFromCar;
 			}
 		}
 		//utkozunk-e vele? 
@@ -152,8 +156,7 @@ public class RadarSensor {
 		if(this.willWeCollideWithStaticObjects(closestEntityList, car)){
 			//ha mar fektavolasgon belul van, akkor 100% fek 
 			// szaraz ut eseten 7,5 m/s
-			avoidableCollisionAlert=false;
-			return 100;
+			return BrakePedal.MAX_STATE;
 		}
 		else
 		{
@@ -168,8 +171,8 @@ public class RadarSensor {
 			//200 - 55,5
 			if(untilEmergencyBrakeDistance*2<carSpeedInMeter){
 				brakeIntensity= 50;
+				avoidableCollisionAlert=true;
 			}
-			avoidableCollisionAlert=true;
 			return brakeIntensity;
 		}
 		}
