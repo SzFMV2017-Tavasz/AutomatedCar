@@ -7,6 +7,7 @@ import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv17t.automatedcar.radarsensor.RadarController;
 
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
@@ -38,6 +39,7 @@ public class HMI extends SystemComponent implements KeyListener {
     private DirectionIndicatorStates previousDirection = DirectionIndicatorStates.Default;
     private AutomaticParkingStates previousParkingState = AutomaticParkingStates.Off;
 
+    private boolean avoidableCollisionAlert;
     private SteeringWheel steeringWheel;
     private GasPedal gasPedal;
     private BrakePedal brakePedal;
@@ -60,6 +62,7 @@ public class HMI extends SystemComponent implements KeyListener {
         brakePedal = new BrakePedal(directionIndicator);
         steeringWheel = new SteeringWheel();
         parkingState = new AutomaticParking();
+        avoidableCollisionAlert =false;
     }
 
     @Override
@@ -115,6 +118,14 @@ public class HMI extends SystemComponent implements KeyListener {
     public void receiveSignal(Signal s) {
         // System.out.println("HMI received signal: " + s.getId() + " data: " +
         // s.getData());
+        if(s.getId()== RadarController.AVOID_ALERT) {
+            if((int)s.getData() > 0){
+                this.avoidableCollisionAlert = true;
+            }
+            else{
+                this.avoidableCollisionAlert = false;
+            }
+        }
     }
 
     @Override
@@ -241,5 +252,9 @@ public class HMI extends SystemComponent implements KeyListener {
 
     public boolean isAEBAlertIsOn() {
         return carspeed >= 70;
+    }
+
+    public boolean isAvoidableCollisionAlert() {
+        return avoidableCollisionAlert;
     }
 }
