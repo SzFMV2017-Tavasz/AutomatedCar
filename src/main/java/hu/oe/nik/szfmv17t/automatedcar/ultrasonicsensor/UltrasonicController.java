@@ -11,6 +11,7 @@ import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.AutomaticParkingStates;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.DirectionIndicatorStates;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv17t.environment.domain.Sign;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.environment.interfaces.ICollidableObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
@@ -55,6 +56,8 @@ public class UltrasonicController extends SystemComponent {
     @Override
     public void loop() {
 
+		List<IWorldObject> allObjectsSeenBySensors = new ArrayList<IWorldObject>();
+
         searchingModeLeft();
         searchingModeRight();
         parkingModeOn();
@@ -73,24 +76,20 @@ public class UltrasonicController extends SystemComponent {
 					allSeenObjects.addAll(world.checkSensorArea(ultrasonicSensors.get(i).getSensorViewTriangle()));
 					seenObjectsBySensor[i] = new ArrayList<IWorldObject>();
 					seenObjectsBySensor[i] = allSeenObjects;
+					allObjectsSeenBySensors.addAll(allSeenObjects);
 				}
             }
         }
 
         //System.out.println("=== END Ultrasonic Sensor triangles requesting objects ===");
 
-		for (int i = 0; i < seenObjectsBySensor.length; i++) {
-		    if(seenObjectsBySensor[i] != null){
-				for (IWorldObject wo : seenObjectsBySensor[i]) {
-					IWorldObject closestBollard = getClosestObject(wo);
-					chooseParkingSpaceType(closestBollard,getUltrasonicSensor(i+1));
+        IWorldObject closestBollard = getClosestBallardForParkingType(allObjectsSeenBySensors);
+		for (IWorldObject wo : allObjectsSeenBySensors) {
+			chooseParkingSpaceType(closestBollard, getUltrasonicSensor(2));
 
-					System.out.println("Detected by sensor: " + (i+1));
-					System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
+			System.out.println(wo.getImageName() + " X: " + wo.getCenterX() + " Y: " + wo.getCenterY());
 
-					System.out.println(parkingSpaceType);
-				}
-			}
+			System.out.println(parkingSpaceType);
 		}
 
 		/*System.out.println("---Closest Object Detected by Ultrasonic Sensor---");
@@ -98,7 +97,7 @@ public class UltrasonicController extends SystemComponent {
 		if(closestObject != null){
 			System.out.println(closestObject.getImageName() + " X: " + closestObject.getCenterX() + " Y: " + closestObject.getCenterY());
 		}*/
-
+		demoParking();
         seenObjectsBySensor = (List<IWorldObject>[])new List[8];
         for (int i = 0; i < activatedSensors.size(); i++)
             deactivateSensor(i+1);
@@ -146,37 +145,32 @@ public class UltrasonicController extends SystemComponent {
     	return closestObject;
     }
 
-	public IWorldObject getClosestObject(IWorldObject itemType){
-		IWorldObject closestObject = null;
-		boolean isFirst = true;
+	public IWorldObject getClosestBallardForParkingType(List<IWorldObject> allObjects) {
+        IWorldObject closestObject = null;
+        boolean isFirst = true;
 
-		for (int i = 0; i < seenObjectsBySensor.length; i++) {
-			if(seenObjectsBySensor[i] != null) {
-				for(IWorldObject wo : seenObjectsBySensor[i]) {
-					if (itemType.getImageName() == "bollard.png") {
-						try {
-							if (isFirst) {
-								closestObject = wo;
-								isFirst = false;
-							}
-							UltrasonicSensor sensor = getUltrasonicSensor(i + 1);
-							double newDistance = getDistance(wo.getCenterX(), wo.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
-							double closestDistance = getDistance(closestObject.getCenterX(), closestObject.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
+        for (IWorldObject wo : allObjects) {
+            if (wo.getClass() == Sign.class) {
+                try {
+                    if (isFirst) {
+                        closestObject = wo;
+                        isFirst = false;
+                    }
+                    double newDistance = getDistance(wo.getCenterX(), wo.getCenterY(), automatedCar.getCenterX(), automatedCar.getCenterY());
+                    double closestDistance = getDistance(closestObject.getCenterX(), closestObject.getCenterY(), automatedCar.getCenterX(), automatedCar.getCenterY());
 
-							if (newDistance < closestDistance) {
-								closestObject = wo;
-							}
-						} catch (Exception e) {
-							System.out.println(e);
-							System.out.println(e.getMessage());
-						}
-					}
-				}
-			}
-		}
+                    if (newDistance < closestDistance) {
+                        closestObject = wo;
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
 
-		return closestObject;
-	}
+        return closestObject;
+    }
     
     public double getDistance(double x1, double y1, double x2, double y2){ 
     	return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
@@ -215,7 +209,7 @@ public class UltrasonicController extends SystemComponent {
     }
 
 	private void chooseParkingSpaceType(IWorldObject item, UltrasonicSensor sensor){
-    	if(item != null && item.getImageName() == "bollard.png") {
+    	if(item != null) {
 			double distance = getDistance(item.getCenterX(), item.getCenterY(), sensor.getCoordinates().getMainX(), sensor.getCoordinates().getMainY());
 			if (distance > automatedCar.getHeight())
 				parkingSpaceType = ParkingSpaceType.Perpendicular;
@@ -223,5 +217,18 @@ public class UltrasonicController extends SystemComponent {
 				parkingSpaceType = ParkingSpaceType.Parallel;
 		}
 	}
-
+	private void demoParking(){
+		if (parkingState == parkingState.Searching) {
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gear, 1));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gaspedal, 10));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_SteeringWheel, 50));
+		}
+		if (automatedCar.getCenterY() - 300 > (2005 - 305) && automatedCar.getCenterY() - 300 < (2005 - 270)
+				&& parkingState == parkingState.Searching) {
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gear, 3));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_Gaspedal, 0));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_BrakePedal, 50));
+			VirtualFunctionBus.sendSignal(new Signal(PowertrainSystem.SMI_SteeringWheel, 0));
+		}
+	}
 }
