@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import hu.oe.nik.szfmv17t.environment.domain.WorldObjectState;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class SpeedControlTest {
 		SpeedControl speedControl = new SpeedControl(carWeight);
 
 		// act
-		double result = speedControl.calculateVelocity();
+		double result = speedControl.calculateVelocity(WorldObjectState.Untouched);
 		
 		// assert
 		assertEquals(0, result, 0);
@@ -41,13 +42,12 @@ public class SpeedControlTest {
 		speedControl.setAutoGearState(AutoGearStates.D);
 
 		// act
-		speedControl.calculateVelocity();
+		speedControl.calculateVelocity(WorldObjectState.Untouched);
 		Field gearField = null;
 		try {
 			gearField = speedControl.getClass().getDeclaredField(gearShiftFieldName);
 			gearField.setAccessible(true);
 		} catch (NoSuchFieldException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -56,7 +56,6 @@ public class SpeedControlTest {
 			try {
 				result = (int) gearField.get(speedControl);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -74,7 +73,7 @@ public class SpeedControlTest {
 
 		Method method = null;
 		try {
-			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName);
+			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName, WorldObjectState.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -85,7 +84,7 @@ public class SpeedControlTest {
 		// act
 		double result = -1;
 		try {
-			result = (double) method.invoke(speedControl);
+			result = (double) method.invoke(speedControl, WorldObjectState.Untouched);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -109,7 +108,7 @@ public class SpeedControlTest {
 
 		Method method = null;
 		try {
-			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName);
+			method = SpeedControl.class.getDeclaredMethod(sumAccelerationMethodName, WorldObjectState.class);
 			method.setAccessible(true);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();

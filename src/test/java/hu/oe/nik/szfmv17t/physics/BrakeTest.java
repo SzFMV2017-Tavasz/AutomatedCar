@@ -31,10 +31,8 @@ public class BrakeTest {
 			maxDeceleration = Brake.class.getDeclaredField(mbd);
 			maxDeceleration.setAccessible(true);
 		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -42,10 +40,8 @@ public class BrakeTest {
 		try {
 			expected = maxDeceleration.getDouble(brakeTest);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		double result = brakeTest.calculateAcceleration(pedalPercentage);
@@ -62,10 +58,8 @@ public class BrakeTest {
 			maxDeceleration = Brake.class.getDeclaredField(mbd);
 			maxDeceleration.setAccessible(true);
 		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -73,10 +67,8 @@ public class BrakeTest {
 		try {
 			expected = maxDeceleration.getDouble(brakeTest) * pedalPercentage;
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		double result = brakeTest.calculateAcceleration(pedalPercentage);
