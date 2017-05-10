@@ -13,7 +13,7 @@ import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 public class HmiJPanel extends JPanel {
 
 	private final Color AEB_ALERT_COLOR = Color.yellow;
-	private final Color ACA_ALERT_COLOR = Color.red;
+	private final Color ACA_ALERT_COLOR = Color.PINK;
 
 	private static HMI hmi;
 	private static UltrasonicController usc;
@@ -41,8 +41,6 @@ public class HmiJPanel extends JPanel {
 
 	private Label labelSpaceFoundValue;
 	private Label spaceFoundValue;
-
-    private Label labelAvoidableCollisionAlert;
 
     public static void setHmi(HMI hmi, UltrasonicController usc) {
 		HmiJPanel.hmi = hmi;
@@ -90,11 +88,6 @@ public class HmiJPanel extends JPanel {
 		this.add(labelSpaceFoundValue);
 		spaceFoundValue = new Label(String.valueOf(usc.getSpaceFound()));
 		this.add(spaceFoundValue);
-
-		labelAvoidableCollisionAlert = new Label("POSSIBLE COLLISION!!!");
-		labelAvoidableCollisionAlert.setVisible(false);
-		labelAvoidableCollisionAlert.setForeground(ACA_ALERT_COLOR);
-		this.add(labelAvoidableCollisionAlert);
 	}
 
 	@Override
@@ -124,24 +117,25 @@ public class HmiJPanel extends JPanel {
 		if(speed != null){
 			speed.setText(String.valueOf(Math.round(hmi.getSpeed())+" km/h"));
 		}
-		if(hmi.isAEBAlertIsOn()){
-			this.setBackground(AEB_ALERT_COLOR);
-			for (Component component : this.getComponents()) {
-				component.setBackground(AEB_ALERT_COLOR);
-			}
-		}
-		else
-		{
-			this.setBackground(null);
-			for (Component component : this.getComponents()) {
-				component.setBackground(null);
-			}
-		}
+
 		if(hmi.isAvoidableCollisionAlert()){
-			this.labelAvoidableCollisionAlert.setVisible(true);
+			setPanelBackgroundColor(ACA_ALERT_COLOR);
 		}
 		else{
-			this.labelAvoidableCollisionAlert.setVisible(false);
+			if(hmi.isAEBAlertIsOn()){
+				setPanelBackgroundColor(AEB_ALERT_COLOR);
+			}
+			else
+			{
+				setPanelBackgroundColor(null);
+			}
+		}
+	}
+
+	private void setPanelBackgroundColor(Color newColor){
+		this.setBackground(newColor);
+		for (Component component : this.getComponents()) {
+			component.setBackground(newColor);
 		}
 	}
 

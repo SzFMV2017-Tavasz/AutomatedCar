@@ -31,6 +31,7 @@ public class HMI extends SystemComponent implements KeyListener {
 
     public static final int BUTTON_PRESSING_LENGTH_FOR_PTTM = 5;
     public static final int DURATION_FOR_PTTM = 100;
+    public static final int CAR_SPEED_KMH_AEB_ALERT_THRESHOLD = 70;
 
     private int previousSteeringWheelState = 0;
     private int previousGasPedalState = 0;
@@ -274,7 +275,7 @@ public class HMI extends SystemComponent implements KeyListener {
     }
 
     public boolean isAEBAlertIsOn() {
-        return carspeed >= 70;
+        return carspeed >= CAR_SPEED_KMH_AEB_ALERT_THRESHOLD;
     }
 
     public boolean isAvoidableCollisionAlert() {

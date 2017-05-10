@@ -8,7 +8,7 @@ import hu.oe.nik.szfmv17t.physics.interfaces.ICollisionHandler;
 public class CollisionHandler implements ICollisionHandler {
 
     private static final double PERCENTAGEOFDESTROYEDTATE = 0.25;
-    private static final boolean DEMO = true;
+    private static final boolean DEMO = false;
 
     @Override
     public void handleCollision(ICollidableObject objectOne, ICollidableObject objectTwo) {
