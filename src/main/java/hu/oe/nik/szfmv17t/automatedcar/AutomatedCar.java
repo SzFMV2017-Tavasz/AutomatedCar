@@ -10,7 +10,6 @@ import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 public class AutomatedCar extends Car {
 
 	private PowertrainSystem powertrainSystem;
-	private UltrasonicController ultrasonicController;
 
 	public AutomatedCar(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double mass, double speed, double directionAngle) {
 		super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, mass, speed, directionAngle);
@@ -24,8 +23,6 @@ public class AutomatedCar extends Car {
 
 		// place a driver into the car for demonstrating the signal sending mechanism
 		new Driver();
-
-		this.ultrasonicController = new UltrasonicController(this, null);
 	}
 
 	public void drive() {

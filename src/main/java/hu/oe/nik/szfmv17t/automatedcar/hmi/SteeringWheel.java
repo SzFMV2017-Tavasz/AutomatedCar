@@ -8,7 +8,7 @@ import hu.oe.nik.szfmv17t.Main;
 public class SteeringWheel extends CarControl {
     private int state;
     private int steeringStep = 5;
-    private int timeStep = 100;
+    private int timeStep = 10;
     public static int maxLeft = -100;
     public static int maxRight = 100;
     private boolean timerStarted = false;

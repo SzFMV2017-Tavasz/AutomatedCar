@@ -44,10 +44,12 @@ public class Main {
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();
-		HmiJPanel.setHmi(hmi);
 
 		//init Ultrasonic sensor system
 		UltrasonicController usController = new UltrasonicController(car, w);
+
+		//create HMI panels
+		HmiJPanel.setHmi(hmi, usController);
 
 		RadarController radarController = new RadarController(car,w);
 		VirtualFunctionBus.registerComponent(radarController);
