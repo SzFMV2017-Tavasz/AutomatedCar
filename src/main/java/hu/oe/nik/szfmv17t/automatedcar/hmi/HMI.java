@@ -7,6 +7,7 @@ import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv17t.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv17t.automatedcar.radarsensor.RadarController;
 
 /**
  * Created by SebestyenMiklos on 2017. 02. 26..
@@ -30,6 +31,7 @@ public class HMI extends SystemComponent implements KeyListener {
 
     public static final int BUTTON_PRESSING_LENGTH_FOR_PTTM = 5;
     public static final int DURATION_FOR_PTTM = 100;
+    public static final int CAR_SPEED_KMH_AEB_ALERT_THRESHOLD = 70;
 
     private int previousSteeringWheelState = 0;
     private int previousGasPedalState = 0;
@@ -46,6 +48,7 @@ public class HMI extends SystemComponent implements KeyListener {
     protected DirectionIndicator directionIndicator;
     protected AutomaticParking parkingState;
     protected double carspeed;
+    private boolean avoidableCollisionAlert;
 
     public void setCarspeed(double carspeed) {
         this.carspeed = carspeed * 3.6;
@@ -60,6 +63,7 @@ public class HMI extends SystemComponent implements KeyListener {
         brakePedal = new BrakePedal(directionIndicator);
         steeringWheel = new SteeringWheel();
         parkingState = new AutomaticParking();
+        avoidableCollisionAlert = false;
     }
 
     @Override
@@ -124,6 +128,14 @@ public class HMI extends SystemComponent implements KeyListener {
     public void receiveSignal(Signal s) {
         // System.out.println("HMI received signal: " + s.getId() + " data: " +
         // s.getData());
+        if(s.getId()== RadarController.AVOID_ALERT) {
+            if((int)s.getData() > 0){
+                this.avoidableCollisionAlert = true;
+            }
+            else{
+                this.avoidableCollisionAlert = false;
+            }
+        }
     }
 
     @Override
@@ -260,5 +272,13 @@ public class HMI extends SystemComponent implements KeyListener {
 
     public double getSpeed() {
         return carspeed;
+    }
+
+    public boolean isAEBAlertIsOn() {
+        return carspeed >= CAR_SPEED_KMH_AEB_ALERT_THRESHOLD;
+    }
+
+    public boolean isAvoidableCollisionAlert() {
+        return avoidableCollisionAlert;
     }
 }

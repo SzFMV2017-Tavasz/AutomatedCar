@@ -54,10 +54,8 @@ public class SteeringControlTest {
 			maxAngle = SteeringControl.class.getDeclaredField("MAX_STEERING_ANGLE");
 			maxAngle.setAccessible(true);
 		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -65,10 +63,8 @@ public class SteeringControlTest {
 		try {
 			expected = maxAngle.getDouble(steeringControl) * 0.5;
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	

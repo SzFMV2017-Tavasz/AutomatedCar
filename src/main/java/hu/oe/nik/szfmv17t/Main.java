@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv17t.automatedcar.hmi.HMI;
+import hu.oe.nik.szfmv17t.automatedcar.radarsensor.RadarController;
+import hu.oe.nik.szfmv17t.automatedcar.radarsensor.RadarSensor;
 import hu.oe.nik.szfmv17t.automatedcar.ultrasonicsensor.UltrasonicController;
 import hu.oe.nik.szfmv17t.environment.domain.World;
 import hu.oe.nik.szfmv17t.visualisation.CourseDisplay;
