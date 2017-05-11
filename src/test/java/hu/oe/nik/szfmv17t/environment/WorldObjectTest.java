@@ -13,7 +13,7 @@ public class WorldObjectTest {
 	@org.junit.Before
 	public void setUp() throws Exception {
 		/* stuff written here runs before the tests */
-		worldObject = new CollidableBase(21d,42d,0d,0d,0d,1,"test.jpg",100d,10d,10d);
+		worldObject = new CollidableBase(21d,42d,0d,0d,0d,1,"test.jpg",100d,10d,10d, 0,0);
 	}
 
 	@Test

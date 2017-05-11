@@ -21,9 +21,9 @@ public class ZIndexComparatorTest {
     @Before
     public void setUp() {
         zIndexComparator = new ZIndexComparator();
-        road1 = new Road(100, 100, 350, 350, 0, 0, "road_2lane_straight.png", 0, 0, 0, 0);
-        road2 = new Road(200, 200, 350, 350, 0, 0, "road_2lane_straight.png", 0, 0, 0, 0);
-        tree = new Tree(0, 0, 144, 162, 0, 1, "tree.png", 0, 0, 0);
+        road1 = new Road(100, 100, 350, 350, 0, 0, "road_2lane_straight.png", 0, 0, 0, 0, 0,0);
+        road2 = new Road(200, 200, 350, 350, 0, 0, "road_2lane_straight.png", 0, 0, 0, 0, 0,0);
+        tree = new Tree(0, 0, 144, 162, 0, 1, "tree.png", 0, 0, 0, 0,0);
     }
 
     @Test

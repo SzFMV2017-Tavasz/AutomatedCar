@@ -1,8 +1,11 @@
 package hu.oe.nik.szfmv17t.environment.utils;
+import java.util.Vector;
 
 /**
- * Created by Matesz on 2017. 03. 04..
+ * Created by Budai Krisztián, Molnár Attila on 2017. 03. 04.
+ * Last modified by: Budai Krisztián, Molnár Attila on 2017. 04. 09.
  */
+
 public class Vector2d {
     private double x,y;
 
@@ -42,28 +45,33 @@ public class Vector2d {
         double length = this.length();
         return new Vector2d(this.x/length, this.y/length);
     }
-    public Vector2d unitDirection (Vector2d v2, double length)
-    {
-        return new Vector2d(v2.getX()/length, v2.getY()/length);
-    }
 
     public double length () {
         return Math.sqrt(Math.pow(this.x,2) + Math.pow(this.y,2));
-        
     }
-    
-    public double length(Vector2d v2)
-    {
-        return Math.sqrt(Math.pow(this.x-v2.getX(),2) + Math.pow(this.y-v2.getY(),2));
-    }
+
 
     public Vector2d add (Vector2d v2)
     {
-        return  new Vector2d(this.x + v2.x, this.y + v2.y);
+        return new Vector2d(this.x + v2.x, this.y + v2.y);
     }
 
-    public Vector2d substract (Vector2d v2)// irányvektro is lehet this-V2
+    public Vector2d substract (Vector2d v2)
     {
         return  new Vector2d(this.x - v2.x, this.y - v2.y);
+    }
+
+    public static Vector2d rotateAroundPoint (Vector2d point, Vector2d rotationPoint, double angleInRadian)
+    {
+        double xInOrigin = point.getX() - rotationPoint.getX();
+        double yInOrigin = point.getY() - rotationPoint.getY();
+
+        double x = xInOrigin * Math.cos(angleInRadian) - yInOrigin * Math.sin(angleInRadian);
+        double y = xInOrigin * Math.sin(angleInRadian) + yInOrigin * Math.cos(angleInRadian);
+
+        x += rotationPoint.getX();
+        y += rotationPoint.getY();
+
+        return new Vector2d(x,y);
     }
 }

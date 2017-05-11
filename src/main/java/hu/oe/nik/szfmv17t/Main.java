@@ -32,15 +32,15 @@ public class Main {
 		World w = new World(world_3);
 
 		// create an automated car NEW signature
-		AutomatedCar car = new AutomatedCar(2759, 3318, 108, 240, 0d, 3, "car_1_white.png", 200d, 0d, 0d);
+		AutomatedCar car = new AutomatedCar(2759, 3318, 108, 240, 0d, 3, "car_1_white.png", 200d, 0d, 0d, 0,0);
 		// create NPC vehicles
-		Car npcBlueCar1 = new Car(2759, 3318 + 312 + 36, 108, 240, 0d, 3, "car_1_blue.png", 200d, 0d, 0d);
-		Car npcWhiteCar1 = new Car(2761, 2703 + 36, 102, 208, 0d, 3, "car_2_white.png", 200d, 0d, 0d);
-		Car npcRedCar1 = new Car(846 + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_red.png", 200d, 0d, 0d);
-		Car npcWhiteCar2 = new Car(846 + (2*156) + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_white.png", 200d, 0d, 0d);
-		Car npcRedCar2 = new Car(846 + (5*156) + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_red.png", 200d, 0d, 0d);
-		Car npcBlueCar2 = new Car(846 + (6*156) + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_blue.png", 200d, 0d, 0d);
-		Car npcBlackVan1 = new Car(846 + (8*156) + 18,  2005 - 295 + 3 , 108, 240, 0d, 3, "car_3_black.png", 200d, 0d, 0d);
+		Car npcBlueCar1 = new Car(2759, 3318 + 312 + 36, 108, 240, 0d, 3, "car_1_blue.png", 200d, 0d, 0d, 0,0);
+		Car npcWhiteCar1 = new Car(2761, 2703 + 36, 102, 208, 0d, 3, "car_2_white.png", 200d, 0d, 0d, 0,0);
+		Car npcRedCar1 = new Car(846 + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_red.png", 200d, 0d, 0d, 0,0);
+		Car npcWhiteCar2 = new Car(846 + (2*156) + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_white.png", 200d, 0d, 0d, 0,0);
+		Car npcRedCar2 = new Car(846 + (5*156) + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_red.png", 200d, 0d, 0d, 0,0);
+		Car npcBlueCar2 = new Car(846 + (6*156) + 24,  2005 - 295 + 27 , 108, 240, 0d, 3, "car_1_blue.png", 200d, 0d, 0d, 0,0);
+		Car npcBlackVan1 = new Car(846 + (8*156) + 18,  2005 - 295 + 3 , 108, 240, 0d, 3, "car_3_black.png", 200d, 0d, 0d, 0,0);
 
 		//create HMI - Human machine interface
 		HMI hmi = new HMI();

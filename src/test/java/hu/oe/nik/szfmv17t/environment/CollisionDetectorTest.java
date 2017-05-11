@@ -24,8 +24,8 @@ public class CollisionDetectorTest {
     public void setUp() throws Exception {
         /* stuff written here runs before the tests */
 
-        first = new Car(0d, 0d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d);
-        second = new Car(50d, 50d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d);
+        first = new Car(0d, 0d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d, 0,0);
+        second = new Car(50d, 50d, 10d, 10d, 0d, 0, "test.jpg", 1000d, 0d, 0d, 0,0);
     }
 
     @Test

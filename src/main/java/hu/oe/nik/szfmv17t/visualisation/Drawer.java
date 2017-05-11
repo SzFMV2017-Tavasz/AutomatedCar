@@ -190,7 +190,7 @@ public class Drawer implements IWorldVisualization {
     }
     private void putDebugInformationOnImage(Image image, IWorldObject object) {
         Graphics2D g = (Graphics2D) image.getGraphics();
-        String loc = String.format ("x: %.0f, y:%.0f", object.getCenterX(), object.getCenterY(), object.getAxisAngle());
+        String loc = String.format ("x: %.0f, y:%.0f", object.getCenterXVisual(), object.getCenterYVisual(), object.getAxisAngle());
         String rot = String.format ("%.3f (rad)", object.getAxisAngle());
 
         g.setColor(Color.red);

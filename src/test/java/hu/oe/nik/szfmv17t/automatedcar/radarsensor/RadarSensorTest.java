@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv17t.automatedcar.radarsensor;
 
 import hu.oe.nik.szfmv17t.environment.utils.Position;
 import hu.oe.nik.szfmv17t.environment.utils.Triangle;
+import hu.oe.nik.szfmv17t.environment.utils.Vector2d;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ public class RadarSensorTest {
     @Before
     public void setUp() throws Exception {
         radarSensor = new RadarSensor();
-        carPosition = new Position(2,3,2,4,0, 0);
+        carPosition = new Position(new Vector2d(2,3),2,4,0, 0, new Vector2d(0,0));
     }
 
     @Test

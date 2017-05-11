@@ -18,7 +18,7 @@ public class RadarControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d);
+        AutomatedCar car = new AutomatedCar(480,800,108,240,0d,0,"car_1_white.png",200d,0d,0d, 0,0);
         radarController = new RadarController(car,null);
     }
 
