@@ -33,7 +33,7 @@ public class AutomatedCar extends Car {
 		// Update the position and orientation of the car
 		this.speed = this.powertrainSystem.getVelocity(this.state);
 		this.setDirectionAngle(powertrainSystem.getSteeringAngle(this.speed));
-		this.setAxisAngle((-1) * this.getDirectionAngle());
+		this.setAxisAngle((1) * this.getDirectionAngle());
 	}
 
 	@Override

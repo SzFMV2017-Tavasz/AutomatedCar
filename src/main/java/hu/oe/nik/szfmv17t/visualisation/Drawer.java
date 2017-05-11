@@ -110,8 +110,8 @@ public class Drawer implements IWorldVisualization {
     private AffineTransform getCornerRotateTransform(IWorldObject object)
     {
         if (calculateRotateBaseY(object)!=Double.MIN_VALUE)
-            return AffineTransform.getRotateInstance(-object.getAxisAngle(),calculateRotateBaseX(object),calculateRotateBaseY(object));
-        return AffineTransform.getRotateInstance(-object.getAxisAngle());
+            return AffineTransform.getRotateInstance(object.getAxisAngle(),calculateRotateBaseX(object),calculateRotateBaseY(object));
+        return AffineTransform.getRotateInstance(object.getAxisAngle());
     }
     private double calculateRotateBaseY(IWorldObject object)
     {
