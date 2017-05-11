@@ -51,12 +51,12 @@ public abstract class WorldObjectBase implements IWorldObject {
 
     public double getCenterXVisual ()
     {
-        return this.position.getCenter().getX();
+        return this.position.getCenterVisualisation().getX();
     }
 
     public double getCenterYVisual ()
     {
-        return this.position.getCenter().getY();
+        return this.position.getCenterVisualisation().getY();
     }
 
     public double getReferencePointX() { return this.position.getReferencePointX();}
