@@ -112,9 +112,9 @@ public class Drawer implements IWorldVisualization {
     {
         int prefix = Car.class.isInstance(object) ? 1 : -1;
         if (calculateRotateBaseY(object)!=Double.MIN_VALUE){
-            return AffineTransform.getRotateInstance(prefix,object.getAxisAngle(),calculateRotateBaseX(object),calculateRotateBaseY(object));
+            return AffineTransform.getRotateInstance(prefix *object.getAxisAngle(),calculateRotateBaseX(object),calculateRotateBaseY(object));
         }
-        return AffineTransform.getRotateInstance(prefix,object.getAxisAngle());
+        return AffineTransform.getRotateInstance(prefix *object.getAxisAngle());
     }
     private double calculateRotateBaseY(IWorldObject object)
     {
