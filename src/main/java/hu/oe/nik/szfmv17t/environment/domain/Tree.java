@@ -13,7 +13,7 @@ public class Tree extends CollidableBase{
             , String imageFilePath
             , double mass
             , double speed
-            , double directionAngle) {
-        super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, mass, speed, directionAngle);
+            , double directionAngle, double origPosX, double origPosY) {
+        super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, mass, speed, directionAngle, origPosX, origPosY);
     }
 }

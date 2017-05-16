@@ -29,14 +29,14 @@ public class LaneKeepingTest {
 
     @Before
     public void setUp() {
-        road1 = new Road(0, 0, 350, 350, 0, 0, "road_2lane_straight.png", 0, 1, 1, 1);
-        road2 = new Road(700, 700, 350, 350, 0, 0, "road_2lane_straight.png", 0, 1, 1, 1);
-        turn1 = new Turn(1100, 1100, 403, 373, 0d, 0, "road_2lane_45left.png", 0, 1, 1, 1);
+        road1 = new Road(0, 0, 350, 350, 0, 0, "road_2lane_straight.png", 0, 1, 1, 1, 0,0);
+        road2 = new Road(700, 700, 350, 350, 0, 0, "road_2lane_straight.png", 0, 1, 1, 1, 0,0);
+        turn1 = new Turn(1100, 1100, 403, 373, 0d, 0, "road_2lane_45left.png", 0, 1, 1, 1, 0,0);
 
-        car1 = new AutomatedCar(100, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
-        car2 = new AutomatedCar(351, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
-        car3 = new AutomatedCar(1503, 1100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
-        car4 = new AutomatedCar(351, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
+        car1 = new AutomatedCar(100, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d, 0,0);
+        car2 = new AutomatedCar(351, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d, 0,0);
+        car3 = new AutomatedCar(1503, 1100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d, 0,0);
+        car4 = new AutomatedCar(351, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d, 0,0);
 
         worldObjects = new ArrayList<IWorldObject>();
         worldObjects.add(road2);

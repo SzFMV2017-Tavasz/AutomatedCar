@@ -12,7 +12,7 @@ public class Turn extends  Road{
             , int zIndex
             , String imageFilePath
             , double directionAngle
-            , int left, int middle, int right){
-        super (positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle, left, middle, right);
+            , int left, int middle, int right, double origPosX, double origPosY){
+        super (positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle, left, middle, right, origPosX, origPosY);
     }
 }

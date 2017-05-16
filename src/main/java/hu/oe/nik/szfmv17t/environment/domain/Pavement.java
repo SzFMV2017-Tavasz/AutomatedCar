@@ -11,7 +11,7 @@ package hu.oe.nik.szfmv17t.environment.domain;
  */
 public class Pavement extends NonCollidableBase{
     
-    public Pavement(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double directionAngle) {
-        super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle);
+    public Pavement(double positionX, double positionY, double width, double height, double axisAngle, int zIndex, String imageFilePath, double directionAngle, double origPosX, double origPosY) {
+        super(positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle, origPosX, origPosY);
     }
 }

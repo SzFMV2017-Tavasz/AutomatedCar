@@ -14,8 +14,8 @@ public class Road extends  NonCollidableBase{
             , int zIndex
             , String imageFilePath
             , double directionAngle
-            , int left, int middle, int right){
-        super (positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle);
+            , int left, int middle, int right, double origPosX, double origPosY){
+        super (positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle, origPosX, origPosY);
         this.left=left;
         this.middle=middle;        
         this.right=right;

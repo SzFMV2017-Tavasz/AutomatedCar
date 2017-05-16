@@ -14,4 +14,6 @@ public interface IWorldObject {
     String getImageName ();
     int getZIndex ();
     WorldObjectState getState ();
+    double getCenterXVisual ();
+    double getCenterYVisual ();
 }

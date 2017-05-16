@@ -11,7 +11,7 @@ public class ParkingLot extends  NonCollidableBase{
             , double axisAngle
             , int zIndex
             , String imageFilePath
-            , double directionAngle){
-        super (positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle);
+            , double directionAngle, double origPosX, double origPosY){
+        super (positionX, positionY, width, height, axisAngle, zIndex, imageFilePath, directionAngle, origPosX, origPosY);
     }
 }

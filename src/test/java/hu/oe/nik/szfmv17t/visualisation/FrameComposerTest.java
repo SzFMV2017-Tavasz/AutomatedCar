@@ -59,7 +59,7 @@ public class FrameComposerTest {
     
 
     private AutomatedCar createCarAt (int x, int y) {
-        return new AutomatedCar(x, y,108,240,0d,0,"car_1_white.png",200d,0d,0d);
+        return new AutomatedCar(x, y,108,240,0d,0,"car_1_white.png",200d,0d,0d, 0,0);
     }
 }
 
