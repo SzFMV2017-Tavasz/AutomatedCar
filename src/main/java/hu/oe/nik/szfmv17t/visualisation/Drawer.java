@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv17t.visualisation;
 
+import hu.oe.nik.szfmv17t.environment.domain.Car;
 import hu.oe.nik.szfmv17t.environment.domain.Turn;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldObject;
 import hu.oe.nik.szfmv17t.environment.interfaces.IWorldVisualisation;
@@ -109,9 +110,11 @@ public class Drawer implements IWorldVisualization {
     }
     private AffineTransform getCornerRotateTransform(IWorldObject object)
     {
-        if (calculateRotateBaseY(object)!=Double.MIN_VALUE)
-            return AffineTransform.getRotateInstance(object.getAxisAngle(),calculateRotateBaseX(object),calculateRotateBaseY(object));
-        return AffineTransform.getRotateInstance(object.getAxisAngle());
+        int prefix = Car.class.isInstance(object) ? 1 : -1;
+        if (calculateRotateBaseY(object)!=Double.MIN_VALUE){
+            return AffineTransform.getRotateInstance(prefix,object.getAxisAngle(),calculateRotateBaseX(object),calculateRotateBaseY(object));
+        }
+        return AffineTransform.getRotateInstance(prefix,object.getAxisAngle());
     }
     private double calculateRotateBaseY(IWorldObject object)
     {
