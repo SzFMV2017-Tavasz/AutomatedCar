@@ -52,4 +52,14 @@ public class WorldObjectMock implements IWorldObject {
     public WorldObjectState getState() {
         return null;
     }
+
+    @Override
+    public double getCenterXVisual() {
+        return 0;
+    }
+
+    @Override
+    public double getCenterYVisual() {
+        return 0;
+    }
 }

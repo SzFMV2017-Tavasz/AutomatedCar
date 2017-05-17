@@ -37,9 +37,9 @@ public class CameraSensorTest {
     @Before
     public void setUp() {
         resizer = Resizer.getResizer();
-        car = new AutomatedCar(100, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d);
-        car2 = new AutomatedCar(100, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 1.57d);
-        road1 = new Road(0, 0, 350, 350, 0, 0, "road_2lane_straight.png", 0, 1, 1, 1);
+        car = new AutomatedCar(100, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 0d, 0,0);
+        car2 = new AutomatedCar(100, 100, 108, 240, 0d, 0, "car_1_white.png", 200d, 0d, 1.57d, 0,0);
+        road1 = new Road(0, 0, 350, 350, 0, 0, "road_2lane_straight.png", 0, 1, 1, 1, 0,0);
 
         cameraSensor = new CameraSensor(car);
 

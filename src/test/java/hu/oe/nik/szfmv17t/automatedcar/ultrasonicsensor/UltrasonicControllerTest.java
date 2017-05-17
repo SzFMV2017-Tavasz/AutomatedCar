@@ -17,7 +17,7 @@ public class UltrasonicControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		auto = new AutomatedCar(0, 0, 0, 0, 0, 0, "", 0, 0, 0);
+		auto = new AutomatedCar(0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0,0);
 		ultrasonicController = new UltrasonicController(auto, null);
 	}
 

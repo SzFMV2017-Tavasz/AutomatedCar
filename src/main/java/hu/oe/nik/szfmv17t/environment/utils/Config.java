@@ -12,7 +12,7 @@ public final class Config {
     public static final int getScreenWidth=gd.getDisplayMode().getWidth();
     public static final int FPS=60;
     public static final int CYCLE_PERIOD=200;
-    public static final Position startPosition=new Position(getScreenWidth/2,getScreenHeight/2,250,250,0,0);
+    public static final Position startPosition=new Position(new Vector2d(getScreenWidth/2,getScreenHeight/2),250,250,0,0, new Vector2d(0,0));
     //public static double SCALE = 3.7;
     public static double SCALE = 3.7;
     public static double SCALENUM = 1d / SCALE;
